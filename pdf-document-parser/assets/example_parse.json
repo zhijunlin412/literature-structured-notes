@@ -1,0 +1,41 @@
+{
+  "_note": "示意示例（ILLUSTRATIVE EXAMPLE），非任何正式案例答案。文档信息为虚构占位，仅演示 parse_spec.json 接口。",
+  "case_id": "example-parse-000",
+  "status": "complete",
+  "document_meta": {
+    "title": "示例：某科研论文（示意）",
+    "authors": "A. Author, B. Author（示意）",
+    "affiliations": "示例单位（示意）",
+    "abstract": "示意摘要（示意）",
+    "journal": "示例期刊（示意）",
+    "doi": null,
+    "pages": 3,
+    "language": "en"
+  },
+  "sections": [
+    { "section_id": "1", "heading": "1. Introduction", "level": 1, "page": 1, "start_bbox": [72, 500, 300, 520] },
+    { "section_id": "2", "heading": "2. Results", "level": 1, "page": 2, "start_bbox": [72, 600, 300, 620] }
+  ],
+  "paragraphs": [
+    { "id": "p-1", "text": "示意段落：这是一段按阅读顺序重排后的正文（示意）。", "page": 1, "bbox": [72, 450, 540, 490], "section": "1", "reading_order": 1 }
+  ],
+  "tables": [
+    { "id": "t-1", "caption": "Table 1 示意表（示意）", "page": 2, "bbox": [100, 300, 500, 400], "markdown": "| 列A | 列B |\n|---|---|\n| 1 | 2 |", "note": "示意表格" }
+  ],
+  "figures": [
+    { "id": "f-1", "caption": "Fig. 1 示意图（示意）", "page": 2, "bbox": [100, 100, 500, 280] }
+  ],
+  "formulas": [
+    { "id": "eq-1", "text": "E = m·c²（示意）", "page": 1, "bbox": [72, 400, 200, 440], "note": null }
+  ],
+  "references": [
+    { "id": "r-1", "text": "示例参考文献（示意）", "page": 3 }
+  ],
+  "headers_footers": [
+    { "page": 1, "header": "示例期刊（示意）", "footer": "1" }
+  ],
+  "sources": ["example: 虚构文档 example.pdf（示意）"],
+  "uncertainty": "本示例所有文字、坐标、页码均为示意，非真实文档内容。",
+  "change_record": [],
+  "output_contract": { "_note": "此处填写 task.md 要求的 output_contract 字段；示例为占位，实际以本题 task.md 为准。" }
+}

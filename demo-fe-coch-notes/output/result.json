@@ -1,0 +1,646 @@
+{
+  "case_id": "demo-fe-coch-001",
+  "status": "complete",
+  "one_liner": "室温 Fe3+ 刻蚀+水解沉淀把钴基碳酸氢氧化物做成枝状纳米管阵列，OER 媲美 RuO2，并制成酸碱混合电解装置省电 41.9%。",
+  "paper_card": {
+    "research_question": {
+      "value": "如何用简单、室温、环保的方法对钴基碳酸氢氧化物实现电子结构与形貌的双重调控，获得媲美 RuO2 的 OER 电催化剂，并进一步降低水电解能耗",
+      "evidence": {
+        "section": "1",
+        "paragraph": 2,
+        "page": 1870,
+        "figure": null,
+        "table": null,
+        "formula": null,
+        "locator": "§1 ¶2, p.1870-1871"
+      },
+      "confidence": "high",
+      "judge": "machine"
+    },
+    "data": {
+      "value": "自支撑电极：CoCH NW/CC（前驱体）、Fe-CoCH NT/CC（目标）、Fe-CoP NT/CC（磷化衍生）；表征：XRD、SEM、TEM、HRTEM、SAED、STEM-EDX、XPS、ICP-OES；电化学：LSV、CV、EIS、CP（1.0 M KOH）",
+      "evidence": {
+        "section": "2",
+        "paragraph": 1,
+        "page": 1871,
+        "figure": "Fig. 1",
+        "table": null,
+        "formula": null,
+        "locator": "§2 ¶1, p.1871, Fig. 1"
+      },
+      "confidence": "high",
+      "judge": "machine"
+    },
+    "method": {
+      "value": "室温 Fe3+ 刻蚀 + 水解沉淀：CoCH 中 Co2+ 与 Fe3+ 离子交换，表面水解沉淀 Fe(OH)3，形成枝状纳米管阵列；进一步磷化衍生 Fe-CoP 相",
+      "evidence": {
+        "section": "1",
+        "paragraph": 3,
+        "page": 1871,
+        "figure": "Fig. 1a",
+        "table": null,
+        "formula": null,
+        "locator": "§1 ¶3, p.1871, Fig. 1a"
+      },
+      "confidence": "high",
+      "judge": "machine"
+    },
+    "method_conditions": {
+      "value": "室温浸泡（Fe3+ 溶液）；>30 min 表面变粗糙、>90 min 形成纳米管；Fe3+ 浓度与浸泡时间显著影响性能；1.0 M KOH 电解液；ABE 系统需双极膜（BPM）防止酸碱中和",
+      "evidence": {
+        "section": "2",
+        "paragraph": 2,
+        "page": 1871,
+        "figure": "Fig. S2",
+        "table": null,
+        "formula": null,
+        "locator": "§2 ¶2, p.1871, Fig. S2, S6"
+      },
+      "confidence": "medium",
+      "judge": "human"
+    },
+    "main_findings": {
+      "value": "1) Fe-CoCH NT 为内层结晶 CoCH + 外层无定形 Fe(OH)3，Fe:Co≈0.18:1；2) 碱性 OER η10=290 mV（RuO2/CC 为 280 mV，>30 mA cm-2 时优于 RuO2），法拉第效率>98%，ECSA 虽更低但本征活性更高、Rct 更低；3) 长期 OER 后表面重构（Co2+→Co3+ 为主，约 16.36% Fe 溶出），真实活性相初步为 Fe-CoOOH；4) 磷化后 Fe-CoP NT/CC 碱性 HER η10=150 mV、酸性 η10=93 mV；5) AWE（Fe-CoCH//Fe-CoP）1.67 V@10 mA cm-2；ABE 0.97 V@10 mA cm-2，能耗 25.79 vs 44.40 kWh/kgH2，降低 41.9%",
+      "evidence": {
+        "section": "2",
+        "paragraph": 3,
+        "page": 1872,
+        "figure": "Fig. 3",
+        "table": null,
+        "formula": null,
+        "locator": "§2 ¶3-7, p.1872-1874, Fig. 3-6"
+      },
+      "confidence": "high",
+      "judge": "human"
+    },
+    "conclusions": {
+      "value": "室温离子交换+水解沉淀策略制得枝状 FeCo 基氢氧化物纳米管阵列，碱性 OER 性能媲美 RuO2；基于该催化剂与衍生 FeCo 基磷化物构建酸碱混合电解系统，仅需 0.97 V 即可达 10 mA cm-2，能耗较传统碱性水电解降低 41.9%；方法可扩展到 Cu/Ni 基氢氧化物及 Ru3+/Ir3+/Rh3+ 等金属离子",
+      "evidence": {
+        "section": "3",
+        "paragraph": 1,
+        "page": 1874,
+        "figure": null,
+        "table": null,
+        "formula": null,
+        "locator": "§3 ¶1, p.1874"
+      },
+      "confidence": "medium",
+      "judge": "human"
+    },
+    "limitations": {
+      "value": "1) 明确的 OER 活性物质仍需原位 Raman 和 XPS 确认（当前为初步发现）；2) Fe-CoP 的 HER 性能不如 Pt/C 和 CoP NW/CC，Fe 掺杂程度需精细调控（并非总是有益）；3) ABE 电池电压还受膜与电极间距影响；4) 长期测试约 16.36% Fe 溶出（稳定性隐患）",
+      "evidence": {
+        "section": "2",
+        "paragraph": 8,
+        "page": 1873,
+        "figure": null,
+        "table": null,
+        "formula": null,
+        "locator": "§2 ¶8, §3, p.1873-1874"
+      },
+      "confidence": "high",
+      "judge": "human"
+    },
+    "preconditions": {
+      "value": "结论成立前提：性能基于 1.0 M KOH、10 mA cm-2 标准条件；ABE 能耗优势依赖双极膜隔开酸碱两室；Fe 掺杂对 OER 有益、对 HER 不必然有益；RuO2 对比数据为同条件自测",
+      "evidence": {
+        "section": "2",
+        "paragraph": 6,
+        "page": 1873,
+        "figure": "Fig. 5",
+        "table": null,
+        "formula": null,
+        "locator": "§2 ¶5-8, p.1872-1874, Fig. 5-6"
+      },
+      "confidence": "medium",
+      "judge": "human"
+    }
+  },
+  "sections": [
+    {
+      "section_id": "1",
+      "heading": "Introduction",
+      "purpose": "交代 OER 是水电解瓶颈、贵金属催化剂受限，引出非贵金属催化剂需求与双重调控（电子结构+形貌）难点",
+      "method": null,
+      "results": null,
+      "conclusion": "提出用室温 Fe 修饰策略实现钴基碳酸氢氧化物的电子结构与形貌双重调控",
+      "transition": "由碳酸氢氧化物导电性差、本征活性低过渡到本文策略",
+      "evidence": {
+        "section": "1",
+        "paragraph": 1,
+        "page": 1870,
+        "figure": null,
+        "table": null,
+        "formula": null,
+        "locator": "§1, p.1870-1871"
+      }
+    },
+    {
+      "section_id": "2",
+      "heading": "Results and discussion",
+      "purpose": "展示合成-表征-性能-重构-系统构建的完整证据链",
+      "method": "XRD/SEM/TEM/HRTEM/SAED/STEM-EDX/XPS/ICP-OES 表征 + LSV/CV/EIS/CP 电化学测试",
+      "results": "Fe-CoCH NT 内结晶 CoCH 外无定形 Fe(OH)3；OER η10=290 mV；重构生成 Fe-CoOOH（初步）；磷化得 Fe-CoP（碱性 HER 150 mV、酸性 93 mV）；AWE 1.67 V；ABE 0.97 V、能耗降 41.9%",
+      "conclusion": "性能提升源于枝状纳米管阵列结构与高本征活性",
+      "transition": "从单电极性能过渡到全电解系统",
+      "evidence": {
+        "section": "2",
+        "paragraph": 1,
+        "page": 1871,
+        "figure": "Fig. 1",
+        "table": null,
+        "formula": null,
+        "locator": "§2, p.1871-1874, Fig. 1-6"
+      }
+    },
+    {
+      "section_id": "3",
+      "heading": "Conclusion",
+      "purpose": "总结策略、性能与系统结果",
+      "method": null,
+      "results": "0.97 V ABE 系统、能耗降 41.9%",
+      "conclusion": "室温浸泡法同时调控组分与微结构，可扩展到其他氢氧化物与金属离子",
+      "transition": null,
+      "evidence": {
+        "section": "3",
+        "paragraph": 1,
+        "page": 1874,
+        "figure": null,
+        "table": null,
+        "formula": null,
+        "locator": "§3, p.1874"
+      }
+    }
+  ],
+  "knowledge_points": [
+    {
+      "id": "kp-1",
+      "term": "OER 过电位 η10",
+      "category": "variable",
+      "definition": "达到 10 mA cm-2 电流密度所需过电位，衡量 OER 活性",
+      "value": "Fe-CoCH NT/CC: 290 mV；RuO2/CC: 280 mV",
+      "evidence": {
+        "section": "2",
+        "paragraph": 3,
+        "page": 1872,
+        "figure": "Fig. 3b",
+        "table": null,
+        "formula": null,
+        "locator": "§2 ¶3, p.1872, Fig. 3b"
+      },
+      "related_terms": [
+        "overpotential",
+        "η10"
+      ],
+      "conflicts": []
+    },
+    {
+      "id": "kp-2",
+      "term": "CoCH 相",
+      "category": "concept",
+      "definition": "Co(CO3)0.5(OH)·0.11H2O，钴基碳酸氢氧化物（PDF #00-048-0083）",
+      "value": "XRD 峰 ~30.2°, 33.5°, 34.9°, 36.2°, 39.2°",
+      "evidence": {
+        "section": "2",
+        "paragraph": 1,
+        "page": 1871,
+        "figure": "Fig. 1b",
+        "table": null,
+        "formula": null,
+        "locator": "§2 ¶1, p.1871, Fig. 1b"
+      },
+      "related_terms": [
+        "cobalt carbonate hydroxide"
+      ],
+      "conflicts": []
+    },
+    {
+      "id": "kp-3",
+      "term": "Fe(OH)3 表面层",
+      "category": "concept",
+      "definition": "Fe3+ 水解沉淀形成的无定形 Fe(OH)3（非 FeOOH），覆盖于 CoCH 表面",
+      "value": "XPS Fe 2p 峰 711.6 eV、725.3 eV（Fe3+）",
+      "evidence": {
+        "section": "2",
+        "paragraph": 2,
+        "page": 1871,
+        "figure": "Fig. 2c",
+        "table": null,
+        "formula": null,
+        "locator": "§2 ¶2, p.1871-1872, Fig. S5c"
+      },
+      "related_terms": [
+        "Fe oxyhydroxide"
+      ],
+      "conflicts": []
+    },
+    {
+      "id": "kp-4",
+      "term": "Fe-CoCH NT 结构",
+      "category": "concept",
+      "definition": "内层单晶 CoCH + 外层无定形 Fe(OH)3 的枝状纳米管阵列",
+      "value": "Fe:Co 原子比 ~0.18:1；晶面间距 0.263 nm (221)、0.509 nm (020)",
+      "evidence": {
+        "section": "2",
+        "paragraph": 2,
+        "page": 1872,
+        "figure": "Fig. 2e",
+        "table": null,
+        "formula": null,
+        "locator": "§2 ¶2, p.1871-1872, Fig. 2, Fig. S3"
+      },
+      "related_terms": [
+        "nanotube array",
+        "branched"
+      ],
+      "conflicts": []
+    },
+    {
+      "id": "kp-5",
+      "term": "离子交换+水解沉淀",
+      "category": "method",
+      "definition": "室温下 Co2+ 与 Fe3+ 离子交换，随后 Fe3+ 水解沉淀为 Fe(OH)3",
+      "value": "浸泡 >30 min 表面变粗糙、>90 min 成纳米管",
+      "evidence": {
+        "section": "2",
+        "paragraph": 1,
+        "page": 1871,
+        "figure": "Fig. 1a",
+        "table": null,
+        "formula": null,
+        "locator": "§1 ¶3, §2 ¶1, p.1871, Fig. 1a, Fig. S2"
+      },
+      "related_terms": [
+        "etching",
+        "ion-exchange"
+      ],
+      "conflicts": []
+    },
+    {
+      "id": "kp-6",
+      "term": "ECSA / Cdl",
+      "category": "variable",
+      "definition": "双电层电容 Cdl 反映电化学活性面积 ECSA",
+      "value": "Fe-CoCH NT/CC 的 Cdl 低于 CoCH NW/CC（ECSA 更低），但 ECSA 归一化后本征活性更高",
+      "evidence": {
+        "section": "2",
+        "paragraph": 4,
+        "page": 1872,
+        "figure": "Fig. 3d",
+        "table": null,
+        "formula": null,
+        "locator": "§2 ¶4, p.1872, Fig. 3d-e"
+      },
+      "related_terms": [
+        "double-layer capacitance"
+      ],
+      "conflicts": []
+    },
+    {
+      "id": "kp-7",
+      "term": "电荷转移电阻 Rct",
+      "category": "variable",
+      "definition": "Nyquist 高频半圆对应电荷转移电阻",
+      "value": "Fe-CoCH NT/CC 的 Rct 明显低于 CoCH NW/CC",
+      "evidence": {
+        "section": "2",
+        "paragraph": 4,
+        "page": 1872,
+        "figure": "Fig. 3f",
+        "table": null,
+        "formula": null,
+        "locator": "§2 ¶4, p.1872, Fig. 3f"
+      },
+      "related_terms": [
+        "charge transfer resistance"
+      ],
+      "conflicts": []
+    },
+    {
+      "id": "kp-8",
+      "term": "表面重构与 Fe 溶出",
+      "category": "finding",
+      "definition": "长期 OER 后表面重构：Co2+ 转为以 Co3+ 为主，表面 Fe 占比下降",
+      "value": "约 16.36% Fe 溶出（0.2 mg/L × 18 mL ≈ 0.0036 mg；电极含 Fe ≈ 0.022 mg）",
+      "evidence": {
+        "section": "2",
+        "paragraph": 5,
+        "page": 1873,
+        "figure": "Fig. 4c",
+        "table": null,
+        "formula": null,
+        "locator": "§2 ¶5, p.1872-1873, Fig. 4"
+      },
+      "related_terms": [
+        "reconstruction",
+        "leaching"
+      ],
+      "conflicts": []
+    },
+    {
+      "id": "kp-9",
+      "term": "真实活性相 Fe-CoOOH",
+      "category": "finding",
+      "definition": "重构形成的 Fe-Co 基羟基氧化物层被初步认定为 OER 真实活性物质",
+      "value": "初步结论，需原位 Raman/XPS 确认",
+      "evidence": {
+        "section": "3",
+        "paragraph": 1,
+        "page": 1874,
+        "figure": null,
+        "table": null,
+        "formula": null,
+        "locator": "§3 ¶1, p.1874"
+      },
+      "related_terms": [
+        "active species",
+        "oxyhydroxide"
+      ],
+      "conflicts": []
+    },
+    {
+      "id": "kp-10",
+      "term": "Fe-CoP NT/CC",
+      "category": "concept",
+      "definition": "磷化衍生的 Fe 掺杂 CoP 相纳米管阵列（PDF #00-029-0497）",
+      "value": "Fe:Co:P ≈ 0.175:1:1；碱性 HER η10=150 mV，酸性 HER η10=93 mV",
+      "evidence": {
+        "section": "2",
+        "paragraph": 6,
+        "page": 1873,
+        "figure": "Fig. S13",
+        "table": null,
+        "formula": null,
+        "locator": "§2 ¶6, p.1873, Fig. S13-15, Fig. 5a, 6a"
+      },
+      "related_terms": [
+        "phosphide",
+        "phosphidation"
+      ],
+      "conflicts": []
+    },
+    {
+      "id": "kp-11",
+      "term": "AWE 碱性水电解",
+      "category": "system",
+      "definition": "Fe-CoCH（阳极 OER）// Fe-CoP（阴极 HER）传统碱性水电解",
+      "value": "1.67 V @ 10 mA cm-2（对照：1.79 V Fe-CoCH//Fe-CoCH；1.96 V CoCH//CoCH；1.61 V RuO2//Pt/C）",
+      "evidence": {
+        "section": "2",
+        "paragraph": 7,
+        "page": 1874,
+        "figure": "Fig. 5b",
+        "table": null,
+        "formula": null,
+        "locator": "§2 ¶7, p.1873-1874, Fig. 5b"
+      },
+      "related_terms": [
+        "alkaline water electrolysis"
+      ],
+      "conflicts": []
+    },
+    {
+      "id": "kp-12",
+      "term": "ABE 酸碱混合电解",
+      "category": "system",
+      "definition": "利用电化学中和能降低理论电压的酸-碱混合电解，双极膜隔开酸碱",
+      "value": "0.97 V @ 10 mA cm-2（比 AWE 低 700 mV）；能耗 25.79 vs 44.40 kWh/kgH2，降 41.9%",
+      "evidence": {
+        "section": "2",
+        "paragraph": 7,
+        "page": 1874,
+        "figure": "Fig. 6d",
+        "table": null,
+        "formula": null,
+        "locator": "§2 ¶7-8, p.1874, Fig. 6c-e"
+      },
+      "related_terms": [
+        "acid-base hybrid electrolysis",
+        "bipolar membrane"
+      ],
+      "conflicts": []
+    }
+  ],
+  "principle_analysis": [
+    {
+      "id": "pr-1",
+      "claim": "水电解的理论门槛电压为 1.23 V",
+      "why": "水分解是非自发反应，需要外界做功；热力学门槛由吉布斯自由能决定，催化剂改变的是超过门槛的额外部分（过电位）",
+      "basis": "E° = ΔG° / (nF)",
+      "quantitative_check": "ΔG°=237.1 kJ/mol，n=2，F=96485 C/mol → 237100/(2×96485) ≈ 1.23 V",
+      "evidence_strength": "consensus",
+      "evidence": {
+        "section": "1",
+        "paragraph": 1,
+        "page": 1870,
+        "figure": null,
+        "table": null,
+        "formula": null,
+        "locator": "§1 ¶1, p.1870"
+      },
+      "glossary_terms": [
+        "过电位",
+        "OER"
+      ],
+      "transferable": "热力学决定“至少多少电”，动力学（催化剂）决定“实际多花多少电”"
+    },
+    {
+      "id": "pr-2",
+      "claim": "OER 是水电解的瓶颈",
+      "why": "OER 是 4 电子过程，要经过 M-OH / M-O / M-OOH 多个吸附中间体，最慢一步决定总速度，因此过电位远高于 2 电子的 HER",
+      "basis": "4OH- → O2 + 2H2O + 4e-（多步、多中间体）",
+      "quantitative_check": null,
+      "evidence_strength": "consensus",
+      "evidence": {
+        "section": "1",
+        "paragraph": 1,
+        "page": 1870,
+        "figure": null,
+        "table": null,
+        "formula": null,
+        "locator": "§1 ¶1, p.1870"
+      },
+      "glossary_terms": [
+        "OER",
+        "HER"
+      ],
+      "transferable": "电子数多、中间体多 → 过电位高、限速步显著"
+    },
+    {
+      "id": "pr-3",
+      "claim": "Fe 修饰提升的是本征活性，而不是简单增大面积",
+      "why": "Fe-CoCH 的 ECSA 比前驱体更低，但 ECSA 归一化后的活性更高，说明单个活性位点更“给力”",
+      "basis": "本征活性 = 活性 / 电化学活性面积（ECSA）",
+      "quantitative_check": "本文直接给出 Cdl 对比与 ECSA 归一化 LSV（Fig. 3d-e）",
+      "evidence_strength": "direct",
+      "evidence": {
+        "section": "2",
+        "paragraph": 4,
+        "page": 1872,
+        "figure": "Fig. 3d",
+        "table": null,
+        "formula": null,
+        "locator": "§2 ¶4, p.1872, Fig. 3d-e"
+      },
+      "glossary_terms": [
+        "ECSA",
+        "本征活性"
+      ],
+      "transferable": "区分“几何面积”与“本征活性”是判断性能来源的关键"
+    },
+    {
+      "id": "pr-4",
+      "claim": "Fe3+ 能同时“刻蚀”并“包壳”，形成空心纳米管",
+      "why": "Fe3+ 水解放出 H+ 腐蚀碳酸根（CO3²- + 2H+ → CO2↑）；Fe(OH)3 的溶度积极小、一生成就沉淀包在表面；Fe3+ 与 Co2+ 离子交换使内部被掏空",
+      "basis": "Fe3+ + 3H2O ⇌ Fe(OH)3↓ + 3H+；Ksp(Fe(OH)3) ≈ 3×10⁻³⁹",
+      "quantitative_check": "Ksp(Fe(OH)3) 比 Fe(OH)2（≈10⁻¹⁷）小 20 多个数量级 → 沉淀驱动力与水解酸性都远强",
+      "evidence_strength": "consensus",
+      "evidence": {
+        "section": "1",
+        "paragraph": 3,
+        "page": 1871,
+        "figure": "Fig. 1a",
+        "table": null,
+        "formula": null,
+        "locator": "§1 ¶3, §2 ¶1, p.1871, Fig. 1a"
+      },
+      "glossary_terms": [
+        "水解",
+        "溶度积"
+      ],
+      "transferable": "“溶出—再沉淀”与纳米柯肯达尔效应是造空心结构的通用思路"
+    },
+    {
+      "id": "pr-5",
+      "claim": "长期 OER 后发生表面重构：Co2+→Co3+ 为主、约 16.36% Fe 溶出",
+      "why": "阳极是强氧化环境，把表面 Co 氧化为 +3 价；表面在动态重组中同时有 Fe 溶出，既带来活性提升也埋下稳定性隐患",
+      "basis": "Co2+ → Co3+ + e-（阳极氧化）",
+      "quantitative_check": "ICP-OES：0.2 mg/L × 18 mL ≈ 0.0036 mg，电极含 Fe ≈ 0.022 mg → 16.36% 溶出",
+      "evidence_strength": "direct",
+      "evidence": {
+        "section": "2",
+        "paragraph": 5,
+        "page": 1872,
+        "figure": "Fig. 4",
+        "table": null,
+        "formula": null,
+        "locator": "§2 ¶5, p.1872-1873, Fig. 4"
+      },
+      "glossary_terms": [
+        "重构"
+      ],
+      "transferable": "“活性—稳定性”取舍常同时出现，要两个指标一起看"
+    },
+    {
+      "id": "pr-6",
+      "claim": "真实 OER 活性相是重构形成的 Fe-CoOOH",
+      "why": "重构产物（铁钴羟基氧化物）被初步认定为真正干活的活性层，本文自述还需原位表征确认",
+      "basis": "前驱体在强氧化电位下原位转化为(氧)羟基氧化物",
+      "quantitative_check": null,
+      "evidence_strength": "preliminary",
+      "evidence": {
+        "section": "3",
+        "paragraph": 1,
+        "page": 1874,
+        "figure": null,
+        "table": null,
+        "formula": null,
+        "locator": "§3 ¶1, p.1874"
+      },
+      "glossary_terms": [
+        "重构",
+        "前驱体"
+      ],
+      "transferable": "合成出的材料常只是“前驱体”，真正催化的是重构后的相"
+    },
+    {
+      "id": "pr-7",
+      "claim": "酸碱混合电解的理论槽压仅 0.404 V，远低于 1.23 V",
+      "why": "Nernst 方程下电极平衡电位随 pH 每升 1 个单位下降 59 mV；阳极在碱（pH=14）、阴极在酸（pH=0）把两端平衡电位拉开，回收了酸碱中和能",
+      "basis": "E(OER)=1.23-0.059·pH；E(HER)=-0.059·pH",
+      "quantitative_check": "pH=14：E_anode=1.23-0.826=0.404 V；pH=0：E_cathode=0 V；理论槽压 0.404 V；实际 0.97 V，差 0.57 V 为过电位+膜电阻",
+      "evidence_strength": "consensus",
+      "evidence": {
+        "section": "2",
+        "paragraph": 7,
+        "page": 1874,
+        "figure": "Fig. 6d",
+        "table": null,
+        "formula": null,
+        "locator": "§2 ¶7, p.1874, Fig. 6d"
+      },
+      "glossary_terms": [
+        "Nernst 方程",
+        "双极膜"
+      ],
+      "transferable": "热力学（Nernst 的 pH 依赖）可以直接设计新装置"
+    },
+    {
+      "id": "pr-8",
+      "claim": "省电 41.9% 的本质是槽压降低了 41.9%",
+      "why": "制取 1 kg 氢气所需的电子数是固定的，所以耗电与槽压成正比；槽压从 1.67 V 降到 0.97 V，能耗同比下降",
+      "basis": "E(kWh/kg H2) = 26.6 × U(V)（100% 法拉第效率）",
+      "quantitative_check": "26.6×1.67=44.4；26.6×0.97=25.8；0.97/1.67=58.1% → 省 41.9%",
+      "evidence_strength": "direct",
+      "evidence": {
+        "section": "2",
+        "paragraph": 7,
+        "page": 1874,
+        "figure": "Fig. 6e",
+        "table": null,
+        "formula": null,
+        "locator": "§2 ¶7-8, p.1874, Fig. 6e"
+      },
+      "glossary_terms": [
+        "槽压",
+        "能耗"
+      ],
+      "transferable": "电量固定时，电压比 = 能耗比"
+    }
+  ],
+  "glossary": [
+    {
+      "term": "OER",
+      "definition": "电解水阳极“产氧气”的半反应，4 电子、慢，是电解水瓶颈。"
+    },
+    {
+      "term": "HER",
+      "definition": "电解水阴极“产氢气”的半反应，2 电子，相对简单。"
+    },
+    {
+      "term": "过电位",
+      "definition": "催化剂为达到给定电流而“多花”的额外电压，越低越好。"
+    },
+    {
+      "term": "η10",
+      "definition": "达到 10 mA/cm² 电流密度时所需的过电位，领域最常用的对比指标。"
+    },
+    {
+      "term": "ECSA",
+      "definition": "电化学活性面积，用双电层电容估算“真正参与反应的表面积”。"
+    },
+    {
+      "term": "双极膜",
+      "definition": "隔开酸、碱两室、防止中和并维持 pH 差的特殊膜。"
+    },
+    {
+      "term": "重构",
+      "definition": "催化剂通电时表面结构/价态发生变化，真正干活的常是重构后的新相。"
+    },
+    {
+      "term": "法拉第效率",
+      "definition": "流过的电量中真正用于目标反应的比例，越接近 100% 越省电。"
+    }
+  ],
+  "evidence_map": "evidence_map.json",
+  "sources": [
+    "Lu, C. et al. An Fe3+ induced etching and hydrolysis precipitation strategy affords an Fe-Co hydroxide nanotube array toward hybrid water electrolysis. Dalton Trans., 2024, 53, 1870-1877. DOI: 10.1039/d3dt03520d"
+  ],
+  "uncertainty": "1) 真实 OER 活性相为初步结论（原文自述需原位表征确认）；2) 段落编号为按提取文本顺序的估算，锚点以页码/图号为准；3) 本次为演示笔记（demo），非正式案例提交。",
+  "change_record": [
+    "pdf 文本用 pdftotext -layout 提取（95 KB），页码以印刷页码 1870-1877 标注。"
+  ],
+  "output": {
+    "_note": "演示输出，非正式案例；正式运行时以 /input/task.md 的 output_contract 字段为准。"
+  }
+}

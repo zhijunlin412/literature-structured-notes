@@ -1,0 +1,57 @@
+{
+  "_note": "PDF 解析输出的字段字典与锚点格式规范。本文件是 Skill 的规范资源，不包含任何正式案例内容。",
+  "anchor": {
+    "desc": "证据锚点：每个解析块至少要回链页码与区块坐标；locator 与定位字段一致。",
+    "fields": ["page", "bbox", "block_id", "locator"],
+    "example": {
+      "page": 3,
+      "bbox": [72.0, 120.5, 540.0, 660.2],
+      "block_id": "p3-b12",
+      "locator": "p.3, bbox[72,121,540,660]"
+    },
+    "rule": "page 必填；bbox 为 [xMin,yMin,xMax,yMax]；locator 为人类可读定位串，与 page/bbox 一致。读不出的部分用 not_reported 标注，不靠猜。"
+  },
+  "document_meta": {
+    "desc": "文档元信息。",
+    "fields": ["title", "authors", "affiliations", "abstract", "journal", "doi", "pages", "language"],
+    "rule": "能识别则填；识别不出标 not_reported；不补造。"
+  },
+  "section": {
+    "desc": "章节结构：识别标题、摘要、章节、参考文献，保留多级层级。",
+    "fields": ["section_id", "heading", "level", "page", "start_bbox"],
+    "rule": "level 为层级（1=章，2=节，3=子节）；heading 与编号保真；page 为起始页。"
+  },
+  "paragraph": {
+    "desc": "正文段落：按阅读顺序重排后的段落。",
+    "fields": ["id", "text", "page", "bbox", "section", "reading_order"],
+    "rule": "text 逐字保真；reading_order 为全文顺序号（证明排得对）；bbox 回链原页区块。"
+  },
+  "table": {
+    "desc": "表格：行列与单元格归属还原。",
+    "fields": ["id", "caption", "page", "bbox", "markdown", "note"],
+    "rule": "markdown 用 | 分隔行列；合并单元格/跨页续表在 note 中如实标注。"
+  },
+  "figure": {
+    "desc": "图：题注与位置。",
+    "fields": ["id", "caption", "page", "bbox"]
+  },
+  "formula": {
+    "desc": "公式：上下标、希腊字母与特殊符号保真，按公式编号给原文对照。",
+    "fields": ["id", "text", "page", "bbox", "note"],
+    "rule": "读不出的符号标 U+XXXX 或占位，不猜。"
+  },
+  "reference": {
+    "desc": "参考文献条目。",
+    "fields": ["id", "text", "page"]
+  },
+  "headers_footers": {
+    "desc": "页眉页脚：与正文分离，逐页记录。",
+    "fields": ["page", "header", "footer"],
+    "rule": "页眉页脚不得混进正文；识别不出标 null。"
+  },
+  "output_status": {
+    "desc": "运行状态与边界。",
+    "values": ["complete", "partial", "cannot_judge", "refused"],
+    "notes": "未报告=not_reported；冲突=conflict；无法判断=cannot_judge；必须与证据一致。"
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "_note": "字段字典与锚点格式规范。本文件是 Skill 的规范资源，不包含任何正式案例内容。",
+  "anchor": {
+    "desc": "证据锚点：每条关键结论至少要有一个定位字段，且 locator 与定位字段一致。",
+    "fields": ["section", "paragraph", "page", "figure", "table", "formula", "locator"],
+    "example": {
+      "section": "3.2",
+      "paragraph": 2,
+      "page": 5,
+      "figure": "Fig. 2",
+      "table": null,
+      "formula": null,
+      "locator": "§3.2 ¶2, p.5, Fig. 2"
+    },
+    "rule": "section/paragraph/page/figure/table/formula 至少一项非空；locator 为人类可读定位串，必须与上面的字段一致。"
+  },
+  "paper_card": {
+    "desc": "论文卡片：统一字段，使多篇论文可并排比较。每个字段含 value、evidence(anchor)、confidence、judge。",
+    "fields": [
+      "research_question",
+      "data",
+      "method",
+      "method_conditions",
+      "main_findings",
+      "conclusions",
+      "limitations",
+      "preconditions"
+    ],
+    "field_example": {
+      "value": "…",
+      "evidence": { "section": "2", "paragraph": 1, "page": 3, "figure": null, "table": null, "formula": null, "locator": "§2 ¶1, p.3" },
+      "confidence": "high | medium | low",
+      "judge": "machine | human"
+    }
+  },
+  "one_liner": {
+    "desc": "一句话概括：用一句话说清「问题—方法—最关键结果」。",
+    "rule": "中文 ≤ 80 字为宜；必须含研究问题、核心方法、最关键结果三要素；不写空话。"
+  },
+  "section": {
+    "desc": "章节总结：按论文原章节顺序，逐章提炼。",
+    "fields": ["section_id", "heading", "purpose", "method", "results", "conclusion", "transition", "evidence"]
+  },
+  "knowledge_point": {
+    "desc": "知识点：概念/变量/方法/结论的可检索条目；缩写与同义表述归并到同一 id。",
+    "fields": ["id", "term", "category", "definition", "value", "evidence", "related_terms", "conflicts", "principle", "evidence_strength"],
+    "principle": "可选：该知识点的原理层解释（为什么），见 principle_analysis 的思路，一句话即可。",
+    "evidence_strength": "可选：该结论的证据强度，见 evidence_strength 枚举。"
+  },
+  "principle_analysis": {
+    "desc": "原理深挖：对每个关键结论回答「为什么」，给出底层原理、定量验证与证据强度分级。是区分「只记现象」与「理解原理」的关键产出。",
+    "fields": ["id", "claim", "why", "basis", "quantitative_check", "evidence_strength", "evidence", "glossary_terms", "transferable"],
+    "field_example": {
+      "id": "pr-1",
+      "claim": "酸碱混合电解理论槽压仅 0.404 V，远低于 1.23 V",
+      "why": "Nernst 方程下电极平衡电位随 pH 每升 1 单位下降 59 mV，酸/碱两室把阴极与阳极的平衡电位拉开",
+      "basis": "E_OER = 1.23 - 0.059·pH；E_HER = -0.059·pH",
+      "quantitative_check": "pH=14 时 E_anode = 1.23 - 0.059×14 = 0.404 V；pH=0 时 E_cathode = 0 V；理论槽压 0.404 V；实际 0.97 V，差值 0.57 V 为过电位+膜电阻",
+      "evidence_strength": "consensus",
+      "evidence": { "section": "2", "paragraph": 7, "page": 1874, "figure": "Fig. 6d", "table": null, "formula": null, "locator": "§2 ¶7, p.1874, Fig. 6d" },
+      "glossary_terms": ["Nernst 方程", "双极膜"],
+      "transferable": "热力学（Nernst 的 pH 依赖）可直接设计新装置（酸碱混合电解）"
+    },
+    "rule": "claim 必须回链 evidence；evidence_strength 必须从枚举取值；basis/quantitative_check 可含 LaTeX，但必须与原文数字一致、不编造公式。"
+  },
+  "glossary": {
+    "desc": "术语词典：给非专业读者的通俗解释，把领域黑话讲成人话。",
+    "fields": ["term", "definition"],
+    "example": { "term": "过电位", "definition": "催化剂为了达到给定电流而「多花」的额外电压，越低越好。" }
+  },
+  "notes_plain": {
+    "desc": "易懂版正文（可选）：纯中文口语化、面向非专业读者的完整笔记，不含 JSON/代码/英文字段名。由校验脚本另存为 notes_plain.md。"
+  },
+  "evidence_strength": {
+    "desc": "证据强度分级：每条结论标注证据等级，防止把推测写成事实。",
+    "values": ["direct", "consensus", "preliminary", "not_reported"],
+    "notes": "direct=本文直接测量/明确陈述；consensus=领域共识背景知识（本文未直接测量，作为解释依据）；preliminary=本文标记为初步/推测/仍需确认；not_reported=未报告/无法判断。"
+  },
+  "output_status": {
+    "desc": "运行状态与边界。",
+    "values": ["complete", "partial", "cannot_judge", "refused"],
+    "notes": "未报告=not_reported；冲突=conflict；无法判断=cannot_judge；必须与证据一致。"
+  }
+}

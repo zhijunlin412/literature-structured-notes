@@ -1,0 +1,45 @@
+{
+  "_note": "示意示例（ILLUSTRATIVE EXAMPLE），非任何正式案例答案。论文信息为虚构占位，仅演示 notes_spec.json 接口（含新增的 one_liner / principle_analysis / glossary / notes_plain）。",
+  "case_id": "example-case-000",
+  "title": "示例：某催化剂研究的结构化笔记（示意）",
+  "status": "complete",
+  "one_liner": "用某修饰方法解决某反应活性不足的问题，使关键指标由 A 提升到 B（示意）。",
+  "paper_card": {
+    "research_question": { "value": "如何提升某反应的转化率（示意问题）", "evidence": { "section": "1", "paragraph": 1, "page": 1, "locator": "§1 ¶1, p.1" }, "confidence": "high", "judge": "machine" },
+    "data": { "value": "某数据集（示意）", "evidence": { "section": "2", "paragraph": 1, "page": 2, "locator": "§2 ¶1, p.2" }, "confidence": "high", "judge": "machine" },
+    "method": { "value": "某合成与表征方法（示意）", "evidence": { "section": "2", "paragraph": 2, "page": 2, "locator": "§2 ¶2, p.2" }, "confidence": "high", "judge": "machine" },
+    "method_conditions": { "value": "温度 X、压力 Y（示意）", "evidence": { "section": "2", "paragraph": 3, "page": 3, "locator": "§2 ¶3, p.3" }, "confidence": "medium", "judge": "machine" },
+    "main_findings": { "value": "转化率由 A% 提升至 B%（示意数值）", "evidence": { "section": "3", "paragraph": 2, "page": 5, "figure": "Fig. 2", "locator": "§3 ¶2, p.5, Fig. 2" }, "confidence": "high", "judge": "human" },
+    "conclusions": { "value": "某结构修饰有效（示意结论）", "evidence": { "section": "4", "paragraph": 1, "page": 7, "locator": "§4 ¶1, p.7" }, "confidence": "medium", "judge": "human" },
+    "limitations": { "value": "样本量有限（示意局限）", "evidence": { "section": "4", "paragraph": 3, "page": 8, "locator": "§4 ¶3, p.8" }, "confidence": "medium", "judge": "human" },
+    "preconditions": { "value": "结论仅在条件 X 下成立（示意前提）", "evidence": { "section": "2", "paragraph": 3, "page": 3, "locator": "§2 ¶3, p.3" }, "confidence": "medium", "judge": "human" }
+  },
+  "sections": [
+    { "section_id": "3", "heading": "Results", "purpose": "报告实验结果", "method": "对照实验", "results": "转化率提升", "conclusion": "方法有效", "transition": "承接方法章", "evidence": { "section": "3", "paragraph": 1, "page": 5, "locator": "§3 ¶1, p.5" } }
+  ],
+  "knowledge_points": [
+    { "id": "kp-1", "term": "转化率", "category": "variable", "definition": "产物摩尔数/反应物摩尔数（示意）", "value": null, "evidence": { "section": "3", "page": 5, "locator": "§3, p.5" }, "related_terms": ["conversion"], "conflicts": [], "principle": "转化率提升来自活性位点增加（示意原理）", "evidence_strength": "direct" }
+  ],
+  "principle_analysis": [
+    {
+      "id": "pr-1",
+      "claim": "某修饰使转化率由 A% 提升至 B%（示意）",
+      "why": "修饰引入了更多活性位点（示意解释）",
+      "basis": "活性 ∝ 位点数 × 单个位点本征活性（示意）",
+      "quantitative_check": "B%/A% ≈ 提升倍数，与位点数增长一致（示意验算）",
+      "evidence_strength": "direct",
+      "evidence": { "section": "3", "paragraph": 2, "page": 5, "figure": "Fig. 2", "locator": "§3 ¶2, p.5, Fig. 2" },
+      "glossary_terms": ["活性位点", "本征活性"],
+      "transferable": "区分'面积'与'本征活性'是判断性能来源的关键"
+    }
+  ],
+  "glossary": [
+    { "term": "过电位", "definition": "催化剂为了达到给定电流而多花的额外电压，越低越好（示意）" },
+    { "term": "本征活性", "definition": "每个活性位点单独的表现，面积归一化后衡量（示意）" }
+  ],
+  "notes_plain": "# 示例：某催化剂研究（易懂版）\n\n这是给非专业读者的口语化笔记正文（示意）。不含 JSON、代码或英文字段名。",
+  "sources": ["example: 虚构论文 example-paper.pdf（示意）"],
+  "uncertainty": "本示例所有数值、图表编号均为示意，非真实论文内容。",
+  "change_record": [],
+  "output_contract": { "_note": "此处填写 task.md 要求的 output_contract 字段；示例为占位，实际以本题 task.md 为准。" }
+}

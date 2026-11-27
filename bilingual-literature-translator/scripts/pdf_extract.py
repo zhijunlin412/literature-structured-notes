@@ -494,6 +494,15 @@ def extract_pdf(pdf, out_dir, force_ocr=False):
     }
     with open(os.path.join(out_dir, "extract.json"), "w", encoding="utf-8") as f:
         json.dump(result, f, ensure_ascii=False, indent=2)
+    # compact index: read this first, then fetch units in small batches
+    # (get_units.py --max-chars) instead of loading the whole extract
+    index = [{"id": u["id"], "type": u["type"], "page": u["page"],
+              "chars": len(u["text"]),
+              "flags": [k for k in ("margin", "order_suspect", "continues_next_page") if u.get(k)]}
+             for u in units]
+    with open(os.path.join(out_dir, "units_index.json"), "w", encoding="utf-8") as f:
+        json.dump({"units": index, "total_chars": sum(i["chars"] for i in index)},
+                  f, ensure_ascii=False, indent=2)
     with open(os.path.join(out_dir, "source_units.md"), "w", encoding="utf-8") as f:
         for u in units:
             tag = u["id"]

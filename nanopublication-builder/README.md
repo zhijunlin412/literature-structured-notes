@@ -31,8 +31,9 @@ python scripts/assemble_nanopub.py --case /input/case.json --extract work/extrac
 | 文件 | 作用 |
 |---|---|
 | `SKILL.md` | 方法、输入输出契约、拆解与证据绑定规则、异常处理、自查清单 |
-| `scripts/pdf_extract.py` | PDF → 带段号/页码/bbox 锚点的源单元 |
-| `scripts/validate_nanopub.py` | 确定性校验（证据引用逐孔子串核验是核心） |
+| `scripts/pdf_extract.py` | PDF → 带段号/页码/bbox 锚点的源单元 + 单元索引 |
+| `scripts/get_units.py` | 小批量取单元（--ids/--pages/--max-chars），单次返回 ≤1 万字符，节省预算 |
+| `scripts/validate_nanopub.py` | 确定性校验（证据引用逐孔子串核验是核心；置信度须与证据绑定；异常输入报错不崩溃） |
 | `scripts/assemble_nanopub.py` | 组装 result.json / nanopub.jsonld / assertions.csv / report.md |
 | `assets/fields.json` | 字段字典（输入与四种导出物） |
 | `assets/relations.json` | 受控关系词表、证据类型、置信度定义 |

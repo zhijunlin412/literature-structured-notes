@@ -1,0 +1,49 @@
+{
+  "_comment": "graph.json 字段字典。除标注可选外均为必填。",
+  "graph": {
+    "case_id": "案例标识，照抄 /input/case.json 的 case_id",
+    "papers": "论文元数据数组（照抄 corpus-manifest.json，缺失字段如实填 未报告）",
+    "nodes": "节点数组",
+    "edges": "边数组",
+    "merge_records": "别名合并/不合并处置记录数组",
+    "queries": "待执行查询数组（≥3，由 query_graph.py 真实执行）",
+    "uncertainty": "未报告、无法判断、材料冲突事项的数组，每条含 topic 与 detail",
+    "change_record": "对输入材料做过的任何处置记录（如无则为空数组）"
+  },
+  "node": {
+    "id": "N + 三位起数字，全图唯一，增量更新时保留既有编号不复用",
+    "label": "规范名（跨篇统一写法，如 Co(CO3)0.5(OH)·0.11H2O）",
+    "type": "实体类型，取自 assets/entity_types.json",
+    "aliases": "别名数组（缩写、大小写变体、他篇写法），无则空数组",
+    "summary": "一句话说明该实体在文献中的角色（解读，非证据）",
+    "sources": "证据数组，每条含 source_id / paragraph_id / quote（逐字摘自该段落）；≥1 条",
+    "added_in": "该节点首次出现的 source_id（增量更新追踪用）"
+  },
+  "edge": {
+    "id": "E + 三位起数字，全图唯一",
+    "subject": "主体节点 id",
+    "relation": "关系类型，取自 assets/relations.json，方向 subject → object",
+    "object": "客体节点 id",
+    "value": "可选；relation 为 has_measured_value 时必填，含数值与单位，如 290 mV",
+    "conditions": "可选；适用条件（电流密度、电解液、温度等），没有写 null",
+    "stance": "own（作者自己工作）/ cited（转述他人，note 写明被引对象）/ inferred（一步推论，note 写明推论链）",
+    "sources": "证据数组，同 node.sources；≥1 条",
+    "confidence": "high / medium / low",
+    "confidence_basis": "置信度依据一句话",
+    "note": "可选；补充说明（推论链、被引对象、冲突说明）"
+  },
+  "merge_record": {
+    "decision": "merged（合并为同一节点）或 not_merged（保持为不同节点）",
+    "canonical": "merged 时填：合并后保留的节点 id",
+    "alias": "merged 时填：被并入的别名原文",
+    "node_a / node_b": "not_merged 时填：保持分离的两个节点 id",
+    "from_paragraphs": "作出判断依据的段落（source_id + paragraph_id）",
+    "justification": "合并/不合并依据（同名同物证据，或同名异物：不同样品、不同条件、不同对象）"
+  },
+  "query": {
+    "id": "Q + 数字",
+    "question": "自然语言问题",
+    "type": "entity / relation / neighbors / compare / by_source",
+    "args": "查询参数（见 assets/query_templates.md）"
+  }
+}

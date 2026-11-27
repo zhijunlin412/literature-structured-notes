@@ -1,0 +1,49 @@
+{
+  "_comment": "字段字典：nanopub.json（Agent 手写）与导出结构（result.json / nanopub.jsonld / assertions.csv）的字段定义。校验脚本以此为准。",
+  "nanopub_json": {
+    "description": "Agent 产出的主文件，包含断言列表与来源元数据",
+    "fields": {
+      "assertions": {
+        "type": "array", "required": true,
+        "item_fields": {
+          "id": {"type": "string", "required": true, "pattern": "^A[0-9]+$", "description": "断言编号，A1…An，唯一"},
+          "text": {"type": "string", "required": true, "description": "单条可独立判断真假的断言（建议 ≤45 词/字），保留条件与限定范围"},
+          "subject": {"type": "string", "required": true, "description": "断言主体（材料/体系/方法），与原文用词一致"},
+          "relation": {"type": "string", "required": true, "vocabulary": "assets/relations.json", "description": "关系类型，取自受控词表"},
+          "object": {"type": "string", "required": true, "description": "断言客体（性质/数值/对象），含数值时必须带单位"},
+          "conditions": {"type": "string", "required": false, "description": "限定条件（电解液、温度、测试条件等），无则空串"},
+          "evidence": {
+            "type": "array", "required": true, "min_items": 1,
+            "item_fields": {
+              "quote": {"type": "string", "required": true, "description": "最小充分证据片段，必须逐字摘自所引单元（校验脚本做子串核验）"},
+              "unit": {"type": "string", "required": true, "description": "证据所在源单元 id（extract.json 中的 P/H/C/T/F/R 编号）"},
+              "type": {"type": "string", "required": true, "enum": ["direct", "indirect", "figure_table"], "description": "证据类型"}
+            }
+          },
+          "confidence": {"type": "string", "required": true, "enum": ["high", "medium", "low"]},
+          "confidence_basis": {"type": "string", "required": true, "description": "置信度依据（为什么高/中/低）"},
+          "context": {"type": "string", "required": false, "description": "解读（可选）：数值含义、领域水平、与其他断言的关联。明确标注为解读，不是证据，不参与核验"},
+          "note": {"type": "string", "required": false, "description": "推论链、存疑点、与原文不一致处；无则空串"}
+        }
+      },
+      "provenance": {
+        "type": "object", "required": true,
+        "fields": {
+          "title": {"type": "string", "required": true},
+          "authors": {"type": "string", "required": true},
+          "journal": {"type": "string", "required": true},
+          "year": {"type": ["integer", "string"], "required": true},
+          "doi": {"type": "string", "required": true, "description": "无 DOI 时填 \"未报告\" 并在 uncertainty 说明"},
+          "source_pdf": {"type": "string", "required": true},
+          "extractor": {"type": "string", "required": true, "description": "本 Skill 名称与版本"}
+        }
+      }
+    }
+  },
+  "exports": {
+    "result.json": "主结果：case_id、status、stats、assertions（含证据锚点）、provenance、uncertainty、change_record、validation",
+    "nanopub.jsonld": "JSON-LD 导出：@context 含 np/prov/dcterms/schema；每条断言一个 np:Nanopublication（assertion/provenance/publicationInfo 三部分）",
+    "assertions.csv": "下游程序用扁平表：id,text,subject,relation,object,conditions,evidence_quote,evidence_unit,evidence_page,evidence_type,confidence",
+    "report.md": "人读报告：逐条断言 → 关系三元组 → 证据引用（段号/页码）→ 置信度与依据"
+  }
+}

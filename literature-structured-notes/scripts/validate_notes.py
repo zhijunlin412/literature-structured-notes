@@ -36,7 +36,7 @@ PAPER_CARD_FIELDS = [
     "research_question", "data", "method", "method_conditions",
     "main_findings", "conclusions", "limitations", "preconditions",
 ]
-ANCHOR_FIELDS = ["section", "paragraph", "page", "figure", "table", "formula", "unit"]
+ANCHOR_FIELDS = ["section", "paragraph", "page", "figure", "table", "formula", "unit", "source"]
 EVIDENCE_STRENGTHS = ["direct", "consensus", "preliminary", "not_reported"]
 PRINCIPLE_FIELDS = ["id", "claim", "why", "basis", "quantitative_check",
                     "evidence_strength", "evidence", "glossary_terms", "transferable"]
@@ -82,6 +82,9 @@ def iter_evidence(spec):
     for i, p in enumerate(spec.get("principle_analysis", []) or []):
         if isinstance(p, dict) and isinstance(p.get("evidence"), dict):
             yield f"principle_analysis[{i}]", p["evidence"]
+    for i, q in enumerate(spec.get("question_answers", []) or []):
+        if isinstance(q, dict) and isinstance(q.get("evidence"), dict):
+            yield f"question_answers[{i}]", q["evidence"]
 
 
 def check_verbatim(spec, units):
@@ -146,6 +149,34 @@ def validate(spec):
     # 一句话概括：推荐但可选。
     if spec.get("one_liner") is not None and not isinstance(spec.get("one_liner"), str):
         problems.append("one_liner must be a string")
+
+    # 题目问答：可选；若给出，每题必须有回答与证据锚点。
+    qa = spec.get("question_answers")
+    if qa is not None:
+        if not isinstance(qa, list):
+            problems.append("question_answers must be a list")
+        else:
+            for i, q in enumerate(qa):
+                if not isinstance(q, dict) or not q.get("question") or not q.get("answer"):
+                    problems.append(f"question_answers[{i}] needs question and answer")
+                elif not anchor_ok(q.get("evidence")):
+                    problems.append(f"question_answers[{i}].evidence has no anchor")
+
+    # 置信度必须绑定证据：confidence=high 但没有逐字引文的，降级提醒——
+    # 置信度是模型自评，自评天然偏乐观；high 只给有直接逐字证据的结论。
+    def conf_check(loc, item):
+        if (isinstance(item, dict) and item.get("confidence") == "high"
+                and isinstance(item.get("evidence"), dict)
+                and not item["evidence"].get("quote")):
+            warnings.append(f"{loc}: confidence=high 但无 evidence.quote，建议补逐字引文或降为 medium")
+    card2 = spec.get("paper_card", {})
+    if isinstance(card2, dict):
+        for f in PAPER_CARD_FIELDS:
+            conf_check(f"paper_card.{f}", card2.get(f))
+    for i, q in enumerate(spec.get("question_answers", []) or []):
+        conf_check(f"question_answers[{i}]", q)
+    for i, p in enumerate(spec.get("principle_analysis", []) or []):
+        conf_check(f"principle_analysis[{i}]", p)
 
     # 原理深挖：可选；若给出，逐条校验结构与证据强度。
     pa = spec.get("principle_analysis")
@@ -232,6 +263,17 @@ def build_notes_md(spec):
             if p.get("transferable"):
                 lines.append(f"  - 可迁移: {p['transferable']}")
         lines.append("")
+    qa = spec.get("question_answers") or []
+    if qa:
+        lines.append("## 题目问答")
+        for q in qa:
+            lines.append(f"- **问**: {q.get('question', '')}")
+            lines.append(f"  - 答: {q.get('answer', '')}")
+            ev = q.get("evidence", {})
+            if isinstance(ev, dict) and (ev.get("locator") or ev.get("unit")):
+                lines.append(f"  - 证据: {ev.get('locator') or ev.get('unit')}"
+                             + (f"「{ev['quote'][:60]}…」" if ev.get("quote") else ""))
+        lines.append("")
     gl = spec.get("glossary") or []
     if gl:
         lines.append("## 术语词典")
@@ -258,6 +300,9 @@ def build_evidence_map(spec):
         m["entries"].append({"field": "principle_analysis", "claim": p.get("claim", ""),
                              "anchor": p.get("evidence", {}),
                              "evidence_strength": p.get("evidence_strength")})
+    for i, q in enumerate(spec.get("question_answers") or []):
+        m["entries"].append({"field": f"question_answers[{i}]", "claim": q.get("answer", ""),
+                             "anchor": q.get("evidence", {})})
     return m
 
 
@@ -307,6 +352,7 @@ def main():
         "paper_card": spec.get("paper_card", {}),
         "sections": spec.get("sections", []),
         "knowledge_points": spec.get("knowledge_points", []),
+        "question_answers": spec.get("question_answers", []),
         "principle_analysis": spec.get("principle_analysis", []),
         "glossary": spec.get("glossary", []),
         "evidence_map": "evidence_map.json",

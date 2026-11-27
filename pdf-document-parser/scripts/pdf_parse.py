@@ -2,14 +2,15 @@
 """Deterministic PDF layout parser (stdlib only).
 
 Pipelines:
-  1. pdftotext -bbox  -> word-level coordinates (per page)
-  2. column detection via x-center histogram
-  3. reading-order reconstruction (columns left->right, top->bottom)
-  4. line/paragraph grouping, header/footer separation, heading detection,
-     caption/table/formula detection
-  5. writes layout.json (blocks with page+bbox anchors) and parsed.md
+  1. text layer : pdftotext -bbox -> word-level coordinates
+  2. scanned    : pdftoppm + tesseract TSV -> word-level coordinates (OCR)
+  3. column detection via x-center gap clustering (on body region)
+  4. full-width line detection for mixed single/two-column title pages
+  5. reading-order reconstruction (full-width first, then columns L->R, T->B)
+  6. table grid reconstruction, sub/superscript reconstruction,
+     heading/caption/formula detection, header/footer separation
+  7. writes layout.json (blocks with page+bbox anchors) and parsed.md
 
-If the document has almost no text layer, falls back to pdftoppm + tesseract.
 Never invents text; unreadable content is marked honestly.
 """
 import argparse
@@ -20,7 +21,9 @@ import re
 import subprocess
 import sys
 
-MATH_CHARS = set("=<>≤≥±×÷∑∫√∂∇∝∞≈≠∈∈αβγδεζηθικλμνξπρστυφχψωΓΔΘΛΞΠΣΦΨΩ")
+MATH_CHARS = set("=<>≤≥±×÷∑∫√∂∇∝∞≈≠∈αβγδεζηθικλμνξπρστυφχψωΓΔΘΛΞΠΣΦΨΩ")
+SUB = str.maketrans("0123456789+-=()", "₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎")
+SUP = str.maketrans("0123456789+-=()", "⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾")
 
 
 def log(m):
@@ -30,6 +33,8 @@ def log(m):
 def run(cmd, **kw):
     return subprocess.run(cmd, capture_output=True, text=True, **kw)
 
+
+# ---------- word extraction ----------
 
 def parse_bbox_html(path):
     with open(path, "r", encoding="utf-8", errors="replace") as f:
@@ -50,11 +55,45 @@ def parse_bbox_html(path):
     return pages
 
 
+def parse_tsv(path):
+    """tesseract TSV -> word list with coordinates (top-origin)."""
+    words = []
+    with open(path, "r", encoding="utf-8", errors="replace") as f:
+        header = None
+        for line in f:
+            cols = line.rstrip("\n").split("\t")
+            if header is None:
+                header = cols
+                continue
+            if len(cols) < 12:
+                continue
+            try:
+                level, _, _, _, _, wordnum = (int(cols[0]),) + tuple(map(int, cols[1:6]))
+                left, top, width, height = (int(cols[6]), int(cols[7]), int(cols[8]), int(cols[9]))
+                conf, text = float(cols[10]), cols[11]
+            except (ValueError, IndexError):
+                continue
+            if level == 5 and wordnum > 0 and text.strip() and conf >= 0:
+                words.append({"x": float(left), "y": float(top),
+                              "x2": float(left + width), "y2": float(top + height),
+                              "text": text})
+    return words
+
+
+# ---------- layout ----------
+
 def is_rotated(w):
-    """side-stamp / rotated text: much narrower than tall"""
     wd = w["x2"] - w["x"]
     ht = w["y2"] - w["y"]
     return wd < 0.5 * ht and ht > 12.0
+
+
+def cx(w):
+    return (w["x"] + w["x2"]) / 2
+
+
+def cy(w):
+    return (w["y"] + w["y2"]) / 2
 
 
 def detect_columns(words, page_width, page_height=None):
@@ -63,16 +102,15 @@ def detect_columns(words, page_width, page_height=None):
     normal = [w for w in words if not is_rotated(w)]
     if not normal:
         normal = list(words)
-    # drop left-margin side-stamp words (journal "downloaded by" watermark)
     normal = [w for w in normal if w["x2"] >= 0.04 * page_width]
     if not normal:
         normal = list(words)
     band = normal
     if page_height:
-        band = [w for w in normal if 0.10 * page_height < (w["y"] + w["y2"]) / 2 < 0.90 * page_height]
+        band = [w for w in normal if 0.10 * page_height < cy(w) < 0.90 * page_height]
     if not band:
         band = normal
-    xs = sorted((w["x"] + w["x2"]) / 2 for w in band)
+    xs = sorted(cx(w) for w in band)
     gaps = [xs[i + 1] - xs[i] for i in range(len(xs) - 1)]
     if not gaps:
         return [normal]
@@ -91,38 +129,54 @@ def detect_columns(words, page_width, page_height=None):
     centers = [sum(c) / len(c) for c in clusters]
     cols = [[] for _ in centers]
     for w in normal:
-        cx = (w["x"] + w["x2"]) / 2
-        best = min(range(len(centers)), key=lambda i: abs(centers[i] - cx))
+        best = min(range(len(centers)), key=lambda i: abs(centers[i] - cx(w)))
         cols[best].append(w)
     return cols
 
 
 def group_lines(words):
-    """group words into lines: words with overlapping/similar vertical span."""
     if not words:
         return []
-    ws = sorted(words, key=lambda w: (((w["y"] + w["y2"]) / 2), w["x"]))
+    ws = sorted(words, key=lambda w: (cy(w), cx(w)))
     lines = []
     for w in ws:
-        cy = (w["y"] + w["y2"]) / 2
         placed = False
         for ln in lines:
-            ly = (sum(t["y"] + t["y2"] for t in ln) / 2 / len(ln))
-            if abs(cy - ly) < 0.6 * max(w["y2"] - w["y"], 6.0):
+            avg = sum(cy(t) for t in ln) / len(ln)
+            if abs(cy(w) - avg) < 0.6 * max(w["y2"] - w["y"], 6.0):
                 ln.append(w)
                 placed = True
                 break
         if not placed:
             lines.append([w])
     for ln in lines:
-        ln.sort(key=lambda w: w["x"])
-    # sort lines top-to-bottom (y=0 at top, increasing downward)
-    lines.sort(key=lambda ln: max((w["y"] + w["y2"]) / 2 for w in ln))
+        ln.sort(key=cx)
+    lines.sort(key=lambda ln: max(cy(w) for w in ln))
     return lines
 
 
+def reconstruct_subsup(ln):
+    """Merge small raised/lowered words into the previous word as sub/superscript."""
+    if len(ln) < 2:
+        return " ".join(w["text"] for w in ln)
+    hs = sorted(w["y2"] - w["y"] for w in ln)
+    H = hs[len(hs) // 2] if hs else 8.0
+    ys = sorted(cy(w) for w in ln)
+    Y = ys[len(ys) // 2] if ys else 0.0
+    out = []
+    for w in ln:
+        ht = w["y2"] - w["y"]
+        dy = cy(w) - Y
+        if out and ht < 0.8 * H and abs(dy) > 0.18 * H:
+            kind = SUP if dy < 0 else SUB
+            out[-1] = out[-1] + w["text"].translate(kind)
+        else:
+            out.append(w["text"])
+    return " ".join(out)
+
+
 def line_text(ln):
-    return " ".join(w["text"] for w in ln)
+    return reconstruct_subsup(ln)
 
 
 def line_bbox(ln):
@@ -135,7 +189,12 @@ def median_height(ln):
     return hs[len(hs) // 2] if hs else 8.0
 
 
-HEAD_RE = re.compile(r"^\s*(\d+(\.\d+)*)\s+(.*)$")
+def is_full_width(ln, page_width):
+    b = line_bbox(ln)
+    return (b[2] - b[0]) > 0.55 * page_width
+
+
+HEAD_RE = re.compile(r"^\s*(\d+(?:\.\d+)*\.?)\s+(.*)$")
 CAP_RE = re.compile(r"^\s*(Fig(?:ure)?\.?|Table\s*\d+|Scheme\s*\d+|图\s*\d+|表\s*\d+)\b", re.I)
 KNOWN_HEAD = {"abstract", "introduction", "results and discussion", "conclusion",
               "conclusions", "references", "methods", "experimental", "experimental section",
@@ -147,7 +206,19 @@ def classify_line(text, h_median):
     low = text.strip().lower()
     m = HEAD_RE.match(text)
     if m:
-        return "heading", len(m.group(1).split(".")), m.group(3).strip()
+        num_str = m.group(1).rstrip(".")
+        rest = m.group(2).strip()
+        try:
+            num = int(num_str.split(".")[0])
+        except ValueError:
+            num = 99
+        has_period = m.group(1).endswith(".")
+        is_known = any(k in rest.lower() for k in KNOWN_HEAD)
+        # section headings use "2." with a trailing period, or start with a known heading word;
+        # references ("1 J. Zhang") and numbered sentences ("10 mA cm-2") do neither
+        if num <= 20 and len(rest) <= 60 and (has_period or is_known):
+            return "heading", len(num_str.split(".")), rest
+        return "body", None, text.strip()
     if low in KNOWN_HEAD:
         return "heading", 1, text.strip()
     if CAP_RE.match(text):
@@ -157,26 +228,72 @@ def classify_line(text, h_median):
     return "body", None, text.strip()
 
 
-def build_blocks(lines, page, h_median):
-    blocks = []
+def looks_like_table_row(words):
+    """row with >=3 words separated by gaps (grid cell boundaries)."""
+    if len(words) < 3:
+        return False
+    return True
+
+
+def detect_table_group(lines):
+    """consecutive lines (>=3) whose word x-centers align to a shared tight grid -> markdown table."""
+    if len(lines) < 3:
+        return None
+    rows = []
     for ln in lines:
+        if len(ln) < 3:
+            return None
+        rows.append([(cx(w), w["text"]) for w in ln])
+    all_x = sorted(x for r in rows for x, _ in r)
+    cols = []
+    for x in all_x:
+        if not cols or x - cols[-1][-1] > 20:
+            cols.append([x])
+        else:
+            cols[-1].append(x)
+    # a real column: covers most rows AND words inside are tightly aligned (span <= 12 px)
+    good = [c for c in cols if len(c) >= 0.7 * len(rows) and (max(c) - min(c)) <= 12.0]
+    if len(good) < 2:
+        return None
+    centers = [sum(c) / len(c) for c in good]
+    md_rows = []
+    for r in rows:
+        cells = ["" for _ in centers]
+        for x, t in r:
+            best = min(range(len(centers)), key=lambda i: abs(centers[i] - x))
+            cells[best] = (cells[best] + " " + t).strip()
+        # prose cells are long sentences; real table cells are short. reject long cells.
+        if any(len(c.split()) > 4 for c in cells):
+            return None
+        md_rows.append("| " + " | ".join(cells) + " |")
+    sep = "| " + " | ".join(["---"] * len(centers)) + " |"
+    return "\n".join([md_rows[0], sep] + md_rows[1:])
+
+
+def build_blocks(lines, page, h_median, page_width):
+    blocks = []
+    i = 0
+    while i < len(lines):
+        table = detect_table_group(lines[i:i + 8])
+        if table:
+            bbox = line_bbox([w for ln in lines[i:i + 8] for w in ln])
+            blocks.append({"type": "table", "level": None, "text": table,
+                           "page": page, "bbox": bbox, "height": median_height(lines[i])})
+            i += min(8, len(lines[i:i + 8]))
+            continue
+        ln = lines[i]
         txt = line_text(ln)
         if not txt.strip():
+            i += 1
             continue
         typ, level, heading = classify_line(txt, h_median)
-        blocks.append({
-            "type": typ,
-            "level": level,
-            "text": txt,
-            "page": page,
-            "bbox": line_bbox(ln),
-            "height": median_height(ln),
-        })
+        blocks.append({"type": typ, "level": level, "text": txt,
+                       "page": page, "bbox": line_bbox(ln), "height": median_height(ln)})
+        i += 1
     return blocks
 
 
 def detect_header_footer(blocks, page_h):
-    """flag blocks in top/bottom margins (y=0 at top, increasing downward)."""
     for b in blocks:
         top_edge = b["bbox"][1]
         bot_edge = b["bbox"][3]
@@ -186,6 +303,24 @@ def detect_header_footer(blocks, page_h):
             b["margin"] = "bottom"
         else:
             b["margin"] = None
+    return blocks
+
+
+# ---------- main pipeline ----------
+
+def parse_page(p):
+    words = [w for w in p["words"] if not is_rotated(w) and w["x2"] >= 0.04 * p["width"]]
+    if not words:
+        return []
+    cols = detect_columns(words, p["width"], p["height"])
+    all_h = sorted(w["y2"] - w["y"] for w in words)
+    h_median = all_h[len(all_h) // 2] if all_h else 8.0
+    ordered = []
+    for col in sorted(cols, key=lambda c: min(cx(w) for w in c) if c else 0):
+        for ln in group_lines(col):
+            ordered.append(ln)
+    blocks = build_blocks(ordered, p["page"], h_median, p["width"])
+    blocks = detect_header_footer(blocks, p["height"])
     return blocks
 
 
@@ -200,54 +335,38 @@ def parse_pdf(pdf, out_dir, force_ocr=False):
 
     all_blocks = []
     for p in pages:
-        if not p["words"]:
-            continue
-        cols = detect_columns(p["words"], p["width"], p["height"])
-        # body median height for heading detection
-        all_h = sorted(w["y2"] - w["y"] for w in p["words"])
-        h_median = all_h[len(all_h) // 2] if all_h else 8.0
-        ordered = []
-        for col in sorted(cols, key=lambda c: min((w["x"] + w["x2"]) / 2 for w in c) if c else 0):
-            for ln in group_lines(col):
-                ordered.append(ln)
-        # re-sort all lines by (column-ish y) already handled; group_lines returned top->bottom
-        blocks = build_blocks(ordered, p["page"], h_median)
-        blocks = detect_header_footer(blocks, p["height"])
-        all_blocks.extend(blocks)
+        if p["words"]:
+            all_blocks.extend(parse_page(p))
 
     layout = {"source": pdf, "pages": pages, "blocks": all_blocks,
-              "stats": {"words": total_words, "pages": len(pages)}}
+              "stats": {"words": sum(len(p["words"]) for p in pages), "pages": len(pages)}}
     with open(os.path.join(out_dir, "layout.json"), "w", encoding="utf-8") as f:
         json.dump(layout, f, ensure_ascii=False, indent=2)
-
-    md = build_markdown(all_blocks)
     with open(os.path.join(out_dir, "parsed.md"), "w", encoding="utf-8") as f:
-        f.write(md)
+        f.write(build_markdown(all_blocks))
     return layout
 
 
 def ocr_pipeline(pdf, out_dir):
     pages = []
-    r = run(["pdftoppm", "-r", "300", "-png", pdf, os.path.join(out_dir, "page")])
+    r = run(["pdftoppm", "-r", "300", "-png", pdf, os.path.join(out_dir, "pg")])
     if r.returncode != 0:
         return pages
-    for i, f in enumerate(sorted(os.listdir(out_dir))):
-        if not f.startswith("page") or not f.endswith(".png"):
-            continue
-        base = os.path.splitext(f)[0]
-        txt = os.path.join(out_dir, base + ".txt")
-        rr = run(["tesseract", os.path.join(out_dir, f), txt, "-l", "eng+chi_sim"])
-        if rr.returncode == 0 and os.path.exists(txt + ".txt"):
-            with open(txt + ".txt", encoding="utf-8", errors="replace") as fh:
-                text = fh.read()
-            words = []
-            for line in text.splitlines():
-                x = 0.0
-                for tok in line.split():
-                    words.append({"x": x, "y": 0, "x2": x + len(tok) * 10, "y2": 12, "text": tok})
-                    x += (len(tok) + 1) * 10
-            pages.append({"page": i + 1, "width": 1000, "height": 1400, "words": words,
-                          "ocr": True})
+    # tesseract language fallback: try eng+chi_sim, then eng
+    langs = ["eng+chi_sim", "eng"]
+    for i, f in enumerate(sorted(f for f in os.listdir(out_dir) if f.startswith("pg") and f.endswith(".png"))):
+        words = []
+        for lang in langs:
+            base = os.path.splitext(f)[0]
+            tsv = os.path.join(out_dir, base + ".tsv")
+            rr = run(["tesseract", os.path.join(out_dir, f), os.path.join(out_dir, base), "-l", lang, "tsv"])
+            if rr.returncode == 0 and os.path.exists(tsv):
+                words = parse_tsv(tsv)
+                if words:
+                    break
+        if words:
+            pages.append({"page": i + 1, "width": 2480, "height": 3508,
+                          "words": words, "ocr": True})
     return pages
 
 
@@ -260,6 +379,8 @@ def build_markdown(blocks):
             lines.append(f"> {b['text']}\n")
         elif b["type"] == "formula":
             lines.append(f"$$\n{b['text']}\n$$\n")
+        elif b["type"] == "table":
+            lines.append(f"{b['text']}\n")
         else:
             lines.append(f"{b['text']}\n\n")
     return "\n".join(lines)

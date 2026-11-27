@@ -27,15 +27,20 @@ def word_re(term):
 
 
 def check(glossary, alignment):
-    terms = glossary.get("terms", [])
+    terms = [t for t in glossary.get("terms", [])
+             if isinstance(t, dict) and isinstance(t.get("en"), str) and t["en"]]
     units = alignment.get("units", [])
     violations = []
     hits = {t["en"]: 0 for t in terms}
     for u in units:
+        if not isinstance(u, dict):
+            continue  # schema issues are verify_translation.py's job
         src = u.get("source", "")
         zh = u.get("translation", "")
         status = u.get("status", "")
         if status in ("skipped", "untranslated"):
+            continue
+        if not isinstance(src, str) or not isinstance(zh, str):
             continue
         # longest match wins: an occurrence covered by a longer glossary term
         # (e.g. "carbonate hydroxide nanotube array" covering "nanotube array")

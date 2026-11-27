@@ -33,6 +33,8 @@ python scripts/assemble_result.py --case /input/case.json --extract work/extract
 |---|---|
 | `SKILL.md` | 方法、输入输出契约、异常处理与自查清单 |
 | `scripts/pdf_extract.py` | PDF → 编号源单元（栏检测、阅读顺序、段落合并、页边/串栏标记） |
+| `scripts/xml_extract.py` | 出版商 XML（JATS）→ 句级源单元（XML 定位符锚点、内联标记保留、补充材料不漏、`--only-ids` 范围过滤 + 独立覆盖率分母） |
+| `scripts/get_units.py` | 小批量取单元（--ids/--pages/--max-chars），单次返回 ≤1 万字符，节省预算 |
 | `scripts/glossary_check.py` | 术语执行核验（最长匹配优先） |
 | `scripts/verify_translation.py` | 译文确定性核验 + 人工复核清单 |
 | `scripts/assemble_result.py` | 校验并组装 `result.json` 与 `bilingual.md` |
@@ -51,6 +53,8 @@ python scripts/assemble_result.py --case /input/case.json --extract work/extract
 - 混排页（通栏摘要 + 双栏正文）坐标无法完全区分栏，提取器标 `order_suspect`，需按 SKILL.md 第 3 步用 `pdftotext` 裁剪参数按栏重取。
 - 图片型公式/表格无法转写，标 `partial` 并说明，不猜。
 - 中文译文与原文同段对照时，专有名词、材料代号、方法缩写默认保留原文（见术语表 conventions）。
+- 覆盖率分母来自原文独立清点（extract.json 单元总数或 `--only-ids` 范围统计），不用"已翻译/已提取"自报。
+- 先落盘再完善：建术语表后立即组装占位 `result.json`，防止超时交白卷。
 
 ## 维护
 

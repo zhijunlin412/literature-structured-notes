@@ -1,0 +1,43 @@
+{
+  "_comment": "示意示例（非任何正式案例答案）：nanopub.json 的写法。quote 必须逐字摘自所引单元。",
+  "assertions": [
+    {
+      "id": "A1",
+      "text": "催化剂 X 在 10 mA cm⁻² 下的 OER 过电位为 250 mV",
+      "subject": "催化剂 X",
+      "relation": "has_measured_value",
+      "object": "OER 过电位 250 mV",
+      "conditions": "1.0 M KOH，10 mA cm⁻²",
+      "evidence": [
+        {"quote": "catalyst X delivers an overpotential of 250 mV at 10 mA cm⁻²", "unit": "P5", "type": "direct"}
+      ],
+      "confidence": "high",
+      "confidence_basis": "原文直接给出数值与测试条件",
+      "note": ""
+    },
+    {
+      "id": "A2",
+      "text": "催化剂 X 的 OER 性能优于催化剂 Y",
+      "subject": "催化剂 X",
+      "relation": "outperforms",
+      "object": "催化剂 Y（OER 性能）",
+      "conditions": "",
+      "evidence": [
+        {"quote": "X shows a much enhanced activity compared with Y", "unit": "P8", "type": "direct"},
+        {"quote": "the overpotential of X is 30 mV lower than that of Y", "unit": "P9", "type": "indirect"}
+      ],
+      "confidence": "high",
+      "confidence_basis": "正文定性结论 + 相邻段定量差值互证",
+      "note": "indirect 证据推论链：过电位低 30 mV → 活性更高"
+    }
+  ],
+  "provenance": {
+    "title": "示例论文标题（示意）",
+    "authors": "A. Author, B. Author",
+    "journal": "J. Example",
+    "year": 2024,
+    "doi": "10.0000/example.0000",
+    "source_pdf": "/input/paper.pdf",
+    "extractor": "nanopublication-builder 1.0"
+  }
+}

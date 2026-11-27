@@ -1,0 +1,182 @@
+{
+  "note": "演示修改清单：针对 PMC8429493（CC-BY）摘要/引言/实验/结果/结论 5 段摘录的润色，非正式测试案例。",
+  "sources": [{"source_id": "pmc8429493", "doi": "10.3389/fchem.2021.754357", "license": "CC-BY 4.0", "scope": "abstract; introduction paragraph 1; experimental excerpt; results excerpt; conclusion"}],
+  "edits": [
+    {"id": "E01", "location": "Abstract, S1",
+     "original_span": "for the oxygen evolution reaction (OER) remain a great challenge",
+     "revised_span": "for the oxygen evolution reaction (OER) remains a great challenge",
+     "type": "grammar-agreement", "severity": "error",
+     "reason": "主语是动名词短语 Developing ... replacements（单数），谓语用 remains"},
+
+    {"id": "E02", "location": "Abstract, S2",
+     "original_span": "we report a needle-like cobalt carbonate hydroxide hydrate (Co(CO3)0.5OH.0.11H2O) nanoarrays",
+     "revised_span": "we report needle-like cobalt carbonate hydroxide hydrate (Co(CO3)0.5OH.0.11H2O) nanoarrays",
+     "type": "grammar-number", "severity": "error",
+     "reason": "不定冠词 a 不能修饰复数 nanoarrays"},
+
+    {"id": "E03", "location": "Abstract, S2",
+     "original_span": "nanoarrays, which in situ grown on the surface of carbon cloth",
+     "revised_span": "nanoarrays, which are grown in situ on the surface of carbon cloth",
+     "type": "grammar-voice", "severity": "error",
+     "reason": "定语从句缺谓语：in situ grown 不是谓语形式，补 are grown 并把 in situ 置于动词后"},
+
+    {"id": "E04", "location": "Abstract, S3",
+     "original_span": "the Co(CO3)0.5OH nanoarrays with high porosity is composed of numerous",
+     "revised_span": "the Co(CO3)0.5OH nanoarrays with high porosity are composed of numerous",
+     "type": "grammar-agreement", "severity": "error",
+     "reason": "主语 nanoarrays 为复数，be 动词用 are"},
+
+    {"id": "E05", "location": "Abstract, S4",
+     "original_span": "Owing to unique needle-like array structure",
+     "revised_span": "Owing to the unique needle-like array structure",
+     "type": "grammar-article", "severity": "error",
+     "reason": "特指该催化剂的阵列结构，需定冠词 the"},
+
+    {"id": "E06", "location": "Abstract, S5",
+     "original_span": "For the stability, there is no significant attenuation",
+     "revised_span": "Regarding the stability, there is no significant attenuation",
+     "type": "chinglish", "severity": "style",
+     "reason": "For the stability 为中式直译，学术英语用 Regarding/As for 引出话题"},
+
+    {"id": "E07", "location": "Abstract, S5",
+     "original_span": "after continuous operation 27 h",
+     "revised_span": "after continuous operation for 27 h",
+     "type": "grammar-preposition", "severity": "error",
+     "reason": "持续时段前需介词 for"},
+
+    {"id": "E08", "location": "Introduction, S1",
+     "original_span": "oxygen evolution reaction (OER) plays an important role",
+     "revised_span": "the oxygen evolution reaction (OER) plays an important role",
+     "type": "grammar-article", "severity": "error",
+     "reason": "首次全称出现，特指该反应需定冠词 the（与摘要 S1 的 for the oxygen evolution reaction 一致）"},
+
+    {"id": "E09", "location": "Introduction, S1",
+     "original_span": "energy-relative electrochemical conversion technologies",
+     "revised_span": "energy-related electrochemical conversion technologies",
+     "type": "chinglish", "severity": "error",
+     "reason": "energy-relative 是 relative/related 误用的中式英语，正确搭配为 energy-related"},
+
+    {"id": "E10", "location": "Introduction, S2",
+     "original_span": "owing to four electron transfer process",
+     "revised_span": "owing to the four-electron transfer process",
+     "type": "grammar-article", "severity": "error",
+     "reason": "缺冠词；复合形容词 four-electron 需连字符，process 保持单数"},
+
+    {"id": "E11", "location": "Introduction, S3",
+     "original_span": "the noble metal-based materials like IrO2 and RuO2 have been regarded",
+     "revised_span": "noble-metal-based materials such as IrO2 and RuO2 have been regarded",
+     "type": "register-tone", "severity": "style",
+     "reason": "泛指一类材料不用定冠词；学术文体举例用 such as 而非口语化 like；复合修饰语连字符统一"},
+
+    {"id": "E12", "location": "Introduction, S4",
+     "original_span": "the high cost, scarcity reserves and poor stability are main reasons to limit their practical applications",
+     "revised_span": "their high cost, scarcity and poor stability limit their practical applications",
+     "type": "conciseness", "severity": "style",
+     "reason": "scarcity reserves 为中式叠用（scarcity 已含储量义）；are main reasons to limit 冗余，直接以 limit 作谓语"},
+
+    {"id": "E13", "location": "Experimental, S2",
+     "original_span": "in 30 ml deionized water",
+     "revised_span": "in 30 mL deionized water",
+     "type": "consistency", "severity": "style",
+     "reason": "升的符号按 SI 推荐大写 mL（数值 30 不变）"},
+
+    {"id": "E14", "location": "Experimental, S3",
+     "original_span": "under vigorous string for 5 min",
+     "revised_span": "under vigorous stirring for 5 min",
+     "type": "grammar-spelling", "severity": "error",
+     "reason": "string 为 stirring（搅拌）的拼写错误（原文发表版即如此）"},
+
+    {"id": "E15", "location": "Experimental, S4",
+     "original_span": "a piece of 2*4 cm2 carbon cloth was immersed into the solution vertically",
+     "revised_span": "a piece of 2 × 4 cm2 carbon cloth was immersed in the solution vertically",
+     "type": "punctuation", "severity": "error",
+     "reason": "尺寸相乘用乘号 × 而非星号 *；immerse 搭配介词 in"},
+
+    {"id": "E16", "location": "Results, S1",
+     "original_span": "After continuous operation 27 h, there is no significant attenuation",
+     "revised_span": "After continuous operation for 27 h, there is no significant attenuation",
+     "type": "grammar-preposition", "severity": "error",
+     "reason": "持续时段前需介词 for（与摘要同一问题的另一处）"},
+
+    {"id": "E17", "location": "Results, S2",
+     "original_span": "the peaks of Co 2p spectrum for Co(CO3)0.5OH@CC negatively shift",
+     "revised_span": "the peaks of the Co 2p spectrum for Co(CO3)0.5OH@CC shift negatively",
+     "type": "grammar-article", "severity": "error",
+     "reason": "特指谱图需 the Co 2p spectrum；副词 negatively 后置更符合英语语序"},
+
+    {"id": "E18", "location": "Results, S2",
+     "original_span": "which suggested that Co2+ had a tendency",
+     "revised_span": "which suggests that Co2+ had a tendency",
+     "type": "grammar-tense", "severity": "error",
+     "reason": "主句为现在时（shift），非限定从句时态应一致用 suggests；同 tier（medium）词形变化，强度不变"},
+
+    {"id": "E19", "location": "Results, S2",
+     "original_span": "had a tendency to transform like Co3+ during the OER process",
+     "revised_span": "had a tendency to transform into Co3+ during the OER process",
+     "type": "grammar-preposition", "severity": "error",
+     "reason": "transform 表'转化为'搭配 into；like 是介词误用"},
+
+    {"id": "E20", "location": "Results, S3",
+     "original_span": "suggesting CoOOH may serve as active site for the OER",
+     "revised_span": "suggesting that CoOOH may serve as the active site for the OER",
+     "type": "grammar-article", "severity": "error",
+     "reason": "active site 特指需 the；suggesting 后补 that 使从句完整；may（weak 级限定）逐字保留"},
+
+    {"id": "E21", "location": "Conclusion, S1",
+     "original_span": "consisting of long-needle like carbonate hydroxide hydrate nanoarrays",
+     "revised_span": "consisting of long-needle-like carbonate hydroxide hydrate nanoarrays",
+     "type": "punctuation", "severity": "error",
+     "reason": "复合形容词 long-needle-like 需连字符"},
+
+    {"id": "E22", "location": "Conclusion, S1",
+     "original_span": "nanoarrays dirrectly in situ growth on carbon cloth substrate",
+     "revised_span": "nanoarrays grown directly in situ on a carbon cloth substrate",
+     "type": "grammar-voice", "severity": "error",
+     "reason": "dirrectly→directly 拼写；in situ growth 非谓语，改分词 grown 作后置定语；substrate 前补冠词 a"},
+
+    {"id": "E23", "location": "Conclusion, S1",
+     "original_span": "by a green and facial one-step hydrothermal strategy",
+     "revised_span": "by a green and facile one-step hydrothermal method",
+     "type": "terminology", "severity": "error",
+     "reason": "facial 为 facile（简便的）拼写错误；全文其余两处均为 one-step hydrothermal method，术语统一为 method"},
+
+    {"id": "E24", "location": "Conclusion, S2",
+     "original_span": "Benefiting from the nanoneedles arrayed architecture and unique active component",
+     "revised_span": "Benefiting from the nanoneedle-array architecture and unique active component",
+     "type": "chinglish", "severity": "style",
+     "reason": "nanoneedles arrayed architecture 语序中式，复合名词 nanoneedle-array 作定语更自然"},
+
+    {"id": "E25", "location": "Conclusion, S2",
+     "original_span": "the as-prepared Co(CO3)0.5OH@CC possess abundant accessible active sites",
+     "revised_span": "the as-prepared Co(CO3)0.5OH@CC possesses abundant accessible active sites",
+     "type": "grammar-agreement", "severity": "error",
+     "reason": "主语为单数材料名，谓语用 possesses"},
+
+    {"id": "E26", "location": "Conclusion, S2",
+     "original_span": "robust structure stabilities",
+     "revised_span": "robust structural stability",
+     "type": "grammar-number", "severity": "error",
+     "reason": "stability 为不可数名词，且修饰语应用形容词 structural"},
+
+    {"id": "E27", "location": "Conclusion, S3",
+     "original_span": "performance towards the OER in alkaline medium (1.0 M KOH)",
+     "revised_span": "performance towards the OER in an alkaline medium (1.0 M KOH)",
+     "type": "grammar-article", "severity": "error",
+     "reason": "medium 可数名词单数前需不定冠词 an"},
+
+    {"id": "E28", "location": "Conclusion, S3",
+     "original_span": "and could maintained well even after 27 h continuous electrolysis",
+     "revised_span": "and this performance could be maintained even after 27 h of continuous electrolysis",
+     "type": "grammar-voice", "severity": "error",
+     "reason": "could maintained 语法错误（情态动词+过去分词）；被维持的是性能，补主语 this performance 并用被动；27 h of 表时长"}
+  ],
+  "human_review": [
+    "Conclusion S1 的 'novel' 属作者的新颖性主张，无证据表明应删除，予以保留；若目标期刊要求克制宣传用语，可删去（待作者确认）",
+    "Abstract S6 'paves a facile way to the design' 表达略口语但无语法错误，属作者风格，未改",
+    "摘要与引言各自定义了一次 (OER)：摘要独立成篇属期刊惯例，予以保留"
+  ],
+  "uncertainty": [
+    "目标期刊未知，排版约定（mL、× 号）按通用 SI/期刊风格处理",
+    "演示仅覆盖 5 个摘录段落，未处理全文图表标题与参考文献列表"
+  ]
+}

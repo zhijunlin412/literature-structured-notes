@@ -70,6 +70,21 @@
     "fields": ["term", "definition"],
     "example": { "term": "过电位", "definition": "催化剂为了达到给定电流而「多花」的额外电压，越低越好。" }
   },
+  "question_answers": {
+    "desc": "题目问答（case 附带问题时必填）：逐题回答并绑定证据。",
+    "fields": ["question", "answer", "evidence", "confidence"],
+    "rule": "answer 直接回答问题（含单位、定义、置信区间等完整口径）；evidence 带 unit + quote + 页码；原文没点名、材料没给的如实答「未报告/无法判断」，不猜。confidence=high 必须有 quote。",
+    "example": {
+      "question": "该方法在 10 mA cm−2 下的过电位是多少？",
+      "answer": "290 mV（OER，10 mA cm−2，Fig. 3b）。",
+      "evidence": { "unit": "P38", "page": 3, "quote": "The overpotential of Fe–CoCH NT/CC at 10 mA cm −2 is 290 mV (Fig. 3b)", "locator": "§2 ¶3, p.3, Fig. 3b" },
+      "confidence": "high"
+    }
+  },
+  "source": {
+    "desc": "多篇论文案例的锚点补充字段：标注证据来自哪一篇（如 paper1/paper2 或文件名），与 unit/page 一起用。",
+    "rule": "单篇案例可省略；两篇材料时每个锚点必须带 source，禁止跨论文混用证据。"
+  },
   "notes_plain": {
     "desc": "易懂版正文（可选）：纯中文口语化、面向非专业读者的完整笔记，不含 JSON/代码/英文字段名。由校验脚本另存为 notes_plain.md。"
   },

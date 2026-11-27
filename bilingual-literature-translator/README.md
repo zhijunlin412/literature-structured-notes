@@ -38,6 +38,7 @@ python scripts/assemble_result.py --case /input/case.json --extract work/extract
 | `scripts/assemble_result.py` | 校验并组装 `result.json` 与 `bilingual.md` |
 | `assets/example_glossary.json` | 术语表格式示意（非正式案例答案） |
 | `assets/example_alignment.json` | 对齐文件格式示意（非正式案例答案） |
+| `assets/demo_feco_glossary.json` | 真实演示术语表（40 条，公开论文 Dalton Trans., 2024, 53, 1870；可复用为电催化领域术语表起点） |
 
 ## 中间产物格式
 

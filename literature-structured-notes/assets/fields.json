@@ -1,8 +1,8 @@
 {
   "_note": "字段字典与锚点格式规范。本文件是 Skill 的规范资源，不包含任何正式案例内容。",
   "anchor": {
-    "desc": "证据锚点：每条关键结论至少要有一个定位字段，且 locator 与定位字段一致。",
-    "fields": ["section", "paragraph", "page", "figure", "table", "formula", "locator"],
+    "desc": "证据锚点：每条关键结论至少要有一个定位字段，且 locator 与定位字段一致。unit 指向 pdf_extract.py 产出的源单元 id（如 P12、C3），quote 为从该单元逐字摘录的最小证据片段。",
+    "fields": ["section", "paragraph", "page", "figure", "table", "formula", "unit", "quote", "locator"],
     "example": {
       "section": "3.2",
       "paragraph": 2,
@@ -10,9 +10,11 @@
       "figure": "Fig. 2",
       "table": null,
       "formula": null,
+      "unit": "P12",
+      "quote": "the overpotential at 10 mA cm−2 is only 205 mV",
       "locator": "§3.2 ¶2, p.5, Fig. 2"
     },
-    "rule": "section/paragraph/page/figure/table/formula 至少一项非空；locator 为人类可读定位串，必须与上面的字段一致。"
+    "rule": "section/paragraph/page/figure/table/formula/unit 至少一项非空；locator 为人类可读定位串，必须与上面的字段一致。quote 必须逐字摘自 unit 所指单元（validate_notes.py --extract 做子串核验，改写一个字都过不了）；关键结论（主要发现、结论、原理深挖条目）必须带 unit + quote。"
   },
   "paper_card": {
     "desc": "论文卡片：统一字段，使多篇论文可并排比较。每个字段含 value、evidence(anchor)、confidence、judge。",

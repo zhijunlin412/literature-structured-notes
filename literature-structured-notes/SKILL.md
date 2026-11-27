@@ -37,7 +37,7 @@ description: 把一篇科研论文（PDF）转换成与原文章节对齐、字�
 
 字段与锚点的规范见 `assets/fields.json`；写完用 `scripts/validate_notes.py` 校验。
 
-## 方法（九步，先想后做）
+## 方法（十步，先想后做）
 
 1. **提取锚点单元**：`python scripts/pdf_extract.py --pdf <PDF> --out work/extract` 产出带段号（H/P/C/T/F/R）与页码锚点的 `extract.json` / `source_units.md`（栏检测、阅读顺序、段落合并、页边/串栏/跨页标记全自动）。**后续所有笔记的锚点都引用这些单元 id**，不再凭印象写"第几页"。串栏单元（`order_suspect`）用 `pdftotext -f <页> -l <页> -x <左> -y <上> -W <宽> -H <高>` 按栏裁剪重取修复，修复记入 `change_record`。
 2. **解析与章节对齐**：在修复后的单元上读全文，识别论文真实的章节结构（含摘要、引言、方法、结果、讨论、结论、附录），保留章节之间的承接关系。不强行套用五段式。
@@ -47,7 +47,10 @@ description: 把一篇科研论文（PDF）转换成与原文章节对齐、字�
 6. **证据锚点 + 逐字引文**：为每条关键结论写锚点（章节/段落/页码/图表/公式/**单元 id** 至少其一）；**主要发现、结论、原理深挖条目必须带 `unit` + `quote`**——`quote` 从该单元逐字复制（含空格形式），作为"这条笔记不是我编的"的可机检证据。找不到支撑单元的论断不写成事实，记入 `uncertainty`。
 7. **原理深挖（`principle_analysis`）**：对每个关键结论回答"为什么"——给底层原理/公式/机制（`basis`），对可定量的结论做量级验证（`quantitative_check`，用原文数字反算核对，不一致要写明），并标 `evidence_strength`：`direct`（本文直接测量/陈述）、`consensus`（领域共识背景知识，本文未直接测量）、`preliminary`（本文自述初步/推测/需确认）、`not_reported`（未报告）。**区分"本文直接证据"与"领域共识解释"，绝不把推测写成事实。**
 8. **术语词典 + 易懂化（`glossary` / `notes_plain`）**：把领域黑话（OER、过电位、双极膜、Tafel、ECSA 等）用通俗中文解释；`notes_plain` 按 `assets/精读笔记模板.md` 的 13 个格子组织（现象层与原理层一体），面向非专业读者，不含 JSON/代码/英文字段名。
-9. **校验与自检**：`python scripts/validate_notes.py --spec notes_spec.json --extract work/extract/extract.json --out /app/output --case-id <id>`；**所有 error（含证据非逐字、单元不存在）必须修复重跑至清零**。区分"机器可判定的字段"与"必须人工确认的字段"；未报告、无法判断、材料冲突分别写明。预算紧张时先交全字段占位版（未完成标 `partial`），再按论文卡片→章节→知识点→原理深挖的优先级填充。
+9. **题目问答与矛盾保留**：若 case 附带问题，逐题填 `question_answers`（问题、直接回答、带 `unit`+`quote` 的证据、置信度）；原文没点名、材料没给的如实答"未报告/无法判断"，不猜。**论文自相矛盾处（前后数字、单位、方法名、时间范围不一致）必须显式列出**，记入 `uncertainty` 或对应字段的 `conflicts`，不擅自统一、不悄悄选一版。多篇论文案例：每个锚点加 `source` 字段注明出自哪一篇，禁止跨论文混用证据。
+10. **校验与自检**：`python scripts/validate_notes.py --spec notes_spec.json --extract work/extract/extract.json --out /app/output --case-id <id>`；**所有 error（含证据非逐字、单元不存在）必须修复重跑至清零**；`confidence=high` 无逐字引文的 warning 要逐条处理（补引文或降 medium）——置信度是模型自评，自评天然偏乐观，`high` 只给有直接逐字证据的结论。区分"机器可判定的字段"与"必须人工确认的字段"；未报告、无法判断、材料冲突分别写明。预算紧张时先交全字段占位版（未完成标 `partial`），再按论文卡片→问题回答→章节→知识点→原理深挖的优先级填充。
+
+**省预算**：先读 `units_index.json`，再用 `scripts/get_units.py --extract work/extract/extract.json --ids P1,P2 --max-chars 9000` 小批量取单元，单次返回控制在约 1 万字符内；不要一次性读整个 extract.json。
 
 ## 使用脚本
 
@@ -74,7 +77,8 @@ description: 把一篇科研论文（PDF）转换成与原文章节对齐、字�
 5. 每个关键结论是否回答了"为什么"（原理深挖）？可定量的结论是否用原文数字做了量级验证？
 6. 每条结论是否标注证据强度（direct/consensus/preliminary/not_reported）？是否把"初步/推测"写成了"事实"？
 7. 是否给出术语词典？是否有面向非专业读者的易懂版（notes_plain）？
-8. `result.json` 是否含 `case_id` 与 `task.md` 要求的全部字段？是否只提交 Skill 与资源、不含预制正式答案？
+8. case 附带问题是否逐题回答且带逐字证据？论文自相矛盾处是否显式列出而不是悄悄统一？`confidence=high` 的结论是否都有逐字引文？
+9. `result.json` 是否含 `case_id` 与 `task.md` 要求的全部字段？是否只提交 Skill 与资源、不含预制正式答案？
 
 ## 资源清单
 

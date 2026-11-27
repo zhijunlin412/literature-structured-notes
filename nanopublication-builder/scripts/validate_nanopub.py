@@ -104,6 +104,16 @@ def validate(nanopub, extract, relations):
                                  "detail": "indirect 证据但 note 未写推论链"})
             if a.get("subject") and isinstance(a["subject"], str) and a["subject"] in quote:
                 subject_hit = True
+        # confidence is model self-assessment, which is systematically optimistic:
+        # require it to be bound to the evidence actually attached
+        if a.get("confidence") == "high":
+            direct = [e for e in ev if isinstance(e, dict) and e.get("type") in ("direct", "figure_table")]
+            if not direct:
+                warnings.append({"id": aid, "kind": "confidence",
+                                 "detail": "confidence=high 但无 direct/figure_table 证据，自评置信度须与证据绑定"})
+        if a.get("confidence") == "low" and not a.get("note"):
+            warnings.append({"id": aid, "kind": "confidence",
+                             "detail": "confidence=low 但 note 未说明原因（证据不足/原文冲突/读数存疑）"})
         # cross-language subjects (e.g. Chinese subject vs English quote) cannot be
         # verified by containment; check only same-language (ASCII) subjects
         subj = a.get("subject", "")

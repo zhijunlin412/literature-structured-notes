@@ -61,10 +61,22 @@ def diff_multiset(src_list, zh_list):
 
 
 def verify_unit(u):
+    """Per-unit checks. Must never crash on malformed entries (null fields,
+    wrong types): report them as issues instead - a checker that crashes on
+    unexpected input proves nothing."""
+    issues = []
+    if not isinstance(u, dict):
+        return [{"kind": "schema", "detail": "译文条目不是对象"}]
+    if u.get("status") in ("skipped", "untranslated"):
+        return issues
     src = u.get("source", "")
     zh = u.get("translation", "")
-    issues = []
-    if u.get("status") in ("skipped", "untranslated"):
+    if not isinstance(src, str) or not isinstance(zh, str):
+        issues.append({"kind": "schema",
+                       "detail": f"source/translation 不是字符串（{type(src).__name__}/{type(zh).__name__}）"})
+        return issues
+    if u.get("status") not in ("translated", "partial"):
+        issues.append({"kind": "schema", "detail": f"status 非法: {u.get('status')}"})
         return issues
     if not zh.strip():
         issues.append({"kind": "empty_translation", "detail": "译文为空"})
@@ -105,10 +117,14 @@ def main():
         log(f"FATAL input: {e}")
         return 2
 
-    src_units = {u["id"]: u for u in extract.get("units", [])}
+    src_units = {u["id"]: u for u in extract.get("units", []) if isinstance(u, dict) and "id" in u}
     al_units = alignment.get("units", [])
-    al_ids = [u.get("id") for u in al_units]
-    issues = []
+    if not isinstance(al_units, list):
+        log("FATAL: alignment.units is not a list")
+        return 2
+    al_ids = [u.get("id") for u in al_units if isinstance(u, dict)]
+    issues = [{"unit": "?", "kind": "schema", "detail": "译文条目不是对象"}
+              for u in al_units if not isinstance(u, dict)]
 
     # coverage
     for uid in src_units:
@@ -125,19 +141,24 @@ def main():
     pending = []
     translated = 0
     for u in al_units:
+        if not isinstance(u, dict):
+            issues.append({"unit": "?", "kind": "schema", "detail": "译文条目不是对象"})
+            continue
         if u.get("status") == "translated":
             translated += 1
         for iss in verify_unit(u):
             issues.append({"unit": u.get("id"), **iss})
-        for m in PENDING_RE.finditer(u.get("translation", "")):
-            pending.append({"unit": u.get("id"), "marker": m.group(0),
-                            "context": u.get("translation", "")[:150]})
+        zh = u.get("translation", "")
+        if isinstance(zh, str):
+            for m in PENDING_RE.finditer(zh):
+                pending.append({"unit": u.get("id"), "marker": m.group(0),
+                                "context": zh[:150]})
         if u.get("note") and u.get("status") not in ("skipped",):
             pending.append({"unit": u.get("id"), "marker": "note",
-                            "context": u["note"][:200]})
+                            "context": str(u["note"])[:200]})
 
     total = len(src_units)
-    blocking = [i for i in issues if i["kind"] in ("coverage", "empty_translation")]
+    blocking = [i for i in issues if i["kind"] in ("coverage", "empty_translation", "schema")]
     report = {
         "units_total": total,
         "units_aligned": len(set(al_ids) & set(src_units)),

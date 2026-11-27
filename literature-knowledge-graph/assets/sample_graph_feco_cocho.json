@@ -1,0 +1,1280 @@
+{
+  "_comment": "真实演示输出（非正式案例答案）：基于 Dalton Trans. 2024, 53, 1870 (10.1039/d3dt03520d) 与 Front. Chem. 2021, 9, 754357 (PMC8429493, CC-BY) 两篇真实论文的演示材料包构建，25 节点 34 边 9 条合并处置，已通过 validate_graph.py 全部核验（0 error）。可复用为字段、粒度与合并处置的参照。",
+  "case_id": "demo-kg-feco-cocho-2papers",
+  "papers": "见 materials_index.json（以 corpus-manifest.json 为准）",
+  "nodes": [
+    {
+      "id": "N001",
+      "label": "Fe–CoCH NT/CC",
+      "type": "material",
+      "aliases": [
+        "Fe-CoCH NT",
+        "FeCoCH NT/CC",
+        "FeCo-based hydroxide nanotube array",
+        "Fe-modified Co-based carbonate hydroxide nanotube array"
+      ],
+      "summary": "论文1的主角催化剂：碳布上 Fe 改性的支化碳酸钴氢氧化物纳米管阵列，用作 OER 阳极。",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-intro-2",
+          "quote": "we synthesized a unique Fe-modified Co-based carbonate hydroxide nanotube array with a branched surface on carbon cloth (Fe-CoCH NT/CC)"
+        }
+      ],
+      "added_in": "paper1"
+    },
+    {
+      "id": "N002",
+      "label": "CoCH NW/CC",
+      "type": "material",
+      "aliases": [
+        "CoCH NW",
+        "Co carbonate hydroxide nanowire array on carbon cloth"
+      ],
+      "summary": "论文1的对照样品/前驱体：碳布上碳酸钴氢氧化物纳米线阵列。",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-intro-2",
+          "quote": "it exhibits largely enhanced OER catalytic performance compared to the Co carbonate hydroxide nanowire array on carbon cloth (CoCH NW/CC)"
+        }
+      ],
+      "added_in": "paper1"
+    },
+    {
+      "id": "N003",
+      "label": "室温 Fe3+ 刻蚀-水解沉淀策略",
+      "type": "method",
+      "aliases": [
+        "ambient Fe-modification strategy",
+        "room-temperature Fe3+ corrosion and hydrolysis precipitation"
+      ],
+      "summary": "论文1提出的合成方法：室温下 Fe3+ 腐蚀刻蚀并水解沉淀 Fe(OH)3，把纳米线变成支化纳米管。",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-intro-2",
+          "quote": "This synthetic process includes room-temperature Fe3+ corrosion and hydrolysis precipitation of an Fe-based hydroxide (Fe(OH)3)"
+        }
+      ],
+      "added_in": "paper1"
+    },
+    {
+      "id": "N004",
+      "label": "析氧反应（OER）",
+      "type": "task",
+      "aliases": [
+        "oxygen evolution reaction",
+        "OER"
+      ],
+      "summary": "两篇论文共同的核心任务：电解水阳极的析氧反应。",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-abs-1",
+          "quote": "Developing advanced electrocatalysts toward the oxygen evolution reaction (OER) has always been recognized as the key challenge"
+        },
+        {
+          "source_id": "paper2",
+          "paragraph_id": "p2-intro-1",
+          "quote": "oxygen evolution reaction (OER) plays an important role in energy-relative electrochemical conversion technologies"
+        }
+      ],
+      "added_in": "paper1"
+    },
+    {
+      "id": "N005",
+      "label": "RuO2",
+      "type": "material",
+      "aliases": [
+        "RuO2/CC",
+        "RuO2@CC",
+        "ruthenium oxide"
+      ],
+      "summary": "两篇论文共同使用的商用贵金属基准催化剂；不同论文报告的数值按论文分立保留。",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-abs-1",
+          "quote": "Its OER performance was even comparable to that of RuO2 with a low overpotential of 290 mV"
+        },
+        {
+          "source_id": "paper2",
+          "paragraph_id": "p2-rd-3",
+          "quote": "RuO2@CC (380 mV)"
+        }
+      ],
+      "added_in": "paper1"
+    },
+    {
+      "id": "N006",
+      "label": "OER 过电位（10 mA cm⁻²）",
+      "type": "metric",
+      "aliases": [
+        "overpotential at 10 mA cm-2",
+        "η10"
+      ],
+      "summary": "在 10 mA cm⁻² 电流密度下达到 OER 所需的过电位，两篇论文共用同一指标定义。",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-rd-5",
+          "quote": "The overpotential of Fe-CoCH NT/CC at 10 mA cm-2 is 290 mV"
+        },
+        {
+          "source_id": "paper2",
+          "paragraph_id": "p2-rd-3",
+          "quote": "317 mV of overpotential to reach a current density of 10 mA cm-2"
+        }
+      ],
+      "added_in": "paper1"
+    },
+    {
+      "id": "N007",
+      "label": "酸碱混合电解系统（ABE）",
+      "type": "task",
+      "aliases": [
+        "acid-base hybrid electrolysis system",
+        "ABE system"
+      ],
+      "summary": "论文1构建的酸-碱不对称电解系统，收集电化学中和能以降低槽电压。",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-abs-2",
+          "quote": "an acid-base hybrid electrolysis system was built based on this catalyst and an FeCo-based phosphide nanotube array electrode"
+        }
+      ],
+      "added_in": "paper1"
+    },
+    {
+      "id": "N008",
+      "label": "Fe–CoP NT/CC",
+      "type": "material",
+      "aliases": [
+        "FeCo-based phosphide nanotube array",
+        "Fe-CoP phase"
+      ],
+      "summary": "论文1中由 Fe-CoCH 磷化衍生的磷化物纳米管阵列，用作 HER 阴极。",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-rd-9",
+          "quote": "we considered converting the Fe-CoCH to the Fe-CoP phase"
+        }
+      ],
+      "added_in": "paper1"
+    },
+    {
+      "id": "N009",
+      "label": "Fe(OH)3",
+      "type": "compound",
+      "aliases": [
+        "iron hydroxide",
+        "Fe-based hydroxide"
+      ],
+      "summary": "Fe3+ 水解沉淀生成的无定形氢氧化铁，包覆在 CoCH 外层。",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-rd-4",
+          "quote": "outer amorphous Fe(OH)3"
+        }
+      ],
+      "added_in": "paper1"
+    },
+    {
+      "id": "N010",
+      "label": "Co(CO3)0.5(OH)·0.11H2O 物相",
+      "type": "compound",
+      "aliases": [
+        "CoCH 相",
+        "Co(CO3)0.5OH.0.11H2O",
+        "cobalt carbonate hydroxide hydrate",
+        "JCPDS 48-0083"
+      ],
+      "summary": "碱式碳酸钴物相（JCPDS 48-0083），两篇论文的催化剂都指向同一物相，但样品不同。",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-rd-1",
+          "quote": "are ascribed to the Co(CO3)0.5(OH).0.11H2O phase (PDF #00-048-0083)"
+        },
+        {
+          "source_id": "paper2",
+          "paragraph_id": "p2-rd-1",
+          "quote": "other identified peaks can be matched well with pure orthorhombic Co(CO3)0.5OH.0.11H2O (JCPDS No. 48-0,083"
+        }
+      ],
+      "added_in": "paper1"
+    },
+    {
+      "id": "N011",
+      "label": "电化学重构 Fe–CoOOH 层是真实 OER 活性物种",
+      "type": "finding",
+      "aliases": [
+        "Fe-CoOOH layer as real active substance"
+      ],
+      "summary": "论文1结论：OER 过程中 Fe-CoCH 表面重构生成的 Fe-CoOOH 层是真实活性物质；作者注明仍需原位验证。",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-rd-8",
+          "quote": "an electrochemically reconstructed Fe-CoOOH layer is formed on the outermost layer of Fe-CoCH NT/CC as the real active substance for the OER"
+        }
+      ],
+      "added_in": "paper1"
+    },
+    {
+      "id": "N012",
+      "label": "X 射线光电子能谱（XPS）",
+      "type": "method",
+      "aliases": [
+        "XPS",
+        "X-ray photoelectron spectroscopy"
+      ],
+      "summary": "表面组成与价态表征方法（本图谱中证据来自论文2）。",
+      "sources": [
+        {
+          "source_id": "paper2",
+          "paragraph_id": "p2-rd-1",
+          "quote": "The surface composition and valence states of Co(CO3)0.5OH@CC nanoarrays were determined by X-ray photoelectron spectroscopy (XPS)"
+        }
+      ],
+      "added_in": "paper2"
+    },
+    {
+      "id": "N013",
+      "label": "碳布（CC）",
+      "type": "material",
+      "aliases": [
+        "carbon cloth",
+        "CC"
+      ],
+      "summary": "两篇论文共用的电极基底。",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-intro-2",
+          "quote": "with a branched surface on carbon cloth (Fe-CoCH NT/CC)"
+        },
+        {
+          "source_id": "paper2",
+          "paragraph_id": "p2-rd-2",
+          "quote": "grew vertically and densely on the surface of carbon cloth"
+        }
+      ],
+      "added_in": "paper1"
+    },
+    {
+      "id": "N014",
+      "label": "1.0 M KOH 电解液",
+      "type": "condition",
+      "aliases": [
+        "1.0 M KOH",
+        "alkaline medium (1.0 M KOH)"
+      ],
+      "summary": "两篇论文共用的碱性测试电解液。",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-rd-7",
+          "quote": "~0.2 mg L-1 of Fe is present in 1.0 M KOH electrolyte after the test"
+        },
+        {
+          "source_id": "paper2",
+          "paragraph_id": "p2-rd-3",
+          "quote": "in an alkaline medium (1.0 M KOH)"
+        }
+      ],
+      "added_in": "paper1"
+    },
+    {
+      "id": "N015",
+      "label": "Chengyi Lu",
+      "type": "researcher",
+      "aliases": [
+        "C. Lu"
+      ],
+      "summary": "论文1第一作者。",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-authors",
+          "quote": "Chengyi Lu"
+        }
+      ],
+      "added_in": "paper1"
+    },
+    {
+      "id": "N016",
+      "label": "西北工业大学",
+      "type": "organization",
+      "aliases": [
+        "Northwestern Polytechnical University",
+        "NPU"
+      ],
+      "summary": "论文1第一署名单位。",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-authors",
+          "quote": "School of Marine Science and Technology, Northwestern Polytechnical University, Xi'an 710072, China"
+        }
+      ],
+      "added_in": "paper1"
+    },
+    {
+      "id": "N017",
+      "label": "水热法（CoCH 前驱体制备，论文1）",
+      "type": "method",
+      "aliases": [
+        "hydrothermal reaction"
+      ],
+      "summary": "论文1制备 CoCH 纳米线前驱体的常规水热反应；与论文2的一步水热法条件不同，不合并。",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-rd-2",
+          "quote": "After a typical hydrothermal reaction, CoCH with a dense and smooth nanowire array structure on CC was obtained"
+        }
+      ],
+      "added_in": "paper1"
+    },
+    {
+      "id": "N018",
+      "label": "槽电压（10 mA cm⁻²）",
+      "type": "metric",
+      "aliases": [
+        "cell voltage at 10 mA cm-2"
+      ],
+      "summary": "全电解系统达到 10 mA cm⁻² 所需的槽电压。",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-rd-11",
+          "quote": "A low cell voltage of 0.97 V is needed for this ABE system to obtain a current density of 10 mA cm-2"
+        }
+      ],
+      "added_in": "paper1"
+    },
+    {
+      "id": "N019",
+      "label": "碱性水电解系统（AWE，Fe–CoCH//Fe–CoP）",
+      "type": "task",
+      "aliases": [
+        "AWE system",
+        "alkaline water electrolysis"
+      ],
+      "summary": "论文1以 Fe-CoCH 为阳极、Fe-CoP 为阴极组建的常规碱性全电解系统，作为 ABE 的对照。",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-rd-10",
+          "quote": "the durability of the AWE system driven by Fe-CoCH//Fe-CoP is much better than that of RuO2//Pt/C"
+        }
+      ],
+      "added_in": "paper1"
+    },
+    {
+      "id": "N101",
+      "label": "Co(CO3)0.5OH@CC",
+      "type": "material",
+      "aliases": [
+        "needle-like cobalt carbonate hydroxide hydrate nanoarrays",
+        "Co(CO3)0.5OH nanoarrays"
+      ],
+      "summary": "论文2的主角催化剂：碳布上一步水热生长的针状碱式碳酸钴纳米阵列。",
+      "sources": [
+        {
+          "source_id": "paper2",
+          "paragraph_id": "p2-abs-1",
+          "quote": "we report a needle-like cobalt carbonate hydroxide hydrate (Co(CO3)0.5OH.0.11H2O) nanoarrays, which in situ grown on the surface of carbon cloth through a facile one-step hydrothermal method"
+        }
+      ],
+      "added_in": "paper2"
+    },
+    {
+      "id": "N102",
+      "label": "一步水热法（尿素/NH4F 辅助，论文2）",
+      "type": "method",
+      "aliases": [
+        "one-step hydrothermal method",
+        "facile one-step hydrothermal strategy"
+      ],
+      "summary": "论文2的合成方法：尿素与 NH4F 辅助、120 oC 8 h 一步水热；与论文1前驱体水热条件不同，不合并。",
+      "sources": [
+        {
+          "source_id": "paper2",
+          "paragraph_id": "p2-exp-1",
+          "quote": "The Co(CO3)0.5OH@CC was fabricated by a facile one-step hydrothermal method"
+        }
+      ],
+      "added_in": "paper2"
+    },
+    {
+      "id": "N103",
+      "label": "Co(OH)2@CC",
+      "type": "material",
+      "aliases": [
+        "cobalt hydroxide on carbon cloth"
+      ],
+      "summary": "论文2的对照样品之一。",
+      "sources": [
+        {
+          "source_id": "paper2",
+          "paragraph_id": "p2-rd-3",
+          "quote": "Co(OH)2@CC (378 mV)"
+        }
+      ],
+      "added_in": "paper2"
+    },
+    {
+      "id": "N104",
+      "label": "CoCO3@CC",
+      "type": "material",
+      "aliases": [
+        "cobalt carbonate on carbon cloth"
+      ],
+      "summary": "论文2的对照样品之一。",
+      "sources": [
+        {
+          "source_id": "paper2",
+          "paragraph_id": "p2-rd-3",
+          "quote": "CoCO3@CC (465 mV)"
+        }
+      ],
+      "added_in": "paper2"
+    },
+    {
+      "id": "N105",
+      "label": "塔菲尔斜率",
+      "type": "metric",
+      "aliases": [
+        "Tafel slope"
+      ],
+      "summary": "OER 动力学指标（本图谱中数值来自论文2）。",
+      "sources": [
+        {
+          "source_id": "paper2",
+          "paragraph_id": "p2-rd-3",
+          "quote": "The Co(CO3)0.5OH@CC exhibits the smallest Tafel slope of 146.3 mV dec-1"
+        }
+      ],
+      "added_in": "paper2"
+    },
+    {
+      "id": "N106",
+      "label": "CoOOH 可能是 Co(CO3)0.5OH@CC 的 OER 活性位点",
+      "type": "finding",
+      "aliases": [
+        "CoOOH may serve as active site"
+      ],
+      "summary": "论文2结论：OER 后 Co 2p 负移表明 Co2+ 向 Co3+ 转化，CoOOH 可能充当活性位点。",
+      "sources": [
+        {
+          "source_id": "paper2",
+          "paragraph_id": "p2-rd-4",
+          "quote": "The Co3+ species may be assigned to the Co species in CoOOH, suggesting CoOOH may serve as active site for the OER"
+        }
+      ],
+      "added_in": "paper2"
+    }
+  ],
+  "edges": [
+    {
+      "id": "E001",
+      "subject": "N001",
+      "relation": "synthesized_by",
+      "object": "N003",
+      "stance": "own",
+      "confidence": "high",
+      "confidence_basis": "原文引言明确陈述合成路线",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-intro-2",
+          "quote": "we synthesized a unique Fe-modified Co-based carbonate hydroxide nanotube array with a branched surface on carbon cloth (Fe-CoCH NT/CC). This synthetic process includes room-temperature Fe3+ corrosion and hydrolysis precipitation"
+        }
+      ]
+    },
+    {
+      "id": "E002",
+      "subject": "N001",
+      "relation": "derived_from",
+      "object": "N002",
+      "stance": "own",
+      "confidence": "high",
+      "confidence_basis": "原文明确纳米线经离子交换与水解沉淀转变为纳米管",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-rd-3",
+          "quote": "the nanowires transformed into nanotubes, which are caused by ion-exchange between Co2+ from CoCH and Fe3+ and hydrolysis precipitation of Fe(OH)3"
+        }
+      ]
+    },
+    {
+      "id": "E003",
+      "subject": "N001",
+      "relation": "composed_of",
+      "object": "N010",
+      "stance": "own",
+      "confidence": "high",
+      "confidence_basis": "原文证明内部为结晶 CoCH（即 JCPDS 48-0083 物相）",
+      "note": "quote 中的 CoCH 即 N010 物相（XRD 归属 PDF #00-048-0083）",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-rd-4",
+          "quote": "Fe-CoCH NT is composed of inner crystallized CoCH and outer amorphous Fe(OH)3"
+        }
+      ]
+    },
+    {
+      "id": "E004",
+      "subject": "N001",
+      "relation": "composed_of",
+      "object": "N009",
+      "stance": "own",
+      "confidence": "high",
+      "confidence_basis": "原文证明外层为无定形 Fe(OH)3",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-rd-4",
+          "quote": "inner crystallized CoCH and outer amorphous Fe(OH)3"
+        }
+      ]
+    },
+    {
+      "id": "E005",
+      "subject": "N001",
+      "relation": "used_for",
+      "object": "N004",
+      "stance": "own",
+      "confidence": "high",
+      "confidence_basis": "摘要明确用作 OER 整体电极",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-abs-1",
+          "quote": "which could be used as a monolithic electrode for efficient OER catalysis"
+        }
+      ]
+    },
+    {
+      "id": "E006",
+      "subject": "N001",
+      "relation": "has_measured_value",
+      "object": "N006",
+      "value": "290 mV",
+      "conditions": "10 mA cm-2，碱性 OER（论文1）",
+      "stance": "own",
+      "confidence": "high",
+      "confidence_basis": "原文定量报告并给出图号",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-rd-5",
+          "quote": "The overpotential of Fe-CoCH NT/CC at 10 mA cm-2 is 290 mV (Fig. 3b)"
+        }
+      ]
+    },
+    {
+      "id": "E007",
+      "subject": "N001",
+      "relation": "outperforms",
+      "object": "N002",
+      "conditions": "碱性 OER 活性",
+      "stance": "own",
+      "confidence": "high",
+      "confidence_basis": "原文直接比较两者 OER 活性",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-rd-5",
+          "quote": "compared to the relatively poor OER activities of CC and CoCH NW/CC, Fe-CoCH NT/CC shows much enhanced alkaline OER activity"
+        }
+      ]
+    },
+    {
+      "id": "E008",
+      "subject": "N001",
+      "relation": "outperforms",
+      "object": "N005",
+      "conditions": "电流密度超过 30 mA cm-2 的碱性 OER（论文1）",
+      "stance": "own",
+      "confidence": "high",
+      "confidence_basis": "原文明确给出优于 RuO2 的电流密度范围",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-rd-5",
+          "quote": "its OER performance is even superior to that of RuO2/CC when current density exceeds 30 mA cm-2"
+        }
+      ]
+    },
+    {
+      "id": "E009",
+      "subject": "N001",
+      "relation": "comparable_to",
+      "object": "N005",
+      "conditions": "η10：290 mV vs 280 mV（论文1）",
+      "stance": "own",
+      "confidence": "high",
+      "confidence_basis": "原文给出两者 η10 数值，差 10 mV",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-rd-5",
+          "quote": "which is just a little higher than that of RuO2/CC (280 mV)"
+        }
+      ]
+    },
+    {
+      "id": "E010",
+      "subject": "N005",
+      "relation": "has_measured_value",
+      "object": "N006",
+      "value": "280 mV",
+      "conditions": "RuO2/CC，10 mA cm-2，碱性 OER（论文1 测试体系）",
+      "stance": "own",
+      "confidence": "high",
+      "confidence_basis": "原文定量报告",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-rd-5",
+          "quote": "that of RuO2/CC (280 mV)"
+        }
+      ]
+    },
+    {
+      "id": "E011",
+      "subject": "N001",
+      "relation": "outperforms",
+      "object": "N002",
+      "conditions": "电荷转移电阻 Rct（EIS）",
+      "stance": "own",
+      "confidence": "high",
+      "confidence_basis": "原文明确 Rct 更小、电荷转移更快",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-rd-6",
+          "quote": "the Rct value of Fe-CoCH NT/CC is much lower than that of CoCH NW/CC"
+        }
+      ]
+    },
+    {
+      "id": "E012",
+      "subject": "N007",
+      "relation": "has_measured_value",
+      "object": "N018",
+      "value": "0.97 V",
+      "conditions": "10 mA cm-2（论文1）",
+      "stance": "own",
+      "confidence": "high",
+      "confidence_basis": "原文定量报告",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-rd-11",
+          "quote": "A low cell voltage of 0.97 V is needed for this ABE system to obtain a current density of 10 mA cm-2"
+        }
+      ]
+    },
+    {
+      "id": "E013",
+      "subject": "N019",
+      "relation": "has_measured_value",
+      "object": "N018",
+      "value": "1.67 V",
+      "conditions": "10 mA cm-2，Fe-CoCH//Fe-CoP 电极对（论文1）",
+      "stance": "own",
+      "confidence": "high",
+      "confidence_basis": "原文定量报告",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-rd-10",
+          "quote": "The Fe-CoCH//Fe-CoP pair just needs a cell voltage of 1.67 V to obtain a current density of 10 mA cm-2"
+        }
+      ]
+    },
+    {
+      "id": "E014",
+      "subject": "N007",
+      "relation": "outperforms",
+      "object": "N019",
+      "conditions": "能耗 25.79 vs 44.40 kW h per kg H2（产 1.0 kg H2，10 mA cm-2）",
+      "stance": "own",
+      "confidence": "high",
+      "confidence_basis": "原文给出两者能耗并计算降幅 41.9%",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-rd-12",
+          "quote": "the energy consumption for the ABE system is 41.9% less than that for the AWE system"
+        }
+      ]
+    },
+    {
+      "id": "E015",
+      "subject": "N008",
+      "relation": "derived_from",
+      "object": "N001",
+      "stance": "own",
+      "confidence": "high",
+      "confidence_basis": "原文明确由 Fe-CoCH 磷化转化",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-rd-9",
+          "quote": "we considered converting the Fe-CoCH to the Fe-CoP phase"
+        }
+      ]
+    },
+    {
+      "id": "E016",
+      "subject": "N001",
+      "relation": "used_for",
+      "object": "N007",
+      "conditions": "ABE 系统 OER 阳极",
+      "stance": "own",
+      "confidence": "high",
+      "confidence_basis": "摘要明确系统基于该催化剂构建",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-abs-2",
+          "quote": "an acid-base hybrid electrolysis system was built based on this catalyst and an FeCo-based phosphide nanotube array electrode"
+        }
+      ]
+    },
+    {
+      "id": "E017",
+      "subject": "N008",
+      "relation": "used_for",
+      "object": "N007",
+      "conditions": "ABE 系统 HER 阴极",
+      "stance": "own",
+      "confidence": "high",
+      "confidence_basis": "同上，磷化物纳米管阵列为另一电极",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-abs-2",
+          "quote": "based on this catalyst and an FeCo-based phosphide nanotube array electrode"
+        }
+      ]
+    },
+    {
+      "id": "E018",
+      "subject": "N001",
+      "relation": "supported_on",
+      "object": "N013",
+      "stance": "own",
+      "confidence": "high",
+      "confidence_basis": "原文明确阵列表征于碳布表面",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-intro-2",
+          "quote": "with a branched surface on carbon cloth (Fe-CoCH NT/CC)"
+        }
+      ]
+    },
+    {
+      "id": "E019",
+      "subject": "N002",
+      "relation": "supported_on",
+      "object": "N013",
+      "stance": "own",
+      "confidence": "high",
+      "confidence_basis": "原文明确纳米线阵列在碳布上",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-intro-2",
+          "quote": "the Co carbonate hydroxide nanowire array on carbon cloth (CoCH NW/CC)"
+        }
+      ]
+    },
+    {
+      "id": "E020",
+      "subject": "N002",
+      "relation": "synthesized_by",
+      "object": "N017",
+      "stance": "own",
+      "confidence": "high",
+      "confidence_basis": "原文明确 CoCH 由常规水热反应获得",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-rd-2",
+          "quote": "After a typical hydrothermal reaction, CoCH with a dense and smooth nanowire array structure on CC was obtained"
+        }
+      ]
+    },
+    {
+      "id": "E021",
+      "subject": "N101",
+      "relation": "characterized_by",
+      "object": "N012",
+      "stance": "own",
+      "confidence": "high",
+      "confidence_basis": "原文明确 XPS 测定表面组成与价态",
+      "sources": [
+        {
+          "source_id": "paper2",
+          "paragraph_id": "p2-rd-1",
+          "quote": "The surface composition and valence states of Co(CO3)0.5OH@CC nanoarrays were determined by X-ray photoelectron spectroscopy (XPS)"
+        }
+      ]
+    },
+    {
+      "id": "E022",
+      "subject": "N106",
+      "relation": "supports",
+      "object": "N011",
+      "stance": "own",
+      "confidence": "medium",
+      "confidence_basis": "两篇论文独立得出相近结论，均为重构羟基氧化物作为活性物种；论文2表述为可能（may）",
+      "note": "跨篇支持：论文1（Fe-CoOOH 为真实活性物质，仍需原位验证）与论文2（CoOOH 可能为活性位点）结论方向一致；属两篇各自的初步结论，不是互相验证",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-rd-8",
+          "quote": "an electrochemically reconstructed Fe-CoOOH layer is formed on the outermost layer of Fe-CoCH NT/CC as the real active substance for the OER"
+        },
+        {
+          "source_id": "paper2",
+          "paragraph_id": "p2-rd-4",
+          "quote": "suggesting CoOOH may serve as active site for the OER"
+        }
+      ]
+    },
+    {
+      "id": "E023",
+      "subject": "N101",
+      "relation": "synthesized_by",
+      "object": "N102",
+      "stance": "own",
+      "confidence": "high",
+      "confidence_basis": "原文实验部分明确制备方法",
+      "sources": [
+        {
+          "source_id": "paper2",
+          "paragraph_id": "p2-exp-1",
+          "quote": "The Co(CO3)0.5OH@CC was fabricated by a facile one-step hydrothermal method"
+        }
+      ]
+    },
+    {
+      "id": "E024",
+      "subject": "N101",
+      "relation": "supported_on",
+      "object": "N013",
+      "stance": "own",
+      "confidence": "high",
+      "confidence_basis": "原文明确阵列垂直密集生长在碳布表面",
+      "sources": [
+        {
+          "source_id": "paper2",
+          "paragraph_id": "p2-rd-2",
+          "quote": "grew vertically and densely on the surface of carbon cloth"
+        }
+      ]
+    },
+    {
+      "id": "E025",
+      "subject": "N101",
+      "relation": "used_for",
+      "object": "N004",
+      "stance": "own",
+      "confidence": "high",
+      "confidence_basis": "摘要明确面向 OER 电催化",
+      "sources": [
+        {
+          "source_id": "paper2",
+          "paragraph_id": "p2-abs-1",
+          "quote": "This work paves a facile way to the design and construction of electrocatalysts for the OER"
+        }
+      ]
+    },
+    {
+      "id": "E026",
+      "subject": "N101",
+      "relation": "has_measured_value",
+      "object": "N006",
+      "value": "317 mV",
+      "conditions": "10 mA cm-2，1.0 M KOH（论文2）",
+      "stance": "own",
+      "confidence": "high",
+      "confidence_basis": "原文定量报告",
+      "sources": [
+        {
+          "source_id": "paper2",
+          "paragraph_id": "p2-rd-3",
+          "quote": "The Co(CO3)0.5OH@CC electrode only require 317 mV of overpotential to reach a current density of 10 mA cm-2"
+        }
+      ]
+    },
+    {
+      "id": "E027",
+      "subject": "N101",
+      "relation": "outperforms",
+      "object": "N103",
+      "conditions": "η10：317 vs 378 mV（论文2）",
+      "stance": "own",
+      "confidence": "high",
+      "confidence_basis": "原文定量比较",
+      "sources": [
+        {
+          "source_id": "paper2",
+          "paragraph_id": "p2-rd-3",
+          "quote": "which is much lower than those of Co(OH)2@CC (378 mV), CoCO3@CC (465 mV) and RuO2@CC (380 mV)"
+        }
+      ]
+    },
+    {
+      "id": "E028",
+      "subject": "N101",
+      "relation": "outperforms",
+      "object": "N104",
+      "conditions": "η10：317 vs 465 mV（论文2）",
+      "stance": "own",
+      "confidence": "high",
+      "confidence_basis": "原文定量比较",
+      "sources": [
+        {
+          "source_id": "paper2",
+          "paragraph_id": "p2-rd-3",
+          "quote": "CoCO3@CC (465 mV)"
+        }
+      ]
+    },
+    {
+      "id": "E029",
+      "subject": "N101",
+      "relation": "outperforms",
+      "object": "N005",
+      "conditions": "η10：317 vs 380 mV（论文2 测试体系）",
+      "stance": "own",
+      "confidence": "high",
+      "confidence_basis": "原文定量比较",
+      "note": "论文2 的 RuO2@CC 为 380 mV，与论文1 的 RuO2/CC 280 mV 属不同测试体系，数值按论文分立，见 uncertainty",
+      "sources": [
+        {
+          "source_id": "paper2",
+          "paragraph_id": "p2-rd-3",
+          "quote": "RuO2@CC (380 mV)"
+        }
+      ]
+    },
+    {
+      "id": "E030",
+      "subject": "N005",
+      "relation": "has_measured_value",
+      "object": "N006",
+      "value": "380 mV",
+      "conditions": "RuO2@CC，10 mA cm-2，1.0 M KOH（论文2 测试体系）",
+      "stance": "own",
+      "confidence": "high",
+      "confidence_basis": "原文定量报告",
+      "sources": [
+        {
+          "source_id": "paper2",
+          "paragraph_id": "p2-rd-3",
+          "quote": "RuO2@CC (380 mV)"
+        }
+      ]
+    },
+    {
+      "id": "E031",
+      "subject": "N101",
+      "relation": "has_measured_value",
+      "object": "N105",
+      "value": "146.3 mV dec-1",
+      "conditions": "1.0 M KOH（论文2）",
+      "stance": "own",
+      "confidence": "high",
+      "confidence_basis": "原文定量报告",
+      "sources": [
+        {
+          "source_id": "paper2",
+          "paragraph_id": "p2-rd-3",
+          "quote": "The Co(CO3)0.5OH@CC exhibits the smallest Tafel slope of 146.3 mV dec-1"
+        }
+      ]
+    },
+    {
+      "id": "E032",
+      "subject": "N101",
+      "relation": "composed_of",
+      "object": "N010",
+      "stance": "own",
+      "confidence": "high",
+      "confidence_basis": "XRD 归属同一 JCPDS 48-0083 物相",
+      "sources": [
+        {
+          "source_id": "paper2",
+          "paragraph_id": "p2-rd-1",
+          "quote": "other identified peaks can be matched well with pure orthorhombic Co(CO3)0.5OH.0.11H2O (JCPDS No. 48-0,083"
+        }
+      ]
+    },
+    {
+      "id": "E033",
+      "subject": "N005",
+      "relation": "used_for",
+      "object": "N004",
+      "stance": "cited",
+      "confidence": "medium",
+      "confidence_basis": "两篇论文引言转述领域共识，均有引文支撑但非本文实验",
+      "note": "转述前人共识：paper1 引文献 4,6-8（Ru/Ir 基氧化物是性能最好的 OER 催化剂）；paper2 引 Xie et al. 2019、Du et al. 2021、Wang et al. 2021",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-intro-1",
+          "quote": "Ru/Ir-based oxides are recognized as the best-performing OER catalysts"
+        },
+        {
+          "source_id": "paper2",
+          "paragraph_id": "p2-intro-1",
+          "quote": "the noble metal-based materials like IrO2 and RuO2 have been regarded as highly active catalysts for the OER"
+        }
+      ]
+    },
+    {
+      "id": "E034",
+      "subject": "N015",
+      "relation": "affiliated_with",
+      "object": "N016",
+      "stance": "own",
+      "confidence": "high",
+      "confidence_basis": "作者单位信息明确",
+      "sources": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-authors",
+          "quote": "Chengyi Lu, Xiao Shi, Juchen Li, Xuefei Wang, Silun Luo, Wenxin Zhu and Jianlong Wang. School of Marine Science and Technology, Northwestern Polytechnical University, Xi'an 710072, China"
+        }
+      ]
+    }
+  ],
+  "merge_records": [
+    {
+      "decision": "merged",
+      "canonical": "N004",
+      "alias": "oxygen evolution reaction",
+      "from_paragraphs": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-abs-1"
+        },
+        {
+          "source_id": "paper2",
+          "paragraph_id": "p2-intro-1"
+        }
+      ],
+      "justification": "两篇论文研究同一反应（OER，析氧反应），属同一任务概念，合并为单一节点"
+    },
+    {
+      "decision": "merged",
+      "canonical": "N005",
+      "alias": "RuO2@CC",
+      "from_paragraphs": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-abs-1"
+        },
+        {
+          "source_id": "paper2",
+          "paragraph_id": "p2-rd-3"
+        }
+      ],
+      "justification": "两篇论文均以商用 RuO2 为 OER 基准催化剂，/CC 与 @CC 只是电极形式的写法差异；合并为同一材料节点，但两篇的测试数值（280 vs 380 mV）通过分立边保留，不合成单一结论"
+    },
+    {
+      "decision": "merged",
+      "canonical": "N006",
+      "alias": "overpotential at 10 mA cm-2",
+      "from_paragraphs": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-rd-5"
+        },
+        {
+          "source_id": "paper2",
+          "paragraph_id": "p2-rd-3"
+        }
+      ],
+      "justification": "同一指标定义（10 mA cm-2 电流密度下的 OER 过电位），跨篇合并为一个指标节点"
+    },
+    {
+      "decision": "merged",
+      "canonical": "N010",
+      "alias": "Co(CO3)0.5OH.0.11H2O",
+      "from_paragraphs": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-rd-1"
+        },
+        {
+          "source_id": "paper2",
+          "paragraph_id": "p2-rd-1"
+        }
+      ],
+      "justification": "两篇论文 XRD 均归属 JCPDS 48-0083（PDF #00-048-0083）同一物相，化学组成一致，合并为物相节点；具体样品节点（N001/N002/N101）不随物相合并"
+    },
+    {
+      "decision": "merged",
+      "canonical": "N013",
+      "alias": "carbon cloth",
+      "from_paragraphs": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-intro-2"
+        },
+        {
+          "source_id": "paper2",
+          "paragraph_id": "p2-rd-2"
+        }
+      ],
+      "justification": "同一基底材料（碳布），跨篇合并"
+    },
+    {
+      "decision": "merged",
+      "canonical": "N014",
+      "alias": "1.0 M KOH",
+      "from_paragraphs": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-rd-7"
+        },
+        {
+          "source_id": "paper2",
+          "paragraph_id": "p2-rd-3"
+        }
+      ],
+      "justification": "同一电解液条件（1.0 M KOH），跨篇合并"
+    },
+    {
+      "decision": "not_merged",
+      "node_a": "N001",
+      "node_b": "N101",
+      "from_paragraphs": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-intro-2"
+        },
+        {
+          "source_id": "paper2",
+          "paragraph_id": "p2-abs-1"
+        }
+      ],
+      "justification": "两者同为碳布上钴基碳酸氢氧化物阵列（同一物相 JCPDS 48-0083），但属不同论文制备的不同物理样品：N001 经 Fe3+ 刻蚀-水解改性为支化纳米管（含 Fe），N101 为尿素/NH4F 辅助一步水热纳米针（不含 Fe）；组成、形貌与性能数值均不同，样品节点保持分离，共有物相并入 N010"
+    },
+    {
+      "decision": "not_merged",
+      "node_a": "N002",
+      "node_b": "N101",
+      "from_paragraphs": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-rd-2"
+        },
+        {
+          "source_id": "paper2",
+          "paragraph_id": "p2-exp-1"
+        }
+      ],
+      "justification": "同物相不同样品：N002 是 paper1 常规水热制备的纳米线阵列（Fe 改性的前驱体），N101 是 paper2 一步水热制备的纳米针阵列；制备条件、形貌与用途不同，不合并"
+    },
+    {
+      "decision": "not_merged",
+      "node_a": "N017",
+      "node_b": "N102",
+      "from_paragraphs": [
+        {
+          "source_id": "paper1",
+          "paragraph_id": "p1-rd-2"
+        },
+        {
+          "source_id": "paper2",
+          "paragraph_id": "p2-exp-1"
+        }
+      ],
+      "justification": "均为水热法，但试剂与条件不同（paper1 常规水热得纳米线；paper2 尿素/NH4F 辅助、120 oC 8 h 得纳米针）：相同的通用方法术语不代表相同的实验条件，保持为不同方法节点"
+    }
+  ],
+  "queries": [
+    {
+      "id": "Q1",
+      "question": "Fe–CoCH NT/CC 是什么材料？它有哪些性能数值和关联？",
+      "type": "entity",
+      "args": {
+        "entity": "Fe–CoCH NT/CC"
+      }
+    },
+    {
+      "id": "Q2",
+      "question": "两篇论文报告了哪些定量性能数值？分别来自哪一篇？",
+      "type": "relation",
+      "args": {
+        "relation": "has_measured_value"
+      }
+    },
+    {
+      "id": "Q3",
+      "question": "Fe–CoCH NT/CC 与 Co(CO3)0.5OH@CC 之间有什么联系？",
+      "type": "compare",
+      "args": {
+        "entity_a": "Fe–CoCH NT/CC",
+        "entity_b": "Co(CO3)0.5OH@CC",
+        "max_depth": 3
+      }
+    },
+    {
+      "id": "Q4",
+      "question": "第二篇论文（paper2）为图谱贡献了哪些节点与关系？",
+      "type": "by_source",
+      "args": {
+        "source_id": "paper2"
+      }
+    },
+    {
+      "id": "Q5",
+      "question": "图谱中有没有 NiFe LDH 催化剂的记录？",
+      "type": "entity",
+      "args": {
+        "entity": "NiFe LDH"
+      }
+    }
+  ],
+  "uncertainty": [
+    {
+      "topic": "RuO2 过电位跨篇不一致",
+      "detail": "paper1 报告 RuO2/CC 的 η10 为 280 mV，paper2 报告 RuO2@CC 为 380 mV。两值按各自论文以分立边（E010/E030）保留，不合并为单一结论；差异可能来自催化剂来源、负载量与测试体系，材料中未给出可判定依据。"
+    },
+    {
+      "topic": "paper2 作者信息不完整",
+      "detail": "获取的 paper2 文本未含完整作者列表（仅 Y. Yan et al.），未建作者实体，不猜测补全。"
+    },
+    {
+      "topic": "覆盖范围",
+      "detail": "图谱聚焦两篇论文摘要/引言/结果/结论中的关键实体与关系；表征细节（TEM 晶面间距、XPS 峰位、ECSA/Cdl 数值等）未全部建边。"
+    },
+    {
+      "topic": "N011/N106 为初步结论",
+      "detail": "paper1 明确写道真实活性物种仍需原位 Raman 与 XPS 确认（p1-concl），N011 属作者初步结论；paper2 对 CoOOH 活性位点的表述为 may（推测），相应边置信度为 medium。"
+    }
+  ],
+  "change_record": [
+    "演示材料打包时将原文连字（fi/ff）与特殊符号（en-dash、minus、度数符号）规范化为 ASCII，跨行断词已合并；数值与术语未改动。",
+    "增量更新顺序：先建立 paper1 的节点（N001-N019）与边，再加入 paper2（新增 N101-N106 及跨篇合并）；跨篇同名候选按 merge_records 处置，既有节点编号未改动、未复用。"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "_comment": "示意示例（非任何正式案例答案）：对齐文件格式。source 必须从 extract.json 原样复制；status ∈ translated|partial|untranslated|skipped。",
+  "units": [
+    {
+      "id": "P1",
+      "type": "body",
+      "source": "The catalyst requires an overpotential of only 290 mV to attain 10 mA cm⁻², comparable to RuO₂ [12].",
+      "translation": "该催化剂仅需 290 mV 的过电位即可达到 10 mA cm⁻²，可与 RuO₂ [12] 相媲美。",
+      "status": "translated",
+      "note": ""
+    },
+    {
+      "id": "C1",
+      "type": "caption",
+      "source": "Fig. 2 (a) TEM image of the sample. (b) Corresponding diffraction pattern.",
+      "translation": "Fig. 2 (a) 样品的 TEM 图像。(b) 相应的衍射花样 [待确认：diffraction 指标化信息在图内，无法转写]。",
+      "status": "partial",
+      "note": "图内标注为图片，无法逐字转写"
+    },
+    {
+      "id": "P2",
+      "type": "body",
+      "source": "Dalton Trans., 2024, 53, 1870–1877 | 1871",
+      "translation": "",
+      "status": "skipped",
+      "note": "页脚页码行（margin），不译"
+    }
+  ]
+}

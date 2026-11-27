@@ -46,7 +46,7 @@ description: 把科研论文 PDF 翻译成**可核验的双语对照结果**。�
    - 否定、限定、因果、让步关系必须译准，拿不准标 `[待确认]` 并在 `note` 说明；
    - `margin` 单元（页眉页脚、页码、版权行）`status=skipped`；参考文献单元默认 `skipped`（保留原文，不译），除非任务明确要求翻译；
    - 图片型公式/表格读不出的，`status=partial` 并在 `note` 写明缺失范围，不猜。
-5. **图内文字识读**：图在 PDF 里通常是位图（`pdftotext` 读不到文字层），坐标轴、图例、图内标注需要单独处理：对每个图题注（C 单元），按其页码与锚点位置用 `pdf-render-tool`（或 `pdftoppm -f <页> -l <页> -r 300 -x <左> -y <上> -W <宽> -H <高> -png`）裁剪渲染该图上方区域，逐面板视觉识读文字，产出 `figure_labels.json`：每条 `{figure, panel, en, zh, note}`。规则：材料代号、元素符号、标尺（100 nm 等）、公式符号原样保留；识读存疑或原文本身可疑（如缩写无法解释、图例与正文不一致）标 `[待确认]` 并写入 `note`；图内数值与正文/题注不一致时在 `note` 指出，不擅自统一。
+6. **图内文字识读**：图在 PDF 里通常是位图（`pdftotext` 读不到文字层），坐标轴、图例、图内标注需要单独处理：对每个图题注（C 单元），按其页码与锚点位置用 `pdf-render-tool`（或 `pdftoppm -f <页> -l <页> -r 300 -x <左> -y <上> -W <宽> -H <高> -png`）裁剪渲染该图上方区域，逐面板视觉识读文字，产出 `figure_labels.json`：每条 `{figure, panel, en, zh, note}`。规则：材料代号、元素符号、标尺（100 nm 等）、公式符号原样保留；识读存疑或原文本身可疑（如缩写无法解释、图例与正文不一致）标 `[待确认]` 并写入 `note`；图内数值与正文/题注不一致时在 `note` 指出，不擅自统一。
 7. **核验修复**：`python scripts/glossary_check.py --glossary glossary.json --alignment alignment.json --out work/glossary_report.json` 查术语执行；`python scripts/verify_translation.py --extract work/extract/extract.json --alignment alignment.json --out work/verify_report.json --checklist human_checklist.md` 查覆盖率、数字/引用/公式保留与长度异常。**所有 blocking 问题（漏译、重复、空译文）必须修复后重跑，直至清零**；一般问题逐项修复或在 `note` 里说明理由。
 8. **组装交付**：`python scripts/assemble_result.py --case /input/case.json --extract work/extract/extract.json --glossary glossary.json --alignment alignment.json --verify work/verify_report.json --glossary-report work/glossary_report.json --change-record work/change_record.json --out /app/output` 生成 `result.json` 与 `bilingual.md`；把 `human_checklist.md`、`glossary.json`、`alignment.json`、`figure_labels.json` 一并放入 `/app/output`。
 
@@ -77,4 +77,4 @@ description: 把科研论文 PDF 翻译成**可核验的双语对照结果**。�
 
 ## 最小调用示例
 
-见 `assets/example_glossary.json` 与 `assets/example_alignment.json`（**示意示例**，非任何正式案例答案）。流程：读 PDF → `pdf_extract.py` 提取单元 → 修序 → 建 `glossary.json` → 逐段翻译写 `alignment.json` → `glossary_check.py` + `verify_translation.py` 核验修复 → `assemble_result.py` 组装 → 自查 → 交付。
+见 `assets/example_glossary.json` 与 `assets/example_alignment.json`（**示意示例**，非任何正式案例答案）；另附 `assets/demo_feco_glossary.json`（用本 Skill 在公开论文 Dalton Trans., 2024, 53, 1870–1877 上实跑出的 40 条术语表，**真实演示产物**，可复用为电催化领域术语表起点）。流程：读 PDF → `pdf_extract.py` 提取单元 → 修序 → 建 `glossary.json` → 逐段翻译写 `alignment.json` → `glossary_check.py` + `verify_translation.py` 核验修复 → `assemble_result.py` 组装 → 自查 → 交付。

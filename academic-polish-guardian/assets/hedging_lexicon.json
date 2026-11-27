@@ -1,0 +1,34 @@
+{
+  "note": "限定强度词表（hedging lexicon）。润色时同一 tier 内替换可接受（如 indicate→suggest 需注明理由）；跨 tier 移动 = 改变结论强度，默认禁止，除非原作者明确要求且记入 human_review。匹配按词形小写、词边界；词组优先于单词。",
+  "tiers": {
+    "strong": {
+      "level": 3,
+      "en": ["demonstrate", "demonstrates", "demonstrated", "prove", "proves", "proved",
+             "confirm", "confirms", "confirmed", "establish", "establishes", "established",
+             "show", "shows", "showed", "shown", "reveal", "reveals", "revealed",
+             "conclusively", "definitely", "undoubtedly", "clearly"],
+      "zh": ["证实", "证明", "确证", "确立了", "明确表明", "无疑"]
+    },
+    "medium": {
+      "level": 2,
+      "en": ["indicate", "indicates", "indicated", "suggest", "suggests", "suggested",
+             "imply", "implies", "implied", "support", "supports", "supported",
+             "demonstrate preliminarily", "evidence that"],
+      "zh": ["表明", "提示", "显示", "支持", "初步表明", "印证了"]
+    },
+    "weak": {
+      "level": 1,
+      "en": ["may", "might", "could", "possibly", "probably", "likely",
+             "appear", "appears", "appeared", "seem", "seems", "seemed",
+             "tend to", "tentatively", "potentially", "presumably",
+             "it is possible that", "be assigned to"],
+      "zh": ["可能", "或许", "有望", "倾向于", "初步推测", "推测"]
+    }
+  },
+  "direction_words": {
+    "increase": ["increase", "increased", "enhance", "enhanced", "improve", "improved", "higher", "rise", "promote", "提升", "提高", "增强", "促进"],
+    "decrease": ["decrease", "decreased", "reduce", "reduced", "lower", "decline", "suppress", "inhibit", "降低", "减少", "抑制"],
+    "causal": ["because", "therefore", "thus", "hence", "due to", "owing to", "attribute to", "ascribe to", "result in", "lead to", "导致", "因此", "归因于"],
+    "correlative": ["correlate", "correlated", "associate", "associated", "accompany", "coincide", "相关", "伴随"]
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "_comment": "示意示例（非任何正式案例答案）：展示 graph.json 的最小完整写法——两个节点、一条边、一条合并记录、一个查询。证据 quote 在真实运行时必须逐字摘自对应段落并通过 validate_graph.py 核验；本例中的段落文本仅作格式演示。",
+  "case_id": "example-format-only",
+  "nodes": [
+    {"id": "N001", "label": "材料A", "type": "material",
+     "aliases": ["Material A"],
+     "summary": "第一篇论文制备的示例材料。",
+     "sources": [{"source_id": "paper1", "paragraph_id": "p-001",
+                  "quote": "<从 paper1 的 p-001 段落逐字复制的片段>"}],
+     "added_in": "paper1"},
+    {"id": "N002", "label": "方法B", "type": "method",
+     "aliases": [],
+     "summary": "制备材料A 的方法。",
+     "sources": [{"source_id": "paper1", "paragraph_id": "p-002",
+                  "quote": "<从 paper1 的 p-002 段落逐字复制的片段>"}],
+     "added_in": "paper1"}
+  ],
+  "edges": [
+    {"id": "E001", "subject": "N001", "relation": "synthesized_by", "object": "N002",
+     "value": null, "conditions": null,
+     "stance": "own", "confidence": "high",
+     "confidence_basis": "原文明确陈述合成路线",
+     "note": "",
+     "sources": [{"source_id": "paper1", "paragraph_id": "p-002",
+                  "quote": "<逐字证据片段>"}]}
+  ],
+  "merge_records": [
+    {"decision": "not_merged", "node_a": "N001", "node_b": "N0XX",
+     "from_paragraphs": [{"source_id": "paper1", "paragraph_id": "p-001"},
+                         {"source_id": "paper2", "paragraph_id": "s-001"}],
+     "justification": "同物相但不同物理样品（不同论文、不同制备条件），保持分离"}
+  ],
+  "queries": [
+    {"id": "Q1", "question": "材料A 是怎么制备的？",
+     "type": "entity", "args": {"entity": "材料A"}}
+  ],
+  "uncertainty": [
+    {"topic": "示例", "detail": "真实运行时逐条记录未报告、无法判断与材料冲突事项"}
+  ],
+  "change_record": []
+}

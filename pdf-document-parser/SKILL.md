@@ -40,8 +40,11 @@ description: 把科研论文 PDF 解析成**结构化结果**（章节层级、�
 1. **读输入**：读 `case.json` 与 `task.md`，确认 PDF 真实路径与输出字段要求。
 2. **确定性解析**：`python scripts/pdf_parse.py --pdf <PDF> --out work/parse` 产出 `layout.json` 与 `parsed.md`。脚本完成：词级坐标提取（`pdftotext -bbox` stdout 模式；全文无文字层时自动走 `pdftoppm` + `tesseract` OCR）→ 栏检测（中部区域 x 坐标间隙聚类，滤除旋转水印与左边缘词）→ 阅读顺序（栏内自上而下、栏间自左而右）→ 行合并成段（纵向间距 + 首行缩进 + 断词连接）→ 题注续行吸收 → 标题/题注/表格/公式/参考文献识别 → 上下标 Unicode 重建（Fe³⁺、H₂O、CO₃²⁻）→ 页眉页脚行级分离。
 3. **修序补段**：逐个检查 `order_suspect` 块（混排页"通栏标题/摘要 + 双栏正文"坐标无法区分，会发生串栏）。修法：用 `pdftotext` 裁剪参数按栏重取——`-f <页> -l <页> -x <左> -y <上> -W <宽> -H <高>` 分别取左栏、右栏文本，按"左栏读完再读右栏"重排，替换串栏块的文本并拆分/合并块；被题注吸收误吞的正文行还回原位。栏边界从 `layout.json` 的 bbox 估计（栏间空隙通常在页面中部）。**所有修改写进 `change_record`**（哪个块、改了什么、依据），修复后的块集记为 `layout_fixed.json`，后续以它为准。无法确定栏边界的块标 `column_ambiguous`，不猜顺序。
-4. **结构精修**：在修复后的块集上核对章节层级（编号与缩进）、表格行列归属（合并单元格、跨页续表如实标注）、公式编号；参考文献逐条保留原文，不补造缺失条目。
-5. **填 `parse_spec.json`**：按 `assets/fields.json` 填 `document_meta`、`sections`、`paragraphs`、`tables`、`figures`、`formulas`、`references`、`headers_footers`、`sources`、`uncertainty`、`change_record` 与 `task.md` 要求的 `output_contract` 字段；每块带 `page + bbox` 锚点与来源块 `id`；读不出的部分如实标注，不靠猜补齐。**增量存盘**：先写全字段的占位版本（未做的部分标 `partial`），再逐步填充，保证任何时刻都有诚实可交的部分结果。
+4. **结构精修**：在修复后的块集上核对章节层级（编号与缩进）、表格行列归属（合并单元格、跨页续表如实标注）、公式编号；参考文献逐条保留原文，不补造缺失条目。三个已知坑要专门核对：
+   - **真图注 vs 假图注**：`Fig. 4 | …` 开头的整段是图注；但正文中"Figure 4a contains…"这样以图号开头的完整句子是正文（字号与正文相同），不能划进题注，也不能因它重复而把内容删重。
+   - **坐标轴上标丢失**：图内坐标轴 `10⁰ 10¹ 10²…` 从文字层抽出来常变成 `100 101 102…`，这不是原文如此，如实标注"上标可能丢失"，不猜数值。
+   - **跨页续段**：某栏正文开头是上一页最后半句的延续（无句首大写/无缩进），与上一页 `continues_next_page` 的块合并，合并记入 `change_record`。
+5. **填 `parse_spec.json` + 答题**：按 `assets/fields.json` 填 `document_meta`、`sections`、`paragraphs`、`tables`、`figures`、`formulas`、`references`、`headers_footers`、`sources`、`uncertainty`、`change_record` 与 `task.md` 要求的 `output_contract` 字段；每块带 `page + bbox` 锚点与来源块 `id`；读不出的部分如实标注，不靠猜补齐。**若 case 附带问题**（"回答问题，也给出依据"）：逐题回答并带证据（块 id + 页码 + 原文引文，含单位、定义、置信区间等完整口径）；原文没点名、补充材料没给的，如实写"未报告"，不猜。**增量存盘**：解析完成后立即先写一版全字段占位 `result.json`（未做的部分标 `partial`），再按正文结构→问题回答→表格公式细节的优先级填充——排在最后的东西最先被超时砍掉，占位版保证任何时刻都有诚实可交的结果。
 6. **校验组装**：`python scripts/validate_parse.py --spec parse_spec.json --out /app/output --case-id <case_id>`；校验失败逐项修复重跑，直至通过。
 7. **自查交付**：把 `layout.json`/`layout_fixed.json`、`parsed.md` 一并放入 `/app/output` 供复核；按下文自查清单逐项过。
 

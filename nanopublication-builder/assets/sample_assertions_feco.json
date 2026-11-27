@@ -1,0 +1,433 @@
+{
+  "_comment": "真实演示样例（非正式案例答案）：基于公开论文 Dalton Trans., 2024, 53, 1870–1877（DOI: 10.1039/d3dt03520d）的 22 条断言抽取输出，证据引用均通过逐孔子串核验，context 为解读（非证据），可复用为字段与粒度参照。",
+  "assertions": [
+    {
+      "id": "A1",
+      "text": "Fe–CoCH NT/CC 由室温 Fe 改性策略在碳布上合成",
+      "subject": "Fe–CoCH NT/CC",
+      "relation": "synthesized_by",
+      "object": "室温 Fe 改性策略（碳布基底）",
+      "conditions": "室温",
+      "evidence": [
+        {
+          "quote": "we synthesized a unique Fe-modified Co-based carbonate hydroxide nanotube array with a branched surface on carbon cloth (Fe–CoCH NT/CC)",
+          "unit": "P10",
+          "type": "direct"
+        }
+      ],
+      "confidence": "high",
+      "confidence_basis": "正文明确陈述合成方法与基底",
+      "note": "",
+      "context": "合成方法是全文的地基：室温浸泡就能做，不需要水热釜高温高压，意味着放大生产的能耗和设备门槛低。关联 A11（离子交换机理解释了这个室温过程为什么可行）。"
+    },
+    {
+      "id": "A2",
+      "text": "Fe–CoCH NT/CC 具有支化纳米管阵列结构",
+      "subject": "Fe–CoCH NT/CC",
+      "relation": "has_property",
+      "object": "支化纳米管阵列结构",
+      "conditions": "",
+      "evidence": [
+        {
+          "quote": "its intrinsic high catalytic activity and unique branched nanotube array structure",
+          "unit": "P10",
+          "type": "direct"
+        }
+      ],
+      "confidence": "high",
+      "confidence_basis": "正文与 SEM/TEM 证据一致",
+      "note": "",
+      "context": "支化纳米管阵列是性能的结构根源：管壁支化带来粗糙表面，利于电解液浸润和 O₂ 气泡脱附（气泡粘在表面会挡住活性位点）。关联 A3/A5（性能）、A8（组成）。"
+    },
+    {
+      "id": "A3",
+      "text": "Fe–CoCH NT/CC 在 10 mA cm −2 下的碱性 OER 过电位为 290 mV",
+      "subject": "Fe–CoCH NT/CC",
+      "relation": "has_measured_value",
+      "object": "OER 过电位 290 mV",
+      "conditions": "碱性电解液，10 mA cm −2",
+      "evidence": [
+        {
+          "quote": "The overpotential of Fe–CoCH NT/CC at 10 mA cm −2 is 290 mV (Fig. 3b)",
+          "unit": "P38",
+          "type": "direct"
+        }
+      ],
+      "confidence": "high",
+      "confidence_basis": "正文直接给出数值，并有 Fig. 3b 数据支撑",
+      "note": "",
+      "context": "过电位是电解水白白多耗的电压，越低越省能。290 mV 的含义：贵金属 RuO₂ 是 280 mV（A6），非贵金属催化剂普遍在 300 mV 以上，这个便宜材料几乎追平贵金属——论文的核心卖点。"
+    },
+    {
+      "id": "A4",
+      "text": "Fe–CoCH NT/CC 的 OER 性能与 RuO₂ 相当",
+      "subject": "Fe–CoCH NT/CC",
+      "relation": "comparable_to",
+      "object": "RuO₂（OER 性能）",
+      "conditions": "碱性电解液",
+      "evidence": [
+        {
+          "quote": "Its OER performance was even comparable to that of RuO₂ with a low overpotential of 290 mV to attain a current density of 10 mA cm −2",
+          "unit": "P5",
+          "type": "direct"
+        }
+      ],
+      "confidence": "high",
+      "confidence_basis": "摘要直接结论，正文 Fig. 3b 数据（290 vs 280 mV）互证",
+      "note": "",
+      "context": "摘要用'可与 RuO₂ 相当'定调全文的性能定位。注意原文用词是 comparable（相当）而非 better（超越），290 vs 280 mV（A3/A6）说明其实是'略逊但接近'——引用时应按'接近贵金属水平'表述。"
+    },
+    {
+      "id": "A5",
+      "text": "Fe–CoCH NT/CC 的碱性 OER 活性优于 CoCH NW/CC",
+      "subject": "Fe–CoCH NT/CC",
+      "relation": "outperforms",
+      "object": "CoCH NW/CC（碱性 OER 活性）",
+      "conditions": "碱性电解液",
+      "evidence": [
+        {
+          "quote": "compared to the relatively poor OER activities of CC and CoCH NW/CC, Fe–CoCH NT/CC shows much enhanced alkaline OER activity",
+          "unit": "P38",
+          "type": "direct"
+        }
+      ],
+      "confidence": "high",
+      "confidence_basis": "正文明确比较结论",
+      "note": "",
+      "context": "与未改性的 CoCH NW/CC 对比，说明性能提升来自 Fe 改性这一步，而不是基底或形貌的偶然。这是'Fe 改性策略有效'的关键对照证据（关联 A1）。"
+    },
+    {
+      "id": "A6",
+      "text": "RuO₂ /CC 在 10 mA cm −2 下的 OER 过电位为 280 mV",
+      "subject": "RuO₂ /CC",
+      "relation": "has_measured_value",
+      "object": "OER 过电位 280 mV",
+      "conditions": "碱性电解液，10 mA cm −2",
+      "evidence": [
+        {
+          "quote": "which is just a little higher than that of RuO₂ /CC (280 mV)",
+          "unit": "P38",
+          "type": "indirect"
+        }
+      ],
+      "confidence": "medium",
+      "confidence_basis": "数值明确，但测试条件由前一句语境继承",
+      "note": "indirect 推论链：前句主语为 10 mA cm −2 下过电位，括号内 280 mV 即同条件下 RuO₂ /CC 的过电位",
+      "context": "RuO₂ 是 OER 的基准催化剂（benchmark），280 mV 是本文用来丈量自己的尺子。条件从 A3 前句继承，所以置信度降为中。"
+    },
+    {
+      "id": "A7",
+      "text": "Fe–CoCH NT/CC 的 OER 法拉第效率大于 98%",
+      "subject": "Fe–CoCH NT/CC",
+      "relation": "has_measured_value",
+      "object": "OER 法拉第效率 >98%",
+      "conditions": "自制排水法测定",
+      "evidence": [
+        {
+          "quote": "this catalyst has a high faradaic eﬃciency, larger than 98%, toward the OER (Fig. S7†)",
+          "unit": "P38",
+          "type": "direct"
+        }
+      ],
+      "confidence": "high",
+      "confidence_basis": "正文直接给出阈值与测定方法",
+      "note": "",
+      "context": "法拉第效率 >98% 表示通进去的电几乎全用来产氧，没浪费在副反应（如碳布腐蚀、催化剂自身氧化）上。这是'电流确实在产 O₂'的排他性证据，和过电位（A3）合起来才算完整的性能证明。"
+    },
+    {
+      "id": "A8",
+      "text": "Fe–CoCH NT 由内部结晶的 CoCH 和外部无定形的 Fe(OH)₃ 组成",
+      "subject": "Fe–CoCH NT",
+      "relation": "composed_of",
+      "object": "内部结晶 CoCH + 外部无定形 Fe(OH)₃",
+      "conditions": "",
+      "evidence": [
+        {
+          "quote": "The above results prove that Fe–CoCH NT is composed of inner crystallized CoCH and outer amorphous Fe(OH)₃",
+          "unit": "P37",
+          "type": "direct"
+        }
+      ],
+      "confidence": "high",
+      "confidence_basis": "作者基于 TEM/XPS/拉曼多证据的明确结论",
+      "note": "",
+      "context": "核壳组成的确认：里面 CoCH 提供骨架，外面无定形 Fe(OH)₃ 是 Fe 改性的直接产物。关联 A22（这层外壳在 OER 中会进一步重构成真正的活性相）。"
+    },
+    {
+      "id": "A9",
+      "text": "Fe 2p 区域 711.6 和 725.3 eV 的两个主峰归属于 Fe(OH)₃ 中的 Fe³⁺",
+      "subject": "Fe–CoCH NT 的 Fe 2p XPS 峰",
+      "relation": "characterized_by",
+      "object": "XPS：711.6 和 725.3 eV 归属于 Fe(OH)₃ 的 Fe³⁺",
+      "conditions": "",
+      "evidence": [
+        {
+          "quote": "two dominant peaks at 711.6 and 725.3 eV are ascribed to the Fe³⁺ of Fe(OH)₃",
+          "unit": "P37",
+          "type": "direct"
+        }
+      ],
+      "confidence": "high",
+      "confidence_basis": "正文直接归属",
+      "note": "",
+      "context": "XPS 是判断元素价态的标准手段：711.6/725.3 eV 这对峰是 Fe³⁺ 的指纹，证明表面的铁是 +3 价的 Fe(OH)₃而不是金属铁或 FeOOH——作者还专门引了拉曼文献排除 FeOOH（见 P37）。"
+    },
+    {
+      "id": "A10",
+      "text": "Fe–CoCH NT/CC 表面 Fe 与 Co 的原子比约为 0.18 : 1",
+      "subject": "Fe–CoCH NT/CC 表面元素",
+      "relation": "has_measured_value",
+      "object": "Fe : Co 原子比 ∼0.18 : 1",
+      "conditions": "EDX 能谱与元素 mapping",
+      "evidence": [
+        {
+          "quote": "uniform distribution of Fe and Co elements on the surface of Fe–CoCH NT/CC with an atomic ratio of ∼0.18 : 1 (Fig. S3†)",
+          "unit": "P36",
+          "type": "direct"
+        }
+      ],
+      "confidence": "high",
+      "confidence_basis": "正文给出具体比值与测量手段",
+      "note": "",
+      "context": "Fe:Co ≈ 0.18:1 说明 Fe 只是表面薄层掺杂/包覆量，不是体相合金；与 A8 的核壳结构自洽。均匀分布说明室温浸泡法没有造成局部团聚。"
+    },
+    {
+      "id": "A11",
+      "text": "CoCH 中 Co²⁺ 与 Fe³⁺ 的离子交换及 Fe(OH)₃ 水解沉淀导致纳米线转变为纳米管",
+      "subject": "Co²⁺/Fe³⁺ 离子交换与 Fe(OH)₃ 水解沉淀",
+      "relation": "causes",
+      "object": "纳米线 → 纳米管转变",
+      "conditions": "浸泡时间超过 90 min",
+      "evidence": [
+        {
+          "quote": "when the time exceeded 90 min, the nanowires transformed into nanotubes, which are caused by ion-exchange between Co²⁺ from CoCH and Fe³⁺ and hydrolysis precipitation of Fe(OH)₃",
+          "unit": "P36",
+          "type": "direct"
+        }
+      ],
+      "confidence": "high",
+      "confidence_basis": "正文明确因果关系并给出时间条件",
+      "note": "",
+      "context": "这是全文的机理核心：Fe³⁺ 把纳米线里的 Co²⁺ '换出来'（离子交换），同时水解沉淀在表面，把实心纳米线'掏空'成纳米管。解释了 A1 的室温策略为什么能造出 A2 的空心支化结构。"
+    },
+    {
+      "id": "A12",
+      "text": "低电导率与本征较差的催化活性限制镍/钴基羟基碳酸盐的 OER 性能",
+      "subject": "镍/钴基羟基碳酸盐的低电导率与本征催化活性",
+      "relation": "limits",
+      "object": "OER 性能",
+      "conditions": "",
+      "evidence": [
+        {
+          "quote": "the OER performance of nickel/cobalt-based carbonate hydroxides is still limited by their low conductivity and intrinsic poor catalytic activity",
+          "unit": "P6b",
+          "type": "direct"
+        }
+      ],
+      "confidence": "high",
+      "confidence_basis": "引言直接陈述领域共识",
+      "note": "",
+      "context": "这是引言里的领域共识（文献 19），是本文工作的出发点：镍/钴基羟基碳酸盐便宜好用但导电差、活性低，所以才有各种改性策略（掺杂、异质结），本文的 Fe 改性也是沿这条线。引用时注意这是背景共识，不是本文新发现。"
+    },
+    {
+      "id": "A13",
+      "text": "Fe–CoCH NT/CC 在 10 mA cm −2 下的碱性 HER 过电位为 242 mV",
+      "subject": "Fe–CoCH NT/CC",
+      "relation": "has_measured_value",
+      "object": "HER 过电位 242 mV",
+      "conditions": "碱性电解液，10 mA cm −2",
+      "evidence": [
+        {
+          "quote": "it still needs a high overpotential of 242 mV to obtain the HER current density of 10 mA cm −2",
+          "unit": "P40",
+          "type": "direct"
+        }
+      ],
+      "confidence": "high",
+      "confidence_basis": "正文直接给出数值",
+      "note": "",
+      "context": "同一个催化剂做 HER（析氢）只要 242 mV 但也不算低——说明它本质是 OER 强项、HER 一般，这才有后面磷化得到 Fe–CoP 补强 HER 的动机（关联 A14）。"
+    },
+    {
+      "id": "A14",
+      "text": "Fe–CoCH 经磷化转变为 Fe–CoP 相",
+      "subject": "Fe–CoCH",
+      "relation": "transforms_to",
+      "object": "Fe–CoP 相（磷化）",
+      "conditions": "磷化转化",
+      "evidence": [
+        {
+          "quote": "we considered converting the Fe–CoCH to the Fe–CoP phase",
+          "unit": "P41",
+          "type": "direct"
+        }
+      ],
+      "confidence": "high",
+      "confidence_basis": "正文明确转化路径，XRD 证实 CoP 相",
+      "note": "",
+      "context": "磷化是提升 HER 的常用手段（金属磷化物导电好、HER 活性高）。Fe–CoCH 变 Fe–CoP 后，一个材料家族同时覆盖阳极（OER）和阴极（HER），为组装全电解槽（A17）铺路。"
+    },
+    {
+      "id": "A15",
+      "text": "磷化后 Fe–CoP NT/CC 保留粗糙纳米管阵列结构",
+      "subject": "Fe–CoP NT/CC",
+      "relation": "has_property",
+      "object": "磷化后保留的粗糙纳米管阵列结构",
+      "conditions": "磷化后",
+      "evidence": [
+        {
+          "quote": "the rough nanotube array structure was retained well after phosphidation",
+          "unit": "P41",
+          "type": "direct"
+        }
+      ],
+      "confidence": "high",
+      "confidence_basis": "SEM 图像直接证据（Fig. S13b–d†）",
+      "note": "",
+      "context": "磷化常常会把形貌烧塌，这里纳米管阵列保持完好，说明 A2 的结构优势在 Fe–CoP 上延续，也证明磷化条件温和可控。"
+    },
+    {
+      "id": "A16",
+      "text": "Fe–CoP NT/CC 中 Fe、Co、P 的原子比约为 0.175 : 1 : 1",
+      "subject": "Fe–CoP NT/CC 元素组成",
+      "relation": "has_measured_value",
+      "object": "Fe : Co : P 原子比 ∼0.175 : 1 : 1",
+      "conditions": "EDX 能谱与元素 mapping",
+      "evidence": [
+        {
+          "quote": "the atomic ratio of Fe, Co and P elements is ∼0.175 : 1 : 1",
+          "unit": "P41",
+          "type": "direct"
+        }
+      ],
+      "confidence": "high",
+      "confidence_basis": "正文给出具体比值",
+      "note": "",
+      "context": "Fe:Co:P ≈ 0.175:1:1，磷化后 Fe 保留了下来（没被洗掉），比例与磷化前（A10 的 0.18:1）接近，说明磷化主要引入 P、不改变金属骨架比例。"
+    },
+    {
+      "id": "A17",
+      "text": "Fe–CoCH//Fe–CoP 电极对驱动的 AWE 系统达到 10 mA cm −2 需 1.67 V 槽电压",
+      "subject": "Fe–CoCH//Fe–CoP AWE 系统",
+      "relation": "requires",
+      "object": "槽电压 1.67 V（10 mA cm −2）",
+      "conditions": "碱性电解水（AWE）",
+      "evidence": [
+        {
+          "quote": "The Fe–CoCH//Fe–CoP pair just needs a cell voltage of 1.67 V to obtain a current density of 10 mA cm −2",
+          "unit": "P21",
+          "type": "direct"
+        }
+      ],
+      "confidence": "high",
+      "confidence_basis": "正文直接给出数值",
+      "note": "",
+      "context": "把自家 OER 阳极 + HER 阴极装成完整电解槽：1.67 V 就能跑到 10 mA cm⁻²。对比：理论最低 1.23 V，RuO₂//Pt/C 贵金属组合要 1.61 V——非贵金属组合只多花 0.06 V。"
+    },
+    {
+      "id": "A18",
+      "text": "Fe–CoCH//Fe–CoP 驱动的 AWE 系统耐久性优于 RuO₂ //Pt/C",
+      "subject": "Fe–CoCH//Fe–CoP AWE 系统",
+      "relation": "outperforms",
+      "object": "RuO₂ //Pt/C（耐久性）",
+      "conditions": "10 mA cm −2 长期 CP 测试",
+      "evidence": [
+        {
+          "quote": "the durability of the AWE system driven by Fe–CoCH//Fe–CoP is much better than that of RuO₂ //Pt/C",
+          "unit": "P21",
+          "type": "direct"
+        }
+      ],
+      "confidence": "high",
+      "confidence_basis": "正文明确比较结论，长期 CP 曲线（Fig. 5c）支撑",
+      "note": "",
+      "context": "初始性能不如贵金属（1.67 vs 1.61 V，A17），但长期稳定性反超：RuO₂//Pt/C 运行中电压从 1.61 升到 1.73 V，而本文组合几乎不变。实际应用里'不衰减'往往比'起点低一点'更值钱。"
+    },
+    {
+      "id": "A19",
+      "text": "ABE 系统达到 10 mA cm −2 需 0.97 V 槽电压",
+      "subject": "Fe–CoCH//Fe–CoP ABE 系统",
+      "relation": "requires",
+      "object": "槽电压 0.97 V（10 mA cm −2）",
+      "conditions": "酸碱混合电解（ABE），双极膜",
+      "evidence": [
+        {
+          "quote": "A low cell voltage of 0.97 V is needed for this ABE system to obtain a current density of 10 mA cm −2",
+          "unit": "P22",
+          "type": "direct"
+        }
+      ],
+      "confidence": "high",
+      "confidence_basis": "正文直接给出数值，并注明比 AWE 低 700 mV",
+      "note": "",
+      "context": "0.97 V 是全文最亮眼的数字：比理论电压 1.23 V 还低！原理是酸碱混合电解（ABE）把酸碱中和的化学能也收集进来抵充电能（关联 A20）。比自家 AWE 的 1.67 V 低了 0.7 V。"
+    },
+    {
+      "id": "A20",
+      "text": "ABE 系统的能耗比 AWE 系统低 41.9%（25.79 vs 44.40 kW h per kg H₂）",
+      "subject": "ABE 系统",
+      "relation": "has_measured_value",
+      "object": "能耗 25.79 kW h per kg H₂，比 AWE（44.40）低 41.9%",
+      "conditions": "10 mA cm −2，制取 1.0 kg H₂",
+      "evidence": [
+        {
+          "quote": "the energy consumption for the ABE system is 41.9% less than that for the AWE system",
+          "unit": "P22",
+          "type": "direct"
+        }
+      ],
+      "confidence": "high",
+      "confidence_basis": "正文给出两个绝对值与相对降幅",
+      "note": "绝对值见同单元 (44.40 kW h per kg H₂) 与 25.79 kW h per kg H₂",
+      "context": "能耗账：制 1 kg 氢，AWE 要 44.40 度电，ABE 只要 25.79 度，省 41.9%。这是把 A19 的电压优势换算成工业界最关心的电费数字。"
+    },
+    {
+      "id": "A21",
+      "text": "长期 OER 测试后约 16.36% 的 Fe 从催化剂溶出进入电解液",
+      "subject": "Fe–CoCH NT/CC 中的 Fe",
+      "relation": "has_measured_value",
+      "object": "Fe 溶出比例 ∼16.36%",
+      "conditions": "长期 OER 测试后，1.0 M KOH",
+      "evidence": [
+        {
+          "quote": "Therefore, ∼16.36% of Fe leaches from the catalyst into the electrolyte after the test.",
+          "unit": "P39",
+          "type": "direct"
+        }
+      ],
+      "confidence": "high",
+      "confidence_basis": "基于 ICP-OES 实测的定量推算，原文给出完整计算链",
+      "note": "",
+      "context": "催化剂好不好不能只看活性，还要看掉不掉组分。16.36% 的 Fe 溶出说明表面 Fe(OH)₃ 层在 OER 中会明显流失——这是作者如实报告的稳定性短板（关联 A22 的重构），引用时应注意。"
+    },
+    {
+      "id": "A22",
+      "text": "OER 过程中 Fe–CoCH NT/CC 最外层形成电化学重构的 Fe–CoOOH 层，作为真实活性物质",
+      "subject": "Fe–CoCH NT/CC 最外层",
+      "relation": "transforms_to",
+      "object": "电化学重构的 Fe–CoOOH 层（OER 真实活性物质）",
+      "conditions": "长期 OER 过程",
+      "evidence": [
+        {
+          "quote": "an electrochemically reconstructed Fe–CoOOH layer is formed on the outermost layer of Fe–CoCH NT/CC as the real active substance for the OER",
+          "unit": "P39",
+          "type": "direct"
+        }
+      ],
+      "confidence": "medium",
+      "confidence_basis": "正文给出结论，但作者在结论段自述仍需原位拉曼与 XPS 进一步确认",
+      "note": "结论段（P27）称 'preliminarily found ... still needs to be explored by in situ Raman and XPS analyses'，故降为 medium",
+      "context": "OER 催化剂的'表面重构'是领域热点：工作状态下表面会变成另一层物质，真正干活的是重构层而非原始材料。作者诚实标注这是初步结论（还需原位拉曼/XPS 确认），我们也如实降为中等置信度。"
+    }
+  ],
+  "provenance": {
+    "title": "An Fe³⁺ induced etching and hydrolysis precipitation strategy affords an Fe–Co hydroxide nanotube array toward hybrid water electrolysis",
+    "authors": "Chengyi Lu, Xiao Shi, Juchen Li, Xuefei Wang, Silun Luo, Wenxin Zhu, Jianlong Wang",
+    "journal": "Dalton Transactions",
+    "year": 2024,
+    "volume_pages": "53, 1870–1877",
+    "doi": "10.1039/d3dt03520d",
+    "source_pdf": "An Fe3+ induced etching and hydrolysis precipitation strategy affords an Fe–Co hydroxide nanotube array toward hybrid water electrolysis.pdf",
+    "extractor": "nanopublication-builder 1.0"
+  }
+}

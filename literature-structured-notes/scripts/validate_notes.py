@@ -12,10 +12,17 @@ Reads an Agent-produced notes_spec.json and writes, under --out:
   evidence_map.json   claim -> anchor map for independent review
 
 Only validates structure and anchors; it never invents paper content.
+
+With --extract <extract.json> (from scripts/pdf_extract.py) it additionally
+performs the deterministic evidence check: every evidence.unit must exist in
+the extract, and every evidence.quote must be a verbatim (whitespace-
+normalized) substring of that unit's text — a misquoted or invented "evidence"
+fails validation.
 """
 import argparse
 import json
 import os
+import re
 import sys
 
 # Windows 控制台默认可能不是 UTF-8，避免中文日志乱码；失败无碍。
@@ -29,7 +36,7 @@ PAPER_CARD_FIELDS = [
     "research_question", "data", "method", "method_conditions",
     "main_findings", "conclusions", "limitations", "preconditions",
 ]
-ANCHOR_FIELDS = ["section", "paragraph", "page", "figure", "table", "formula"]
+ANCHOR_FIELDS = ["section", "paragraph", "page", "figure", "table", "formula", "unit"]
 EVIDENCE_STRENGTHS = ["direct", "consensus", "preliminary", "not_reported"]
 PRINCIPLE_FIELDS = ["id", "claim", "why", "basis", "quantitative_check",
                     "evidence_strength", "evidence", "glossary_terms", "transferable"]
@@ -42,6 +49,66 @@ def log(m):
 def load_json(path):
     with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
+
+
+def _norm(s):
+    return re.sub(r"\s+", " ", s or "").strip()
+
+
+def load_units(extract_path):
+    """extract.json from scripts/pdf_extract.py -> {unit_id: text}."""
+    data = load_json(extract_path)
+    units = {}
+    for u in data.get("units", []):
+        if u.get("id") and isinstance(u.get("text"), str):
+            units[u["id"]] = u["text"]
+    return units
+
+
+def iter_evidence(spec):
+    """Yield (location_label, evidence_dict) for every evidence anchor in the spec."""
+    card = spec.get("paper_card", {})
+    if isinstance(card, dict):
+        for f in PAPER_CARD_FIELDS:
+            c = card.get(f)
+            if isinstance(c, dict) and isinstance(c.get("evidence"), dict):
+                yield f"paper_card.{f}", c["evidence"]
+    for i, s in enumerate(spec.get("sections", []) or []):
+        if isinstance(s, dict) and isinstance(s.get("evidence"), dict):
+            yield f"sections[{i}]", s["evidence"]
+    for i, kp in enumerate(spec.get("knowledge_points", []) or []):
+        if isinstance(kp, dict) and isinstance(kp.get("evidence"), dict):
+            yield f"knowledge_points[{i}]", kp["evidence"]
+    for i, p in enumerate(spec.get("principle_analysis", []) or []):
+        if isinstance(p, dict) and isinstance(p.get("evidence"), dict):
+            yield f"principle_analysis[{i}]", p["evidence"]
+
+
+def check_verbatim(spec, units):
+    """Deterministic evidence check: every evidence.unit must exist in the
+    extract, and every evidence.quote must be a verbatim (whitespace-normalized)
+    substring of that unit's text. Returns (problems, warnings)."""
+    problems = []
+    warnings = []
+    n_quotes = 0
+    for loc, ev in iter_evidence(spec):
+        uid = ev.get("unit")
+        quote = ev.get("quote")
+        if uid:
+            if uid not in units:
+                problems.append(f"{loc}: evidence.unit '{uid}' not found in extract")
+        if quote:
+            if not uid:
+                problems.append(f"{loc}: evidence.quote given without evidence.unit")
+                continue
+            if uid not in units:
+                continue
+            n_quotes += 1
+            if _norm(quote) not in _norm(units[uid]):
+                problems.append(f"{loc}: evidence.quote is not a verbatim substring of unit {uid}")
+    if n_quotes == 0:
+        warnings.append("no evidence.quote provided: 关键结论建议带逐字引文以便复核")
+    return problems, warnings
 
 
 def write_json(path, obj):
@@ -199,6 +266,8 @@ def main():
     ap.add_argument("--spec", required=True)
     ap.add_argument("--out", required=True)
     ap.add_argument("--case-id", default=None)
+    ap.add_argument("--extract", default=None,
+                    help="extract.json from pdf_extract.py; enables verbatim evidence.quote checks")
     args = ap.parse_args()
 
     try:
@@ -213,6 +282,15 @@ def main():
         return 2
 
     problems, warnings = validate(spec)
+    if args.extract:
+        try:
+            units = load_units(args.extract)
+        except Exception as e:
+            log(f"FATAL: cannot read extract: {e}")
+            return 2
+        vp, vw = check_verbatim(spec, units)
+        problems.extend(vp)
+        warnings.extend(vw)
     for w in warnings:
         log(f"WARNING: {w}")
     if problems:

@@ -74,4 +74,4 @@ description: 把科研论文的关键结论拆成**可独立判断真假的原�
 
 ## 最小调用示例
 
-见 `assets/example_nanopub.json`（**示意示例**，非任何正式案例答案）；另附 `assets/sample_assertions_feco.json`（基于公开论文 Dalton Trans., 2024, 53, 1870–1877 的真实演示输出，20 条断言，可复用为字段与粒度参照）。流程：读 PDF → `pdf_extract.py` 提取 → 修序 → 填来源 → 拆断言写 `nanopub.json` → 绑证据 → `validate_nanopub.py` 清零 → `assemble_nanopub.py` 组装 → 自查 → 交付。
+见 `assets/example_nanopub.json`（**示意示例**，非任何正式案例答案）；另附 `assets/sample_assertions_feco.json`（基于公开论文 Dalton Trans., 2024, 53, 1870–1877 的真实演示输出，22 条断言，可复用为字段与粒度参照）与 `assets/demo_validation.md`（校验器实跑记录：干净断言集 0 错误；篡改引文中一个数字即被逐字核验抓住）。流程：读 PDF → `pdf_extract.py` 提取 → 修序 → 填来源 → 拆断言写 `nanopub.json` → 绑证据 → `validate_nanopub.py` 清零 → `assemble_nanopub.py` 组装 → 自查 → 交付。

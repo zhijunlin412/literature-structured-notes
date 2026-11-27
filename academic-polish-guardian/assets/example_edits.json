@@ -1,0 +1,13 @@
+{
+  "note": "edits.json 格式示例（非正式案例结果）。original_span 必须是原文中逐字唯一的片段；type 取 assets/edit_types.json 中的 id；severity: error/style/choice。",
+  "sources": [{"source_id": "demo", "note": "示例来源说明"}],
+  "edits": [
+    {"id": "T001", "location": "Abstract, sentence 1",
+     "original_span": "the catalysts exhibits high activity",
+     "revised_span": "the catalysts exhibit high activity",
+     "type": "grammar-agreement", "severity": "error",
+     "reason": "主语复数，谓语用 exhibit"}
+  ],
+  "human_review": ["原文 'best' 有无数值支撑待作者确认，暂保留并标注"],
+  "uncertainty": ["目标期刊未知，按通用期刊风格处理"]
+}

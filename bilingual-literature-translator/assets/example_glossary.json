@@ -1,0 +1,9 @@
+{
+  "_comment": "示意示例（非任何正式案例答案）：术语表格式。en=原文术语，abbr=缩写（可空），zh=锁定译名，note=译法依据或备选。",
+  "target_language": "zh",
+  "terms": [
+    {"en": "oxygen evolution reaction", "abbr": "OER", "zh": "析氧反应", "note": "电催化领域通用译名；首次出现写全称并保留缩写 (OER)"},
+    {"en": "overpotential", "abbr": "", "zh": "过电位", "note": "通用译名；勿译作“超电势”以外的变体"},
+    {"en": "nanotube array", "abbr": "NT", "zh": "纳米管阵列", "note": "与 nanowire array（纳米线阵列）严格区分"}
+  ]
+}

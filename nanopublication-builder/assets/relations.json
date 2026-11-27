@@ -1,0 +1,29 @@
+{
+  "_comment": "受控关系词表：断言的 relation 字段只能从 relations 中选取；选不出时用 reports 并在 note 说明，不自造新词。",
+  "relations": [
+    {"id": "has_property", "zh": "具有性质", "definition": "主体具有某种结构、组成或性质", "example": "Fe–CoCH NT 具有支化纳米管阵列结构"},
+    {"id": "has_measured_value", "zh": "测得数值", "definition": "主体在某条件下测得具体数值（必须带数值与单位）", "example": "过电位为 290 mV（10 mA cm⁻²）"},
+    {"id": "outperforms", "zh": "优于", "definition": "主体在某指标上优于客体", "example": "Fe–CoCH NT/CC 的 OER 活性优于 CoCH NW/CC"},
+    {"id": "comparable_to", "zh": "与…相当", "definition": "主体与客体在某指标上相当", "example": "OER 性能与 RuO₂ 相当"},
+    {"id": "enables", "zh": "使能够实现", "definition": "主体使某过程/系统得以实现", "example": "双极膜使酸碱混合电解得以实现"},
+    {"id": "composed_of", "zh": "由…组成", "definition": "主体由客体组成", "example": "Fe–CoCH NT 由内部 CoCH 与外部 Fe(OH)₃ 组成"},
+    {"id": "causes", "zh": "导致", "definition": "主体是客体变化的原因", "example": "Fe³⁺ 离子交换导致纳米线转变为纳米管"},
+    {"id": "limits", "zh": "限制", "definition": "主体限制/阻碍客体的提升", "example": "低电导率限制 OER 性能"},
+    {"id": "improves", "zh": "改善", "definition": "主体改善客体（不要求定量）", "example": "Fe 改性改善 OER 催化性能"},
+    {"id": "synthesized_by", "zh": "由…制备", "definition": "主体通过某方法/过程制得", "example": "Fe–CoCH NT/CC 由室温 Fe 改性策略合成"},
+    {"id": "characterized_by", "zh": "用…表征", "definition": "主体用某方法表征并获得结论", "example": "用 XPS 表征表面化学态"},
+    {"id": "requires", "zh": "需要", "definition": "主体需要某条件/数值才能达到指标", "example": "ABE 系统达到 10 mA cm⁻² 需 0.97 V 槽电压"},
+    {"id": "transforms_to", "zh": "转变为", "definition": "主体经某过程转变为客体", "example": "Fe–CoCH 磷化后转变为 Fe–CoP"},
+    {"id": "reports", "zh": "报告/表明", "definition": "兜底关系：原文报告了某发现但上述关系均不适用", "example": "原文报道 Fe 溶出量约 16.36%"}
+  ],
+  "evidence_types": [
+    {"id": "direct", "definition": "证据片段直接陈述该断言（原文原话支持）"},
+    {"id": "indirect", "definition": "证据片段需经一步推论才支持该断言（必须在 note 写明推论链）"},
+    {"id": "figure_table", "definition": "证据主要在图/表内，文字片段只是指引（quote 填指引句，note 写明图表编号）"}
+  ],
+  "confidence_levels": [
+    {"id": "high", "definition": "原文直接、定量、无歧义地支持"},
+    {"id": "medium", "definition": "原文支持但需轻推论，或无量化数据"},
+    {"id": "low", "definition": "证据不充分或存在冲突，必须同时在 uncertainty 中说明"}
+  ]
+}

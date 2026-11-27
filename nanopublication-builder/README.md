@@ -37,7 +37,8 @@ python scripts/assemble_nanopub.py --case /input/case.json --extract work/extrac
 | `assets/fields.json` | 字段字典（输入与四种导出物） |
 | `assets/relations.json` | 受控关系词表、证据类型、置信度定义 |
 | `assets/example_nanopub.json` | 格式示意（非正式案例答案） |
-| `assets/sample_assertions_feco.json` | 20 条真实演示断言样例（Dalton Trans., 2024, 53, 1870） |
+| `assets/sample_assertions_feco.json` | 22 条真实演示断言样例（Dalton Trans., 2024, 53, 1870） |
+| `assets/demo_validation.md` | 校验器实跑记录：22 条全过 + 篡改一个数字即被逐字核验抓住（演示证据） |
 
 ## 设计要点
 

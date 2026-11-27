@@ -1,0 +1,34 @@
+{
+  "_comment": "受控关系词表：edge 的 relation 字段只能从 relations 中选取；选不出时用 reports 并在 note 说明，不自造新词。方向一律为 subject → object。",
+  "relations": [
+    {"id": "synthesized_by", "zh": "由…制备", "direction": "material → method", "definition": "材料/样品通过某方法制得", "example": "Fe–CoCH NT/CC 由室温 Fe3+ 刻蚀-水解沉淀策略制备"},
+    {"id": "derived_from", "zh": "衍生自", "direction": "material → material", "definition": "材料由另一材料转化而来", "example": "Fe–CoP NT/CC 由 Fe–CoCH NT/CC 磷化得到"},
+    {"id": "composed_of", "zh": "由…组成", "direction": "material → compound/material", "definition": "主体的组成成分", "example": "Fe–CoCH NT 由内部 CoCH 与外部 Fe(OH)3 组成"},
+    {"id": "used_for", "zh": "用于", "direction": "material/method → task", "definition": "材料或方法被用于某反应/任务", "example": "Fe–CoCH NT/CC 用作 OER 阳极"},
+    {"id": "characterized_by", "zh": "用…表征", "direction": "material → method", "definition": "材料用某表征技术获得结构/组成信息", "example": "Fe–CoCH NT 用 XPS 分析表面化学态"},
+    {"id": "measured_by", "zh": "由…测得", "direction": "metric → method", "definition": "指标通过某方法测得", "example": "电荷转移电阻由 EIS 测得"},
+    {"id": "has_measured_value", "zh": "测得数值", "direction": "material/system → metric", "definition": "主体在某条件下测得具体数值（数值与单位必须填 value，条件填 conditions）", "example": "Fe–CoCH NT/CC 的 OER 过电位为 290 mV（10 mA cm⁻²）"},
+    {"id": "outperforms", "zh": "优于", "direction": "material → material", "definition": "主体在某指标上优于客体，指标与条件必填 conditions", "example": "Fe–CoCH NT/CC 的 OER 活性优于 CoCH NW/CC"},
+    {"id": "comparable_to", "zh": "与…相当", "direction": "material → material", "definition": "主体与客体在某指标上相当", "example": "Fe–CoCH NT/CC 的 OER 性能与 RuO2 相当"},
+    {"id": "supports", "zh": "支持", "direction": "finding/material → finding", "definition": "主体的证据支持客体结论", "example": "XPS 负移支持 Co2+ 向 Co3+ 转化"},
+    {"id": "contradicts", "zh": "矛盾", "direction": "finding → finding", "definition": "主体与客体结论冲突（必须双向记录并在 note 写明冲突点）", "example": "论文A的 ECSA 结论与论文B的 Cdl 结论指向不同"},
+    {"id": "causes", "zh": "导致", "direction": "任意 → 任意", "definition": "主体是客体变化的原因（原文须明确因果表述）", "example": "Fe3+ 与 Co2+ 离子交换导致纳米线转变为纳米管"},
+    {"id": "improves", "zh": "改善", "direction": "任意 → 任意", "definition": "主体改善客体性能（不要求定量）", "example": "Fe 改性改善 OER 催化性能"},
+    {"id": "limits", "zh": "限制", "direction": "任意 → 任意", "definition": "主体限制客体的提升", "example": "低电导率限制 CoCH 的 OER 性能"},
+    {"id": "requires", "zh": "需要", "direction": "任意 → 任意", "definition": "主体需要某条件/数值才能达到指标", "example": "ABE 系统达到 10 mA cm⁻² 需 0.97 V 槽电压"},
+    {"id": "supported_on", "zh": "负载于", "direction": "material → material", "definition": "材料生长/负载在基底或载体上", "example": "Fe–CoCH NT/CC 负载于碳布"},
+    {"id": "authors", "zh": "署名", "direction": "researcher → paper 主题节点或 finding", "definition": "研究者属于论文作者列表（仅用于作者实体连接，证据为作者行）", "example": "Chengyi Lu 是论文 1 作者"},
+    {"id": "affiliated_with", "zh": "隶属于", "direction": "researcher → organization", "definition": "研究者隶属于机构", "example": "Chengyi Lu 隶属于西北工业大学"},
+    {"id": "reports", "zh": "报告/表明", "direction": "任意 → 任意", "definition": "兜底关系：原文报告了该关联但上述关系均不适用", "example": "原文报道 OER 后电解液中 Fe 含量约 0.2 mg L⁻¹"}
+  ],
+  "stances": [
+    {"id": "own", "definition": "作者自己工作的结果（本论文实验/计算得出）"},
+    {"id": "cited", "definition": "转述他人工作的结果（必须在 note 写明被引对象，如文献编号）"},
+    {"id": "inferred", "definition": "由原文信息一步推论得出（必须在 note 写明推论链）"}
+  ],
+  "confidence_levels": [
+    {"id": "high", "definition": "原文直接、无歧义地支持"},
+    {"id": "medium", "definition": "原文支持但需轻推论，或表述有歧义"},
+    {"id": "low", "definition": "证据不充分或存在冲突，必须同时在 uncertainty 中说明"}
+  ]
+}

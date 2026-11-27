@@ -89,6 +89,9 @@ def validate(nanopub, extract, relations):
             etype = e.get("type", "")
             if etype not in EVIDENCE_TYPES:
                 errors.append({"id": aid, "kind": "schema", "detail": f"证据类型非法: {etype}"})
+            if not isinstance(quote, str) or not quote.strip():
+                errors.append({"id": aid, "kind": "evidence", "detail": "证据引用缺失或不是字符串"})
+                continue
             if uid not in units:
                 errors.append({"id": aid, "kind": "evidence", "detail": f"证据单元不存在: {uid}"})
                 continue
@@ -99,7 +102,7 @@ def validate(nanopub, extract, relations):
             if etype == "indirect" and not a.get("note"):
                 warnings.append({"id": aid, "kind": "evidence",
                                  "detail": "indirect 证据但 note 未写推论链"})
-            if a.get("subject") and a["subject"] in quote:
+            if a.get("subject") and isinstance(a["subject"], str) and a["subject"] in quote:
                 subject_hit = True
         # cross-language subjects (e.g. Chinese subject vs English quote) cannot be
         # verified by containment; check only same-language (ASCII) subjects

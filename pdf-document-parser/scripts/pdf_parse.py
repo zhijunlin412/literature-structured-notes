@@ -1,15 +1,25 @@
 #!/usr/bin/env python3
-"""Deterministic PDF layout parser (stdlib only).
+"""Deterministic PDF layout parser, v2 (stdlib only).
 
-Pipelines:
-  1. text layer : pdftotext -bbox -> word-level coordinates
-  2. scanned    : pdftoppm + tesseract TSV -> word-level coordinates (OCR)
+Turns a real scientific PDF into numbered, anchored structure blocks
+(headings H.., paragraphs P.., captions C.., tables T.., formulas F..,
+references R..) with page+bbox anchors, ready for Agent refinement and
+independent review.
+
+Pipeline:
+  1. text layer : pdftotext -bbox (stdout mode, no intermediate files)
+  2. scanned    : pdftoppm + tesseract TSV -> word-level coordinates (OCR),
+                  intermediates staged as uniquely-named files at the temp root
   3. column detection via x-center gap clustering (on body region)
-  4. full-width line detection for mixed single/two-column title pages
-  5. reading-order reconstruction (full-width first, then columns L->R, T->B)
-  6. table grid reconstruction, sub/superscript reconstruction,
-     heading/caption/formula detection, header/footer separation
-  7. writes layout.json (blocks with page+bbox anchors) and parsed.md
+  4. reading-order reconstruction (columns L->R, lines T->B)
+  5. line -> paragraph merging (vertical gap + first-line indent +
+     dehyphenation), caption continuation absorption
+  6. heading/caption/table/formula/reference detection, header/footer
+     separation at line level
+  7. flags: margin / order_suspect (possible column interleaving) /
+     continues_next_page
+  8. writes layout.json (blocks with page+bbox anchors) and parsed.md
+     (reading order restored, block ids in HTML comments)
 
 Never invents text; unreadable content is marked honestly.
 """
@@ -18,27 +28,32 @@ import html
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
+import tempfile
 
 MATH_CHARS = set("=<>≤≥±×÷∑∫√∂∇∝∞≈≠∈αβγδεζηθικλμνξπρστυφχψωΓΔΘΛΞΠΣΦΨΩ")
 SUB = str.maketrans("0123456789+-=()", "₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎")
 SUP = str.maketrans("0123456789+-=()", "⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾")
+SENT_END = tuple('.!?:;”")]}')
 
 
 def log(m):
-    print(m, flush=True)
+    try:
+        print(m, flush=True)
+    except UnicodeEncodeError:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        print(m, flush=True)
 
 
 def run(cmd, **kw):
-    return subprocess.run(cmd, capture_output=True, text=True, **kw)
+    return subprocess.run(cmd, capture_output=True, **kw)
 
 
 # ---------- word extraction ----------
 
-def parse_bbox_html(path):
-    with open(path, "r", encoding="utf-8", errors="replace") as f:
-        content = f.read()
+def parse_bbox_content(content):
     pages = []
     page_re = re.compile(r'<page width="([\d.]+)" height="([\d.]+)">(.*?)</page>', re.S)
     word_re = re.compile(r'<word xMin="([\d.]+)" yMin="([\d.]+)" xMax="([\d.]+)" yMax="([\d.]+)">(.*?)</word>', re.S)
@@ -68,7 +83,8 @@ def parse_tsv(path):
             if len(cols) < 12:
                 continue
             try:
-                level, _, _, _, _, wordnum = (int(cols[0]),) + tuple(map(int, cols[1:6]))
+                level = int(cols[0])
+                wordnum = int(cols[5])
                 left, top, width, height = (int(cols[6]), int(cols[7]), int(cols[8]), int(cols[9]))
                 conf, text = float(cols[10]), cols[11]
             except (ValueError, IndexError):
@@ -80,7 +96,7 @@ def parse_tsv(path):
     return words
 
 
-# ---------- layout ----------
+# ---------- layout helpers ----------
 
 def is_rotated(w):
     wd = w["x2"] - w["x"]
@@ -189,11 +205,6 @@ def median_height(ln):
     return hs[len(hs) // 2] if hs else 8.0
 
 
-def is_full_width(ln, page_width):
-    b = line_bbox(ln)
-    return (b[2] - b[0]) > 0.55 * page_width
-
-
 HEAD_RE = re.compile(r"^\s*(\d+(?:\.\d+)*\.?)\s+(.*)$")
 CAP_RE = re.compile(r"^\s*(Fig(?:ure)?\.?|Table\s*\d+|Scheme\s*\d+|图\s*\d+|表\s*\d+)\b", re.I)
 KNOWN_HEAD = {"abstract", "introduction", "results and discussion", "conclusion",
@@ -228,15 +239,10 @@ def classify_line(text, h_median):
     return "body", None, text.strip()
 
 
-def looks_like_table_row(words):
-    """row with >=3 words separated by gaps (grid cell boundaries)."""
-    if len(words) < 3:
-        return False
-    return True
-
-
-def detect_table_group(lines):
-    """consecutive lines (>=3) whose word x-centers align to a shared tight grid -> markdown table."""
+def looks_like_table_grid(lines):
+    """consecutive lines (>=3) whose word x-centers align to a shared tight grid
+    -> markdown table. Conservative on purpose: misjudging prose as a table
+    hurts more than missing a table."""
     if len(lines) < 3:
         return None
     rows = []
@@ -251,7 +257,6 @@ def detect_table_group(lines):
             cols.append([x])
         else:
             cols[-1].append(x)
-    # a real column: covers most rows AND words inside are tightly aligned (span <= 12 px)
     good = [c for c in cols if len(c) >= 0.7 * len(rows) and (max(c) - min(c)) <= 12.0]
     if len(good) < 2:
         return None
@@ -262,7 +267,6 @@ def detect_table_group(lines):
         for x, t in r:
             best = min(range(len(centers)), key=lambda i: abs(centers[i] - x))
             cells[best] = (cells[best] + " " + t).strip()
-        # prose cells are long sentences; real table cells are short. reject long cells.
         if any(len(c.split()) > 4 for c in cells):
             return None
         md_rows.append("| " + " | ".join(cells) + " |")
@@ -270,120 +274,290 @@ def detect_table_group(lines):
     return "\n".join([md_rows[0], sep] + md_rows[1:])
 
 
-def build_blocks(lines, page, h_median, page_width):
-    blocks = []
-    i = 0
-    while i < len(lines):
-        table = detect_table_group(lines[i:i + 8])
-        if table:
-            bbox = line_bbox([w for ln in lines[i:i + 8] for w in ln])
-            blocks.append({"type": "table", "level": None, "text": table,
-                           "page": page, "bbox": bbox, "height": median_height(lines[i])})
-            i += min(8, len(lines[i:i + 8]))
-            continue
-        ln = lines[i]
-        txt = line_text(ln)
-        if not txt.strip():
-            i += 1
-            continue
-        typ, level, heading = classify_line(txt, h_median)
-        blocks.append({"type": typ, "level": level, "text": txt,
-                       "page": page, "bbox": line_bbox(ln), "height": median_height(ln)})
-        i += 1
-    return blocks
+def margin_of(bbox, page_height):
+    if bbox[1] < 0.08 * page_height:
+        return "top"
+    if bbox[3] > 0.92 * page_height:
+        return "bottom"
+    return None
 
 
-def detect_header_footer(blocks, page_h):
-    for b in blocks:
-        top_edge = b["bbox"][1]
-        bot_edge = b["bbox"][3]
-        if top_edge < page_h * 0.10:
-            b["margin"] = "top"
-        elif bot_edge > page_h * 0.90:
-            b["margin"] = "bottom"
+# ---------- paragraph merging ----------
+
+def merge_paragraphs(line_items):
+    """Merge consecutive body lines into paragraphs.
+
+    A new paragraph starts when:
+      - the item is not 'body', or
+      - vertical gap before this line is large (> 1.7x median interline gap), or
+      - the line is indented AND the previous line ended a sentence.
+    Dehyphenation: a line ending in '-' joins the next word directly.
+    """
+    gaps = []
+    for a, b in zip(line_items, line_items[1:]):
+        if a["page"] == b["page"]:
+            g = b["bbox"][1] - a["bbox"][3]
+            if g > 0:
+                gaps.append(g)
+    g0 = sorted(gaps)[len(gaps) // 2] if gaps else 3.0
+
+    paras = []
+    cur = None
+    for it in line_items:
+        if it["type"] != "body":
+            if cur:
+                paras.append(cur)
+                cur = None
+            it["parts"] = [dict(it)]
+            paras.append(it)
+            continue
+        if cur is None:
+            cur = dict(it)
+            cur["parts"] = [it]
+            continue
+        prev = cur["parts"][-1]
+        same_page = prev["page"] == it["page"]
+        vgap = it["bbox"][1] - prev["bbox"][3] if same_page else 1e9
+        prev_text = prev["text"].rstrip()
+        indented = it["indent"] > 0.012
+        broke_sentence = prev_text.endswith(SENT_END)
+        big_gap = same_page and vgap > max(1.7 * g0, 0.45 * prev["height"])
+        new_para = (not same_page) or big_gap or (indented and broke_sentence)
+        if new_para:
+            paras.append(cur)
+            cur = dict(it)
+            cur["parts"] = [it]
         else:
-            b["margin"] = None
-    return blocks
+            cur["parts"].append(it)
+            cur["bbox"] = [min(cur["bbox"][0], it["bbox"][0]), min(cur["bbox"][1], it["bbox"][1]),
+                           max(cur["bbox"][2], it["bbox"][2]), max(cur["bbox"][3], it["bbox"][3])]
+    if cur:
+        paras.append(cur)
+
+    # absorb unfinished captions: a caption that does not end a sentence
+    # continues into the following body unit(s) until it does
+    merged = []
+    for p in paras:
+        if (merged and merged[-1]["type"] == "caption" and p["type"] == "body"
+                and not merged[-1]["text"].rstrip().endswith(SENT_END)):
+            prev = merged[-1]
+            prev["parts"].extend(p.get("parts", [p]))
+            prev["bbox"] = [min(prev["bbox"][0], p["bbox"][0]), min(prev["bbox"][1], p["bbox"][1]),
+                            max(prev["bbox"][2], p["bbox"][2]), max(prev["bbox"][3], p["bbox"][3])]
+        else:
+            merged.append(p)
+    paras = merged
+
+    # join line texts with dehyphenation; line-level margin + order-suspect flags
+    for p in paras:
+        text = ""
+        for part in p["parts"]:
+            t = part["text"]
+            if text.endswith("-") and not text.endswith(" -"):
+                text = text[:-1] + t
+            else:
+                text = (text + " " + t).strip()
+        p["text"] = text
+        # only prose-like blocks can continue across a page; headings/tables do not
+        p["continues_next_page"] = bool(p["type"] in ("body", "caption")
+                                        and p["parts"] and not p["text"].rstrip().endswith(SENT_END))
+        margins = {part.get("margin") for part in p["parts"]}
+        p["margin"] = margins.pop() if len(margins) == 1 else None
+        starts = sorted(part["bbox"][0] for part in p["parts"])
+        if len(p["parts"]) >= 3 and starts[-1] - starts[0] > 90:
+            p["order_suspect"] = True  # line starts in two distant x clusters: possible column interleaving
+        del p["parts"]
+    return paras
 
 
-# ---------- main pipeline ----------
+# ---------- per-page processing ----------
 
-def parse_page(p):
+def page_line_items(p):
     words = [w for w in p["words"] if not is_rotated(w) and w["x2"] >= 0.04 * p["width"]]
     if not words:
         return []
     cols = detect_columns(words, p["width"], p["height"])
     all_h = sorted(w["y2"] - w["y"] for w in words)
     h_median = all_h[len(all_h) // 2] if all_h else 8.0
-    ordered = []
+    items = []
     for col in sorted(cols, key=lambda c: min(cx(w) for w in c) if c else 0):
-        for ln in group_lines(col):
-            ordered.append(ln)
-    blocks = build_blocks(ordered, p["page"], h_median, p["width"])
-    blocks = detect_header_footer(blocks, p["height"])
+        col_lines = group_lines(col)
+        col_left = min(w["x"] for w in col)
+        i = 0
+        while i < len(col_lines):
+            grid = looks_like_table_grid(col_lines[i:i + 8])
+            if grid:
+                seg = col_lines[i:i + 8]
+                bbox = line_bbox([w for ln in seg for w in ln])
+                items.append({"type": "table", "level": None, "text": grid, "bbox": bbox,
+                              "height": median_height(col_lines[i]), "page": p["page"], "indent": 0.0,
+                              "margin": margin_of(bbox, p["height"])})
+                i += min(8, len(col_lines[i:i + 8]))
+                continue
+            ln = col_lines[i]
+            txt = line_text(ln)
+            i += 1
+            if not txt.strip():
+                continue
+            typ, level, _ = classify_line(txt, h_median)
+            indent = max(0.0, (min(w["x"] for w in ln) - col_left) / p["width"])
+            bbox = line_bbox(ln)
+            items.append({"type": typ, "level": level, "text": txt, "bbox": bbox,
+                          "height": median_height(ln), "page": p["page"], "indent": indent,
+                          "margin": margin_of(bbox, p["height"])})
+    return items
+
+
+# ---------- id assignment ----------
+
+PREFIX = {"heading": "H", "body": "P", "caption": "C", "table": "T", "formula": "F"}
+
+
+def assign_ids(blocks):
+    counters = {"H": 0, "P": 0, "C": 0, "T": 0, "F": 0, "R": 0}
+    in_refs = False
+    for b in blocks:
+        t = b["type"]
+        if t == "heading" and b["text"].strip().lower() in ("references", "参考文献"):
+            in_refs = True
+        if in_refs and t == "body":
+            t = "reference"
+            b["type"] = t
+        key = PREFIX.get(t, "R")
+        counters[key] += 1
+        b["id"] = f"{key}{counters[key]}"
     return blocks
 
 
-def parse_pdf(pdf, out_dir, force_ocr=False):
-    os.makedirs(out_dir, exist_ok=True)
-    bbox_html = os.path.join(out_dir, "bbox.html")
-    r = run(["pdftotext", "-bbox", pdf, bbox_html])
-    pages = parse_bbox_html(bbox_html) if os.path.exists(bbox_html) else []
-    total_words = sum(len(p["words"]) for p in pages)
-    if total_words < 20 or force_ocr:
-        pages = ocr_pipeline(pdf, out_dir)
-
-    all_blocks = []
-    for p in pages:
-        if p["words"]:
-            all_blocks.extend(parse_page(p))
-
-    layout = {"source": pdf, "pages": pages, "blocks": all_blocks,
-              "stats": {"words": sum(len(p["words"]) for p in pages), "pages": len(pages)}}
-    with open(os.path.join(out_dir, "layout.json"), "w", encoding="utf-8") as f:
-        json.dump(layout, f, ensure_ascii=False, indent=2)
-    with open(os.path.join(out_dir, "parsed.md"), "w", encoding="utf-8") as f:
-        f.write(build_markdown(all_blocks))
-    return layout
-
-
-def ocr_pipeline(pdf, out_dir):
-    pages = []
-    r = run(["pdftoppm", "-r", "300", "-png", pdf, os.path.join(out_dir, "pg")])
-    if r.returncode != 0:
-        return pages
-    # tesseract language fallback: try eng+chi_sim, then eng
-    langs = ["eng+chi_sim", "eng"]
-    for i, f in enumerate(sorted(f for f in os.listdir(out_dir) if f.startswith("pg") and f.endswith(".png"))):
-        words = []
-        for lang in langs:
-            base = os.path.splitext(f)[0]
-            tsv = os.path.join(out_dir, base + ".tsv")
-            rr = run(["tesseract", os.path.join(out_dir, f), os.path.join(out_dir, base), "-l", lang, "tsv"])
-            if rr.returncode == 0 and os.path.exists(tsv):
-                words = parse_tsv(tsv)
-                if words:
-                    break
-        if words:
-            pages.append({"page": i + 1, "width": 2480, "height": 3508,
-                          "words": words, "ocr": True})
-    return pages
-
+# ---------- markdown rendering ----------
 
 def build_markdown(blocks):
     lines = []
     for b in blocks:
+        tag = f"<!-- {b['id']} p{b['page']} -->"
         if b["type"] == "heading":
-            lines.append(f"\n{'#' * (b['level'] or 1)} {b['text']}\n")
+            lines.append(f"\n{'#' * (b['level'] or 1)} {b['text']} {tag}\n")
         elif b["type"] == "caption":
-            lines.append(f"> {b['text']}\n")
+            lines.append(f"> {b['text']} {tag}\n")
         elif b["type"] == "formula":
-            lines.append(f"$$\n{b['text']}\n$$\n")
+            lines.append(f"$$\n{b['text']}\n$$ {tag}\n")
         elif b["type"] == "table":
-            lines.append(f"{b['text']}\n")
+            lines.append(f"{b['text']}\n{tag}\n")
+        elif b["type"] == "reference":
+            lines.append(f"{b['text']} {tag}\n")
         else:
-            lines.append(f"{b['text']}\n\n")
+            lines.append(f"{b['text']} {tag}\n\n")
     return "\n".join(lines)
+
+
+# ---------- OCR ----------
+
+def ocr_pipeline(pdf):
+    """Render + OCR. Intermediates go to uniquely-named files in the temp root
+    (no subdir: restricted sandboxes may allow writes only at the temp root;
+    poppler/tesseract may also fail on non-ASCII paths, so stage an ASCII copy)."""
+    pages = []
+    tmp = tempfile.gettempdir()
+    prefix = "pdfparse_%d_" % os.getpid()
+    staged = os.path.join(tmp, prefix + "src.pdf")
+    try:
+        shutil.copyfile(pdf, staged)
+        r = run(["pdftoppm", "-r", "300", "-png", staged, os.path.join(tmp, prefix + "pg")])
+        if r.returncode != 0:
+            log("WARN pdftoppm failed; OCR unavailable")
+            return pages
+        langs = ["eng+chi_sim", "eng"]
+        pngs = sorted(f for f in os.listdir(tmp) if f.startswith(prefix + "pg") and f.endswith(".png"))
+        for i, f in enumerate(pngs):
+            words = []
+            for lang in langs:
+                base = os.path.join(tmp, os.path.splitext(f)[0])
+                try:
+                    rr = run(["tesseract", os.path.join(tmp, f), base, "-l", lang, "tsv"])
+                except FileNotFoundError:
+                    log("WARN tesseract not found; OCR unavailable")
+                    return pages
+                tsv = base + ".tsv"
+                if rr.returncode == 0 and os.path.exists(tsv):
+                    words = parse_tsv(tsv)
+                    if words:
+                        break
+            if words:
+                pages.append({"page": i + 1, "width": 2480, "height": 3508, "words": words, "ocr": True})
+        return pages
+    except (OSError, shutil.Error) as e:
+        log(f"WARN OCR staging failed: {e}")
+        return pages
+    finally:
+        for f in os.listdir(tmp):
+            if f.startswith(prefix):
+                try:
+                    os.remove(os.path.join(tmp, f))
+                except OSError:
+                    pass
+
+
+# ---------- main ----------
+
+def parse_pdf(pdf, out_dir, force_ocr=False):
+    os.makedirs(out_dir, exist_ok=True)
+    # text layer via stdout: no intermediate files, no path-encoding issues
+    # (capture bytes and decode as UTF-8 ourselves: locale codecs may be GBK etc.)
+    staged = None
+    src = pdf
+    try:
+        if not pdf.isascii():
+            tmp = tempfile.gettempdir()
+            staged = os.path.join(tmp, "pdfparse_%d_src.pdf" % os.getpid())
+            shutil.copyfile(pdf, staged)
+            src = staged
+    except (OSError, shutil.Error):
+        staged = None
+        src = pdf
+    try:
+        r = subprocess.run(["pdftotext", "-bbox", src, "-"], capture_output=True)
+    finally:
+        if staged:
+            try:
+                os.remove(staged)
+            except OSError:
+                pass
+    content = r.stdout.decode("utf-8", errors="replace") if r.returncode == 0 else ""
+    pages = parse_bbox_content(content) if content else []
+    total_words = sum(len(p["words"]) for p in pages)
+    ocr_used = False
+    if total_words < 20 or force_ocr:
+        pages = ocr_pipeline(pdf)
+        ocr_used = True
+
+    items = []
+    for p in pages:
+        items.extend(page_line_items(p))
+    blocks = merge_paragraphs(items)
+    blocks = assign_ids(blocks)
+    for b in blocks:
+        b.pop("indent", None)
+        b.pop("height", None)
+        b["bbox"] = [round(v, 1) for v in b["bbox"]]
+
+    counts = {}
+    for b in blocks:
+        counts[b["type"]] = counts.get(b["type"], 0) + 1
+    layout = {
+        "source": pdf,
+        "ocr_used": ocr_used,
+        "stats": {"pages": len(pages),
+                  "words": sum(len(p["words"]) for p in pages),
+                  "blocks": counts},
+        "pages_brief": [{"page": p["page"], "width": p["width"], "height": p["height"],
+                         "words": len(p["words"])} for p in pages],
+        "blocks": blocks,
+    }
+    with open(os.path.join(out_dir, "layout.json"), "w", encoding="utf-8") as f:
+        json.dump(layout, f, ensure_ascii=False, indent=2)
+    with open(os.path.join(out_dir, "parsed.md"), "w", encoding="utf-8") as f:
+        f.write(build_markdown(blocks))
+    return layout
 
 
 def main():
@@ -394,7 +568,8 @@ def main():
     args = ap.parse_args()
     try:
         layout = parse_pdf(args.pdf, args.out, args.ocr)
-        log(f"OK pages={layout['stats']['pages']} words={layout['stats']['words']} -> {args.out}")
+        s = layout["stats"]
+        log(f"OK pages={s['pages']} words={s['words']} blocks={s['blocks']} ocr={layout['ocr_used']} -> {args.out}")
         return 0
     except FileNotFoundError as e:
         log(f"FATAL missing tool: {e}")

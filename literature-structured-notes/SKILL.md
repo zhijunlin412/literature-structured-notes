@@ -37,24 +37,25 @@ description: 把一篇科研论文（PDF）转换成与原文章节对齐、字�
 
 字段与锚点的规范见 `assets/fields.json`；写完用 `scripts/validate_notes.py` 校验。
 
-## 方法（八步，先想后做）
+## 方法（九步，先想后做）
 
-1. **解析与章节对齐**：读全文，识别论文真实的章节结构（含摘要、引言、方法、结果、讨论、结论、附录），保留章节之间的承接关系。不强行套用五段式。
-2. **一句话概括 + 论文卡片**：先写 `one_liner`（用一句话说清"问题—方法—最关键结果"）；再按字段字典填研究问题、数据、方法条件、主要发现、结论、局限，并单列"结论成立的前提条件"。
-3. **章节总结**：逐章提炼目的、方法、结果、结论与过渡句，保持原章顺序。
-4. **知识点提取**：把重要概念、变量、方法、结论拆成可检索条目；处理缩写、同义表述，归并重复条目，冲突处显式标注；可选填 `principle`（为什么）与 `evidence_strength`（证据强度）。
-5. **证据锚点**：为每条关键结论写锚点（章节/段落/页码/图表/公式至少其一），锚点粒度与可核验性匹配。
-6. **原理深挖（`principle_analysis`）**：对每个关键结论回答"为什么"——给底层原理/公式/机制（`basis`），对可定量的结论做量级验证（`quantitative_check`，用原文数字反算核对，不一致要写明），并标 `evidence_strength`：`direct`（本文直接测量/陈述）、`consensus`（领域共识背景知识，本文未直接测量）、`preliminary`（本文自述初步/推测/需确认）、`not_reported`（未报告）。**区分"本文直接证据"与"领域共识解释"，绝不把推测写成事实。**
-7. **术语词典 + 易懂化（`glossary` / `notes_plain`）**：把领域黑话（OER、过电位、双极膜、Tafel、ECSA 等）用通俗中文解释；`notes_plain` 按 `assets/精读笔记模板.md` 的 13 个格子组织（现象层与原理层一体），面向非专业读者，不含 JSON/代码/英文字段名。
-8. **边界与自检**：区分"机器可判定的字段"与"必须人工确认的字段"；未报告、无法判断、材料冲突分别写明。
+1. **提取锚点单元**：`python scripts/pdf_extract.py --pdf <PDF> --out work/extract` 产出带段号（H/P/C/T/F/R）与页码锚点的 `extract.json` / `source_units.md`（栏检测、阅读顺序、段落合并、页边/串栏/跨页标记全自动）。**后续所有笔记的锚点都引用这些单元 id**，不再凭印象写"第几页"。串栏单元（`order_suspect`）用 `pdftotext -f <页> -l <页> -x <左> -y <上> -W <宽> -H <高>` 按栏裁剪重取修复，修复记入 `change_record`。
+2. **解析与章节对齐**：在修复后的单元上读全文，识别论文真实的章节结构（含摘要、引言、方法、结果、讨论、结论、附录），保留章节之间的承接关系。不强行套用五段式。
+3. **一句话概括 + 论文卡片**：先写 `one_liner`（用一句话说清"问题—方法—最关键结果"）；再按字段字典填研究问题、数据、方法条件、主要发现、结论、局限，并单列"结论成立的前提条件"。
+4. **章节总结**：逐章提炼目的、方法、结果、结论与过渡句，保持原章顺序。
+5. **知识点提取**：把重要概念、变量、方法、结论拆成可检索条目；处理缩写、同义表述，归并重复条目，冲突处显式标注；可选填 `principle`（为什么）与 `evidence_strength`（证据强度）。
+6. **证据锚点 + 逐字引文**：为每条关键结论写锚点（章节/段落/页码/图表/公式/**单元 id** 至少其一）；**主要发现、结论、原理深挖条目必须带 `unit` + `quote`**——`quote` 从该单元逐字复制（含空格形式），作为"这条笔记不是我编的"的可机检证据。找不到支撑单元的论断不写成事实，记入 `uncertainty`。
+7. **原理深挖（`principle_analysis`）**：对每个关键结论回答"为什么"——给底层原理/公式/机制（`basis`），对可定量的结论做量级验证（`quantitative_check`，用原文数字反算核对，不一致要写明），并标 `evidence_strength`：`direct`（本文直接测量/陈述）、`consensus`（领域共识背景知识，本文未直接测量）、`preliminary`（本文自述初步/推测/需确认）、`not_reported`（未报告）。**区分"本文直接证据"与"领域共识解释"，绝不把推测写成事实。**
+8. **术语词典 + 易懂化（`glossary` / `notes_plain`）**：把领域黑话（OER、过电位、双极膜、Tafel、ECSA 等）用通俗中文解释；`notes_plain` 按 `assets/精读笔记模板.md` 的 13 个格子组织（现象层与原理层一体），面向非专业读者，不含 JSON/代码/英文字段名。
+9. **校验与自检**：`python scripts/validate_notes.py --spec notes_spec.json --extract work/extract/extract.json --out /app/output --case-id <id>`；**所有 error（含证据非逐字、单元不存在）必须修复重跑至清零**。区分"机器可判定的字段"与"必须人工确认的字段"；未报告、无法判断、材料冲突分别写明。预算紧张时先交全字段占位版（未完成标 `partial`），再按论文卡片→章节→知识点→原理深挖的优先级填充。
 
 ## 使用脚本
 
-`scripts/validate_notes.py`：读 Agent 产出的 `notes_spec.json`（按 `assets/fields.json` 的 schema），校验必填字段与锚点格式，生成 `result.json`、`notes.md`、`evidence_map.json`。
-
-- 依赖：仅 Python 标准库，无需第三方包。
-- 调用：`python scripts/validate_notes.py --spec notes_spec.json --out /app/output --case-id <id>`
-- 校验失败返回非零，并给出缺失字段；不编造内容。
+- `scripts/pdf_extract.py`：确定性 PDF 段落提取器（仅标准库；`pdftotext -bbox` stdout 模式；扫描件自动走 `pdftoppm` + `tesseract` OCR）。产出带段号/页码/bbox 锚点的 `extract.json` 与 `source_units.md`，串栏单元标 `order_suspect` 供修复。
+- `scripts/validate_notes.py`：读 Agent 产出的 `notes_spec.json`（按 `assets/fields.json` 的 schema），校验必填字段与锚点格式；加 `--extract` 时做**逐字证据核验**（`unit` 必须存在、`quote` 必须是该单元的逐孔子串）。生成 `result.json`、`notes.md`、`evidence_map.json`。
+  - 依赖：仅 Python 标准库，无需第三方包。
+  - 调用：`python scripts/validate_notes.py --spec notes_spec.json --extract work/extract/extract.json --out /app/output --case-id <id>`
+  - 校验失败返回非零，并给出缺失字段；不编造内容。
 
 ## 异常处理
 
@@ -68,7 +69,7 @@ description: 把一篇科研论文（PDF）转换成与原文章节对齐、字�
 
 1. 笔记骨架是否按论文原章节？是否套用了通用模板？
 2. 研究问题、数据、方法条件、发现、结论、局限、前提条件是否齐全？
-3. 每条关键结论是否有具体锚点（章节/段落/页/图表/公式）？锚点是否指向真正对应的位置？
+3. 每条关键结论是否有具体锚点（章节/段落/页/图表/公式/单元 id）？主要发现、结论、原理深挖条目是否带 `unit` + 逐字 `quote`，且通过 `validate_notes.py --extract` 的逐孔子串核验？
 4. 数字、变量、方法名、结论是否与原文一致？是否把他人结果写成本文结果？
 5. 每个关键结论是否回答了"为什么"（原理深挖）？可定量的结论是否用原文数字做了量级验证？
 6. 每条结论是否标注证据强度（direct/consensus/preliminary/not_reported）？是否把"初步/推测"写成了"事实"？
@@ -77,10 +78,11 @@ description: 把一篇科研论文（PDF）转换成与原文章节对齐、字�
 
 ## 资源清单
 
-- `assets/fields.json`：字段字典与锚点格式规范（含 `principle_analysis`、`evidence_strength`、`glossary`、`one_liner`、`notes_plain`）。
+- `assets/fields.json`：字段字典与锚点格式规范（含 `principle_analysis`、`evidence_strength`、`glossary`、`one_liner`、`notes_plain` 与锚点的 `unit`/`quote` 逐字证据字段）。
 - `assets/精读笔记模板.md`：面向非专业读者的 13 格精读笔记模板（现象层 + 原理层），`notes_plain` 的输出格式以此为准。
 - `assets/example_notes.json`：最小调用示例（**示意示例**，非任何正式案例答案）。
-- `scripts/validate_notes.py`：确定性校验与组装脚本。
+- `scripts/pdf_extract.py`：确定性 PDF 段落提取器，产出带段号/页码锚点的源单元。
+- `scripts/validate_notes.py`：确定性校验（含逐字证据核验）与组装脚本。
 
 ## 最小调用示例
 

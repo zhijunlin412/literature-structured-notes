@@ -1,0 +1,14 @@
+{
+  "_comment": "实体类型受控词表：node 的 type 字段只能从此表选取。拿不准时用 finding（结论/发现）或 material 并在 note 说明，不自造类型。",
+  "entity_types": [
+    {"id": "material", "zh": "材料/样品", "definition": "论文中真实制备或使用的具体材料、催化剂、电极、样品（含基底，如碳布）", "example": "Fe–CoCH NT/CC、Co(CO3)0.5OH@CC、RuO2"},
+    {"id": "compound", "zh": "化合物/物相", "definition": "作为化学物种讨论的化合物或晶相（不绑定某一次制备的样品）", "example": "Co(CO3)0.5(OH)·0.11H2O 相、Fe(OH)3、CoOOH"},
+    {"id": "method", "zh": "方法/技术", "definition": "合成方法、表征技术、测试方法、计算方法", "example": "水热法、XPS、电化学阻抗谱（EIS）"},
+    {"id": "task", "zh": "任务/反应", "definition": "研究面向的反应、过程或应用任务", "example": "析氧反应（OER）、酸碱混合电解（ABE）"},
+    {"id": "metric", "zh": "指标", "definition": "评价性能的量化指标（不含具体数值；数值放在边的 value 字段）", "example": "过电位（10 mA cm⁻²）、塔菲尔斜率、法拉第效率"},
+    {"id": "finding", "zh": "结论/发现", "definition": "作者报告的结论性认识（作为节点便于支撑/矛盾关系连接）", "example": "电化学重构的 Fe–CoOOH 层是真实 OER 活性物种"},
+    {"id": "researcher", "zh": "研究者", "definition": "作者或被引工作的研究者（个人）", "example": "Chengyi Lu"},
+    {"id": "organization", "zh": "机构", "definition": "研究机构、期刊、资助方", "example": "西北工业大学"},
+    {"id": "condition", "zh": "条件", "definition": "实验或测试条件（电解液、温度、扫速等可复用条件实体）", "example": "1.0 M KOH、室温"}
+  ]
+}

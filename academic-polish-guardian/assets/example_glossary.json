@@ -1,0 +1,13 @@
+{
+  "note": "术语表格式示例。canonical=规范写法；variants=可接受写法（含缩写）；banned=禁用写法；first_mention_full=首次出现必须全称（缩写）。任务给了术语表就用任务的，没给就按此格式边读边建。",
+  "terms": [
+    {"canonical": "oxygen evolution reaction (OER)", "abbr": "OER",
+     "variants": ["oxygen evolution reaction", "OER"],
+     "first_mention_full": true,
+     "note": "首次全称（缩写），之后只用 OER"},
+    {"canonical": "carbon cloth", "abbr": "CC",
+     "variants": ["carbon cloth", "CC"],
+     "first_mention_full": true,
+     "note": "材料名全篇统一，勿混用 carbon fiber paper"}
+  ]
+}

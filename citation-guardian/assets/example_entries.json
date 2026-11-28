@@ -1,0 +1,16 @@
+[
+  {"key": "1", "type": "journal",
+   "authors": ["Suen, N.-T.", "Hung, S.-F.", "Quan, Q."],
+   "title": "Electrocatalysis for the oxygen evolution reaction: recent development and future perspectives",
+   "journal": "Chemical Society Reviews", "year": "2017",
+   "volume": "46", "issue": "2", "pages": "337-365",
+   "doi": "10.1039/c6cs00328a",
+   "verification": {"status": "verified", "channel": "Crossref API", "date": "2026-01-01",
+                    "evidence": "查询返回 DOI/卷期页与条目一致（示例）"}},
+  {"key": "2", "type": "journal",
+   "authors": ["Hu, C.", "Zhang, L.", "Gong, J."],
+   "title": "Recent progress made in the mechanism comprehension and design of electrocatalysts for alkaline water splitting",
+   "journal": "Energy & Environmental Science", "year": "2019",
+   "volume": "12", "pages": "2620-2645",
+   "verification": {"status": "unverified", "reason": "无 DOI，演示环境未核验（示例）"}}
+]

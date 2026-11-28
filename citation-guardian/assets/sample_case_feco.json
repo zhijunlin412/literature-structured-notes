@@ -1,0 +1,19 @@
+{
+  "note": "真实演示记录（非正式测试案例）。素材：Dalton Trans. 2024, 53, 1870（10.1039/d3dt03520d，©RSC，仅演示）引言真实句子与真实文献 1-5；条目 6 为按 CNKI 导出样式构造的条目 1 重复版；引用编号为演示故意打乱。条目 1、5 经 Crossref API 真实核验（2026-11-28）。",
+  "input_summary": {"markers": 5, "entries": 6, "orphan_entries": ["2"], "dangling_markers": []},
+  "dedup_candidates": [
+    {"pair": ["1", "6"], "score": 0.95, "matched_criteria": [2],
+     "decision": "merge", "survivor": "1",
+     "justification": "规范化题名完全相同、出版年相同；条目 6 为 CNKI 导出样式（期刊名全大写、作者 et al. 截断），与条目 1 同一文献；保留含完整作者与 DOI 且已核验的条目 1"}
+  ],
+  "renumber_map": {"3": 1, "1": 2, "4": 3, "5": 4},
+  "final_references": [
+    "[1] Li X, Zhao L, Yu J, et al. Water splitting: From electrode to green energy system[J]. Nano-Micro Letters, 2020, 12: 131.",
+    "[2] Suen N T, Hung S F, Quan Q, et al. Electrocatalysis for the oxygen evolution reaction: recent development and future perspectives[J]. Chemical Society Reviews, 2017, 46(2): 337-365. DOI: 10.1039/c6cs00328a.",
+    "[3] Shih A J, Monteiro M C O, Dattila F, et al. Water electrolysis[J]. Nature Reviews Methods Primers, 2022, 2: 84.",
+    "[4] Zhang K, Zou R. Advanced transition metal-based OER electrocatalysts: Current status, opportunities, and challenges[J]. Small, 2021, 17(37): 2100129. DOI: 10.1002/smll.202100129."
+  ],
+  "uncited_kept": ["2（Hu 2019，Energy Environ. Sci.）全篇未被引用，列入未引用区待作者确认"],
+  "check_result": "0 error / 1 warning（第 3 段末引用位置待确认，已列入 human_review）",
+  "sabotage_test": "四类破坏（悬空引用、编号断档、GB/T 缺字段、假核验）全部被 check_refs 抓住"
+}

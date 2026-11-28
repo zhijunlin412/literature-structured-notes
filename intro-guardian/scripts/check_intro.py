@@ -13,7 +13,8 @@
 
 用法:
   python check_intro.py --draft work/draft.json --fact-draft fact_draft.json \
-      --library library.json --phrases assets/boilerplate_phrases.json --out check_report.json
+      --library library.json --phrases assets/boilerplate_phrases.json \
+      [--zh-phrasing assets/zh_phrasing.json] --out check_report.json
 """
 import argparse, json, re, sys, unicodedata
 
@@ -34,6 +35,7 @@ def main():
     ap.add_argument("--fact-draft", required=True)
     ap.add_argument("--library", required=True)
     ap.add_argument("--phrases", required=True)
+    ap.add_argument("--zh-phrasing", help="可选：中文语境用词规范（直译腔检测）")
     ap.add_argument("--out", required=True)
     a = ap.parse_args()
 
@@ -130,6 +132,16 @@ def main():
             errors.append(f"分组 '{g.get('dimension','?')}' 没有文献")
         if not (g.get("comparison") or "").strip():
             warnings.append(f"分组 '{g.get('dimension','?')}' 缺 comparison 比较句（同维度取舍/适用条件/局限）")
+
+    # 7. 中文直译腔检测（可选词表；warning 级，改不改由人判断）
+    if a.zh_phrasing:
+        zp = json.load(open(a.zh_phrasing, encoding="utf-8-sig"))
+        all_text = json.dumps([draft.get("background", []), draft.get("related_work", {}),
+                               draft.get("gap", []), draft.get("contributions", [])], ensure_ascii=False)
+        for t in zp.get("terms", []):
+            lit = t.get("literal", "")
+            if lit and lit in all_text:
+                warnings.append(f"直译腔用词 '{lit}'：建议改为 {t.get('preferred','')}（{t.get('note','')}）")
 
     rep = {"status": "fail" if errors else ("pass_with_warnings" if warnings else "pass"),
            "errors": errors, "warnings": warnings,

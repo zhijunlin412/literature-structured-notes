@@ -1,0 +1,32 @@
+{
+  "_说明": "示例输出结构（数值为示意，非正式案例结果）。实际运行时 chapter.md 与 result.json 由 assemble_chapter.py 生成。",
+  "case_id": "example-mini-001",
+  "status": "partial",
+  "deliverables": {
+    "chapter": "/app/output/chapter.md",
+    "prose": "/app/work/prose.md",
+    "draft": "/app/work/draft.json",
+    "inventory": "/app/work/inventory.json"
+  },
+  "stats": {
+    "claims_total": 5,
+    "claims_validated": 5,
+    "registry_total": 5,
+    "tier_A": 5,
+    "tier_A_covered": 5,
+    "conflicts": 0,
+    "conflicts_resolved": 0,
+    "gaps": 1,
+    "numbers_in_prose": 5,
+    "numbers_covered": 5
+  },
+  "check_status": "pass",
+  "sources": ["run_config.txt"],
+  "uncertainty": {
+    "gaps_pending_author": ["G1"],
+    "conflicts": [],
+    "note": "示例：材料未提供电解池构型，登记 G1 待作者确认。"
+  },
+  "change_records": [],
+  "limitations": "章节数值仅来源于所给材料；材料未覆盖的信息以缺口标注，未作推测补写。"
+}

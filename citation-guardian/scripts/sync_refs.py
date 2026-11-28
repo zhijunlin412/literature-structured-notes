@@ -40,6 +40,17 @@ def main():
     entries = {e["key"]: e for e in json.load(open(a.entries, encoding="utf-8-sig"))}
     plan = json.load(open(a.plan, encoding="utf-8-sig"))
 
+    # 0. plan 引用完整性：指向不存在的条目要清楚报错，不许抛异常
+    plan_keys = set()
+    for m in plan.get("merges", []):
+        plan_keys.add(str(m["survivor"]))
+        plan_keys.update(str(x) for x in m["absorbed"])
+    plan_keys.update(str(d["key"]) for d in plan.get("drop_entries", []))
+    unknown = plan_keys - set(entries)
+    if unknown:
+        print(f"FATAL: plan 引用了不存在的条目号 {sorted(unknown)}；entries.json 的 key 必须与稿件引用号一致")
+        sys.exit(2)
+
     # 1. 合并映射：被吸收号 → 保留号
     alias = {}
     for m in plan.get("merges", []):

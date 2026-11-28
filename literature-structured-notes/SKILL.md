@@ -46,7 +46,7 @@ description: 把一篇科研论文（PDF）转换成与原文章节对齐、字�
 5. **知识点提取**：把重要概念、变量、方法、结论拆成可检索条目；处理缩写、同义表述，归并重复条目，冲突处显式标注；可选填 `principle`（为什么）与 `evidence_strength`（证据强度）。
 6. **证据锚点 + 逐字引文**：为每条关键结论写锚点（章节/段落/页码/图表/公式/**单元 id** 至少其一）；**主要发现、结论、原理深挖条目必须带 `unit` + `quote`**——`quote` 从该单元逐字复制（含空格形式），作为"这条笔记不是我编的"的可机检证据。找不到支撑单元的论断不写成事实，记入 `uncertainty`。
 7. **原理深挖（`principle_analysis`）**：对每个关键结论回答"为什么"——给底层原理/公式/机制（`basis`），对可定量的结论做量级验证（`quantitative_check`，用原文数字反算核对，不一致要写明），并标 `evidence_strength`：`direct`（本文直接测量/陈述）、`consensus`（领域共识背景知识，本文未直接测量）、`preliminary`（本文自述初步/推测/需确认）、`not_reported`（未报告）。**区分"本文直接证据"与"领域共识解释"，绝不把推测写成事实。**
-8. **术语词典 + 易懂化（`glossary` / `notes_plain`）**：把领域黑话（OER、过电位、双极膜、Tafel、ECSA 等）用通俗中文解释；`notes_plain` 按 `assets/精读笔记模板.md` 的 13 个格子组织（现象层与原理层一体），面向非专业读者，不含 JSON/代码/英文字段名。
+8. **术语词典 + 易懂化（`glossary` / `notes_plain`）**：把领域黑话（OER、过电位、双极膜、Tafel、ECSA 等）用通俗中文解释；`notes_plain` 按 `assets/reading-notes-template.zh.md` 的 13 个格子组织（现象层与原理层一体），面向非专业读者，不含 JSON/代码/英文字段名。
 9. **题目问答与矛盾保留**：若 case 附带问题，逐题填 `question_answers`（问题、直接回答、带 `unit`+`quote` 的证据、置信度）；原文没点名、材料没给的如实答"未报告/无法判断"，不猜。**论文自相矛盾处（前后数字、单位、方法名、时间范围不一致）必须显式列出**，记入 `uncertainty` 或对应字段的 `conflicts`，不擅自统一、不悄悄选一版。多篇论文案例：每个锚点加 `source` 字段注明出自哪一篇，禁止跨论文混用证据。
 10. **校验与自检**：`python scripts/validate_notes.py --spec notes_spec.json --extract work/extract/extract.json --out /app/output --case-id <id>`；**所有 error（含证据非逐字、单元不存在）必须修复重跑至清零**；`confidence=high` 无逐字引文的 warning 要逐条处理（补引文或降 medium）——置信度是模型自评，自评天然偏乐观，`high` 只给有直接逐字证据的结论。区分"机器可判定的字段"与"必须人工确认的字段"；未报告、无法判断、材料冲突分别写明。预算紧张时先交全字段占位版（未完成标 `partial`），再按论文卡片→问题回答→章节→知识点→原理深挖的优先级填充。
 
@@ -83,7 +83,7 @@ description: 把一篇科研论文（PDF）转换成与原文章节对齐、字�
 ## 资源清单
 
 - `assets/fields.json`：字段字典与锚点格式规范（含 `principle_analysis`、`evidence_strength`、`glossary`、`one_liner`、`notes_plain` 与锚点的 `unit`/`quote` 逐字证据字段）。
-- `assets/精读笔记模板.md`：面向非专业读者的 13 格精读笔记模板（现象层 + 原理层），`notes_plain` 的输出格式以此为准。
+- `assets/reading-notes-template.zh.md`：面向非专业读者的 13 格精读笔记模板（现象层 + 原理层），`notes_plain` 的输出格式以此为准。
 - `assets/example_notes.json`：最小调用示例（**示意示例**，非任何正式案例答案）。
 - `scripts/pdf_extract.py`：确定性 PDF 段落提取器，产出带段号/页码锚点的源单元。
 - `scripts/validate_notes.py`：确定性校验（含逐字证据核验）与组装脚本。

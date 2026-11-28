@@ -50,7 +50,7 @@ python scripts/validate_notes.py --spec notes_spec.json --extract work/extract/e
 | `scripts/get_units.py` | 小批量取单元（--ids/--pages/--max-chars），单次返回 ≤1 万字符，节省预算 |
 | `scripts/validate_notes.py` | 字段与锚点校验 + **逐字证据核验** + 置信度-证据绑定检查 + 组装 result.json / notes.md / evidence_map.json |
 | `assets/fields.json` | 字段字典与锚点格式规范 |
-| `assets/精读笔记模板.md` | 面向非专业读者的 13 格精读笔记模板（notes_plain 格式） |
+| `assets/reading-notes-template.zh.md` | 面向非专业读者的 13 格精读笔记模板（notes_plain 格式） |
 | `assets/example_notes.json` | 最小调用示例（示意，非任何正式案例答案） |
 
 ## 限制

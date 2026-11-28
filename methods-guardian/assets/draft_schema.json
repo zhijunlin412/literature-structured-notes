@@ -1,0 +1,49 @@
+{
+  "_doc": "draft.json 契约。Agent 只写这一份小 JSON + 章节正文 prose.md；其余由脚本生成。",
+  "meta": {
+    "title": "章节标题（必填）",
+    "language": "zh 或 en",
+    "change_records": ["本次相对材料/旧稿的主要改动（可空）"]
+  },
+  "sections": [
+    {"id": "S1", "title": "材料与试剂", "element": "data"},
+    {"id": "S2", "title": "制备步骤", "element": "steps"}
+  ],
+  "claims": [
+    {
+      "id": "cl-01",
+      "_规则": "正文中的每个数字都必须有一条 claim；evidence 必须逐字摘自 source_file；number 必须出现在 evidence 中",
+      "name": "参数名（用于溯源表）",
+      "number": "120",
+      "unit": "°C（可空）",
+      "chapter_span": "正文中包含该数字的逐字片段（位置绑定，脚本将核对它在 prose.md 中逐字出现）",
+      "source_file": "materials 内的相对路径",
+      "evidence": "source_file 中包含该数字的逐字片段",
+      "registry_id": "P0007（若对应台账条目；台账值必须与 number 一致）"
+    }
+  ],
+  "gaps": [
+    {
+      "id": "G1",
+      "_规则": "材料不足、冲突无法裁定、需作者确认的内容登记为 gap，并在正文以【待作者确认 G1 …】标注",
+      "element": "steps/setup/params/data/baselines/repro 之一",
+      "question": "需作者确认的具体问题",
+      "conflict_id": "C1（若该 gap 用于上报某个台账冲突，可填）"
+    }
+  ],
+  "unused_registry": [
+    {"registry_id": "P0012", "reason": "为何不写入章节（必填，覆盖率分母来自台账）"}
+  ],
+  "conflict_resolution": [
+    {"conflict_id": "C1", "choice": "台账 options 中的某个取值，或 \"gap\" 表示上报作者",
+     "note": "裁定依据（可空）"}
+  ],
+  "element_coverage": {
+    "steps": "present",
+    "setup": {"status": "gap", "gap_id": "G1"},
+    "params": "present",
+    "data": "present",
+    "baselines": "present",
+    "repro": "present"
+  }
+}

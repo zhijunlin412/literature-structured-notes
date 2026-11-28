@@ -133,15 +133,20 @@ def main():
         if not (g.get("comparison") or "").strip():
             warnings.append(f"分组 '{g.get('dimension','?')}' 缺 comparison 比较句（同维度取舍/适用条件/局限）")
 
-    # 7. 中文直译腔检测（可选词表；warning 级，改不改由人判断）
+    # 7. 中文学术语域检测（通用直译腔 + 学科领域词表；warning 级）
     if a.zh_phrasing:
         zp = json.load(open(a.zh_phrasing, encoding="utf-8-sig"))
         all_text = json.dumps([draft.get("background", []), draft.get("related_work", {}),
                                draft.get("gap", []), draft.get("contributions", [])], ensure_ascii=False)
-        for t in zp.get("terms", []):
-            lit = t.get("literal", "")
-            if lit and lit in all_text:
-                warnings.append(f"直译腔用词 '{lit}'：建议改为 {t.get('preferred','')}（{t.get('note','')}）")
+        term_lists = [zp.get("general", {}).get("literal_terms", [])]
+        for dom, terms in zp.get("domains", {}).items():
+            if not dom.startswith("_"):
+                term_lists.append(terms)
+        for terms in term_lists:
+            for t in terms:
+                lit = t.get("literal", "")
+                if lit and lit in all_text:
+                    warnings.append(f"语域问题 '{lit}'：建议改为 {t.get('preferred','')}（{t.get('note','')}）")
 
     rep = {"status": "fail" if errors else ("pass_with_warnings" if warnings else "pass"),
            "errors": errors, "warnings": warnings,

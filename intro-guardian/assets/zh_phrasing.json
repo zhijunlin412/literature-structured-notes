@@ -1,15 +1,42 @@
 {
-  "note": "中文语境用词规范：中文成稿不得使用直译腔术语。check_intro 对 draft 全部文本扫描，命中 literal 形式报 warning（建议改 preferred）。可按学科扩充。",
-  "terms": [
-    {"literal": "电催化水分解", "preferred": "电解水（电催化）", "note": "water splitting 直译；中文惯用电解水"},
-    {"literal": "水裂解", "preferred": "电解水", "note": "同上"},
-    {"literal": "碳酸钴氢氧化物", "preferred": "碱式碳酸钴", "note": "cobalt carbonate hydroxide 直译；中文矿物/材料惯用碱式碳酸钴"},
-    {"literal": "氢氧化镍钴", "preferred": "镍钴氢氧化物", "note": "语序按中文习惯：修饰金属在前"},
-    {"literal": "落地到", "preferred": "应用于／具体到", "note": "口语化直译，学术写作避免"},
-    {"literal": "值得注意的是", "preferred": "（删或具体化）", "note": "It is worth noting 直译填充语"},
-    {"literal": "在这方面", "preferred": "（删或具体化）", "note": "In this regard 直译填充语"},
-    {"literal": "起着至关重要的作用", "preferred": "起关键作用／是关键", "note": "plays a vital role 直译"},
-    {"literal": "被发现是", "preferred": "是／研究表明为", "note": "was found to be 直译被动"}
-  ],
-  "rule": "中文成稿逐句回读：把英语句式、被动直译、直译术语换成中文表达习惯；拿不准的标 human_review，不硬改"
+  "note": "中文学术语域规范（两层）。general：任何学科都适用的学术书面语规则与直译腔清单；domains：按学科组织的专业译法，电化学为种子示例——遇到新学科时按 SKILL.md 步骤从材料中提取该领域术语补进来（材料里的事实底稿与文献库本身就是该领域正确用法的范本）。check_intro 扫描全部文本：命中 literal 报 warning 并给出 preferred。",
+  "general": {
+    "rules": [
+      "术语锁定：同一概念全篇只能有一个中文名（以材料中的权威用法为准），首次出现给全称（缩写/英文），之后只用一种形式",
+      "动词强度按证据分级：已证实结果用'表明/证实'，初步结果用'初步表明'，前景用'有望'，判断标'认为'；不堆砌'极大地''显著地'等无定量依据的程度副词",
+      "用精确动词替代万能动词：'做实验→开展实验'，'搞→研究/制备'，'提升→提高/增强（按对象）'，避免'通过……来……'与'进行'的滥用（'进行表征→表征'）",
+      "避免口语与填充语：东西、方面、可以说、值得注意的是、众所周知、总的来说",
+      "样品代号、方法缩写（Fe-CoCH NT/CC、XPS、DFT）保留英文不译；通用方法名用中文规范名（水热法、电沉积、溶胶-凝胶法）",
+      "句式按中文信息组织：主语前置、少用'被'字被动直译（'被发现是→是/研究表明为'）、避免多重'的'字长定语"
+    ],
+    "literal_terms": [
+      {"literal": "起着至关重要的作用", "preferred": "起关键作用／是关键", "note": "plays a vital role 直译"},
+      {"literal": "值得注意的是", "preferred": "（删或具体化）", "note": "It is worth noting 填充语"},
+      {"literal": "在这方面", "preferred": "（删或具体化）", "note": "In this regard 填充语"},
+      {"literal": "被发现是", "preferred": "是／研究表明为", "note": "was found to be 被动直译"},
+      {"literal": "众所周知", "preferred": "（删）", "note": "It is well known 填充语，且隐含无引用断言"},
+      {"literal": "在很大程度上", "preferred": "（删或量化）", "note": "to a large extent 模糊直译"},
+      {"literal": "总的来说", "preferred": "综上", "note": "学术连接词"},
+      {"literal": "进行了……的研究", "preferred": "研究了……", "note": "进行 滥用"},
+      {"literal": "……的存在", "preferred": "（改写为动词句）", "note": "the presence of 名词化直译"},
+      {"literal": "随着……的不断发展", "preferred": "（删或具体化时间脉络）", "note": "空转时间状语"},
+      {"literal": "极大地提高了", "preferred": "提高了（或给定量）", "note": "无依据程度副词"},
+      {"literal": "具有重要的理论意义和实际应用价值", "preferred": "（具体化意义）", "note": "万能结尾套话"}
+    ]
+  },
+  "domains": {
+    "electrochemistry": [
+      {"literal": "电催化水分解", "preferred": "电解水（电催化）", "note": "water splitting 直译"},
+      {"literal": "水裂解", "preferred": "电解水", "note": "同上"},
+      {"literal": "碳酸钴氢氧化物", "preferred": "碱式碳酸钴", "note": "cobalt carbonate hydroxide 直译"},
+      {"literal": "氢氧化镍钴", "preferred": "镍钴氢氧化物", "note": "修饰金属在前"},
+      {"literal": "氧气析出反应", "preferred": "析氧反应（OER）", "note": "oxygen evolution reaction 规范译名"},
+      {"literal": "氢气析出反应", "preferred": "析氢反应（HER）", "note": "hydrogen evolution reaction 规范译名"},
+      {"literal": "塔菲尔斜率", "preferred": "Tafel 斜率", "note": "专名音译保留原文更通用"},
+      {"literal": "过电势", "preferred": "过电位", "note": "电化学国内期刊惯用过电位"}
+    ],
+    "_template_新学科": [
+      {"literal": "（从材料中发现的直译腔写法）", "preferred": "（材料/领域文献中的规范名）", "note": "补充时注明依据来源"}
+    ]
+  }
 }

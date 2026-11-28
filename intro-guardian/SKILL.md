@@ -19,7 +19,9 @@ description: 引言与相关工作写作（中英文学术论文）。从事实�
 1. **立得住**：背景必须指向真实研究脉络与具体问题。空话套话（"近年来受到广泛关注"类）单独出现 = error；要么删掉，要么同句带引用或具体对象。
 2. **分得清**：相关工作必须按问题/方法路线/技术路线**分组**，每组有同维度比较句（取舍、适用条件、局限）；不接受逐篇摘要拼接。每条转述必须逐字绑定**被引那一篇**的原文（`evidence.quote` 逐孔子串核验，引错篇也是 error）。
 3. **说得实**：空白必须 `derived_from` 已引文献的缺口并写明推导依据；属于作者判断的标 `author_judgment`，不许伪装成文献结论。
-4. **对得上**：每条贡献挂到底稿锚点（方法/结果/图表），贡献中的**数字必须能在锚点事实中找到**——材料里没有的数据不许出现。
+4. **对得上**：每条贡献挂到底稿锚点（方法/结果/图表），贡献中的**数字必须能在锚点事实中找到**；与他文比较的数字必须在该贡献的 `citations` 中给出文献——材料里没有的数据不许出现。
+
+**中文成稿附加要求**：按中文表达习惯写作，不用直译腔——"电解水"不写"电催化水分解"、"碱式碳酸钴"不写"碳酸钴氢氧化物"；`assets/zh_phrasing.json` 的直译词表由 check 扫描告警，写作时主动避开，拿不准的译法标 human_review 不硬造。
 
 ## 六步工作流（按价值落盘）
 
@@ -47,10 +49,11 @@ python scripts/parse_materials.py --fact-draft work/fact_draft.json --library wo
 
 ```
 python scripts/check_intro.py --draft work/draft.json --fact-draft work/fact_draft.json \
-    --library work/library.json --phrases assets/boilerplate_phrases.json --out work/check_report.json
+    --library work/library.json --phrases assets/boilerplate_phrases.json \
+    --zh-phrasing assets/zh_phrasing.json --out work/check_report.json
 ```
 
-六类校验：转述逐字绑定（位置级）、空话检测、空白推导链、贡献数字锚定、引用覆盖（分母=库内全部文献）、分组质量。error 必须修到 0；warning 逐条在报告里说明。
+七类校验：转述逐字绑定（位置级）、空话检测、空白推导链、贡献数字锚定、引用覆盖（分母=库内全部文献）、分组质量、中文直译腔（warning 级）。error 必须修到 0；warning 逐条在报告里说明。
 
 ### 6. 组装交付
 

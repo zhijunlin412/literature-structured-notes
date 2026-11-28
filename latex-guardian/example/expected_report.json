@@ -1,0 +1,22 @@
+{
+  "_说明": "诊断报告结构示意（内容为预期形态的示例，非正式案例结果）。实际报告由 tex_build.py 对真实工程生成。",
+  "project": "example/project",
+  "main": "main.tex",
+  "engine": "pdflatex",
+  "bib_mode": "none",
+  "converged": false,
+  "errors": [
+    {"class": "undefined_control_sequence", "file": "main.tex", "line": 14,
+     "message": "Undefined control sequence",
+     "line_text": "样品在 120 \\celsius 反应",
+     "guide": "命令未定义：常见于拼写错误或缺宏包……"},
+    {"class": "undefined_control_sequence", "file": "main.tex", "line": 22,
+     "message": "Undefined control sequence",
+     "line_text": "\\toprule",
+     "guide": "……加载 booktabs 宏包……"}
+  ],
+  "undefined_refs": ["fig:sem"],
+  "undefined_citations": [],
+  "warnings": [],
+  "pdf": null
+}

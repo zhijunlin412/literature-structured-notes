@@ -58,9 +58,11 @@ python scripts/check_chapter.py --materials <材料目录> --inventory work/inve
   --draft work/draft.json --stage final --prose work/prose.md --out work/check_report.json
 ```
 
-### 第 3.5 步（任务需要图时）：技术路线图
+### 第 3.5 步（默认不做图，该做才做）：技术路线图
 
-任务要求流程图/技术路线图，或章节复杂到值得配图时，写一份小的 `flow.json`（契约见脚本 docstring：`nodes` 节点文字、`rows` 行结构（一行多框即分支，可带行标签）、`edges` 相邻行连接），脚本负责确定性排版：
+**原则：该做图才做图，纯文字能说清就不做图。** 仅在两种情况下做图：①任务明确要求流程图/技术路线图；②方法步骤有明显分支或并行结构，纯文字确实难以表达。线性简单流程、常规章节一律不配图——多余的图不加分，还占预算。
+
+需要做时，写一份小的 `flow.json`（契约见脚本 docstring：`nodes` 节点文字、`rows` 行结构（一行多框即分支，可带行标签）、`edges` 相邻行连接），脚本负责确定性排版：
 
 ```bash
 python scripts/make_flowchart.py --flow work/flow.json --out /app/output/route.svg \

@@ -1,0 +1,7 @@
+{
+  "case_id": "example-mini-001",
+  "_说明": "最小调用示例输入，仅说明接口，非正式测试案例。",
+  "task": "根据 materials/ 中的实验记录撰写方法与实验章节（中文）。",
+  "materials_dir": "materials",
+  "language": "zh"
+}

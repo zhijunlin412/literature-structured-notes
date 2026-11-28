@@ -1,0 +1,12 @@
+{
+  "note": "真实演示记录（非正式测试案例）。为 Fe-Co 论文（Dalton 2024）起草中文引言与相关工作；底稿锚点逐字摘自论文（©RSC 仅本地演示）；4 篇相关文献的证据文本来自 OpenAlex / Semantic Scholar / PMC8429493 真实获取（2026-11-28）。",
+  "demo_stats": {"anchors": 5, "library_works": 4, "groups": 2, "gaps": 2, "contributions": 4, "check": "0 error / 0 warning"},
+  "evidence_binding_example": {
+    "claim": "Yan 等以一步水热法在碳布上生长针状碱式碳酸钴纳米阵列，在 10 mA cm-2 下实现 317 mV 的 OER 过电位",
+    "quote_verbatim_from_yan2021": "the Co(CO3)0.5OH@CC only requires 317 mV of overpotential to reach a current density of 10 mA cm-2"
+  },
+  "gap_derivation_example": "空白'缺乏保持阵列形貌同时调控电子结构的简易方法'由 yan2021（317 mV 现状）与 zhangzou2021（动力学瓶颈）共同推出",
+  "contribution_anchor_example": "贡献'过电位 290 mV'挂锚点 result-eta10（锚点文本含 290 mV）；比较数字 317 显式引用 yan2021",
+  "lesson_found_in_demo": "校验器在演示中抓住作者自己写的比较数字 317 无出处，由此新增规则：贡献引用他文数字时必须显式给出 citations——位置绑定优于全库比对",
+  "sabotage_test": "五类破坏（凭印象改引文、张冠李戴、编造数字 250、空话铺垫、假空白）全部被 check_intro 抓住"
+}

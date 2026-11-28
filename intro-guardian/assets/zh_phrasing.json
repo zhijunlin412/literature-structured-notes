@@ -1,0 +1,15 @@
+{
+  "note": "中文语境用词规范：中文成稿不得使用直译腔术语。check_intro 对 draft 全部文本扫描，命中 literal 形式报 warning（建议改 preferred）。可按学科扩充。",
+  "terms": [
+    {"literal": "电催化水分解", "preferred": "电解水（电催化）", "note": "water splitting 直译；中文惯用电解水"},
+    {"literal": "水裂解", "preferred": "电解水", "note": "同上"},
+    {"literal": "碳酸钴氢氧化物", "preferred": "碱式碳酸钴", "note": "cobalt carbonate hydroxide 直译；中文矿物/材料惯用碱式碳酸钴"},
+    {"literal": "氢氧化镍钴", "preferred": "镍钴氢氧化物", "note": "语序按中文习惯：修饰金属在前"},
+    {"literal": "落地到", "preferred": "应用于／具体到", "note": "口语化直译，学术写作避免"},
+    {"literal": "值得注意的是", "preferred": "（删或具体化）", "note": "It is worth noting 直译填充语"},
+    {"literal": "在这方面", "preferred": "（删或具体化）", "note": "In this regard 直译填充语"},
+    {"literal": "起着至关重要的作用", "preferred": "起关键作用／是关键", "note": "plays a vital role 直译"},
+    {"literal": "被发现是", "preferred": "是／研究表明为", "note": "was found to be 直译被动"}
+  ],
+  "rule": "中文成稿逐句回读：把英语句式、被动直译、直译术语换成中文表达习惯；拿不准的标 human_review，不硬改"
+}

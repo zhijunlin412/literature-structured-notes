@@ -31,6 +31,7 @@ assemble_chapter.py ──> chapter.md（正文 + 参数溯源表 + 复现清单
 | `scripts/scan_materials.py` | 材料清点与参数台账构建（纯标准库） |
 | `scripts/check_chapter.py` | 草稿/成稿两阶段机器核验（纯标准库） |
 | `scripts/assemble_chapter.py` | 成稿与 result.json 组装（纯标准库） |
+| `scripts/make_flowchart.py` | 技术路线图排版：flow.json → SVG（+PNG 预览），图中数字与 draft 校验一致（纯标准库） |
 | `assets/draft_schema.json` | draft.json 契约 |
 | `assets/element_checklist.json` | 六类要素清单（步骤/设置/参数/数据/对照/复现与限制） |
 | `example/` | 最小调用示例（示意输出，非正式案例结果） |
@@ -46,4 +47,5 @@ assemble_chapter.py ──> chapter.md（正文 + 参数溯源表 + 复现清单
 ## 已验证
 
 - 真实演示：以 PMC8429493（CC-BY）实验记录为材料生成中文方法章节，12/12 claim 通过证据核验，正文 15/15 数字有来源，注入的记录冲突被检出并裁定。
+- 技术路线图：演示生成学术风格 SVG+PNG 路线图（纵向主链、分支、汇合、行标签）；图中数字与 draft claim 集合一致性校验拦截材料外数值；畸形输入干净退出。
 - 破坏测试：8 类注入错误（写错数字、编造证据、数字与证据不符、与台账不一致、缺 gap 标注、冲突未裁定、台账漏交代、要素未声明）全部被拦截；2 项损坏输入测试干净退出。

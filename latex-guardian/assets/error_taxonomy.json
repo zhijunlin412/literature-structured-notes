@@ -1,0 +1,89 @@
+{
+  "_doc": "编译错误分类表。tex_build.py 按 pattern 匹配日志行，归类根因并给修复指引。新增错误模式时在末尾追加条目即可。",
+  "classes": [
+    {
+      "id": "missing_package",
+      "name": "缺宏包",
+      "pattern": "! LaTeX Error: File `([^']+)' not found",
+      "guide": "安装对应宏包（tlmgr install <包名>，文件名去掉扩展名通常即包名），或移除/替换该 \\usepackage。"
+    },
+    {
+      "id": "missing_class",
+      "name": "缺模板类文件",
+      "pattern": "! LaTeX Error: File `([^']+\\.cls)' not found",
+      "guide": "模板 .cls 不在工程内也未安装：把模板文件放入工程目录或安装对应包；检查模板名称拼写。"
+    },
+    {
+      "id": "missing_file",
+      "name": "缺输入文件",
+      "pattern": "No file ([^\\s.]+\\.(tex|bib|bst|bbl|pdf|png|jpg|jpeg|eps))",
+      "guide": "\\input/\\includegraphics/\\bibliography 引用了不存在的文件：核对文件名与相对路径（相对于主文件）。"
+    },
+    {
+      "id": "undefined_control_sequence",
+      "name": "未定义命令",
+      "pattern": "! Undefined control sequence",
+      "guide": "命令未定义：常见于拼写错误或缺宏包。看 l.<行号> 指向的命令名，检查拼写并确认所需宏包已加载。"
+    },
+    {
+      "id": "math_error",
+      "name": "数学模式错误",
+      "pattern": "! (Missing \\$ inserted|Display math should end with \\$\\$|Extra \\}|Missing \\{ inserted|Double subscript|Double superscript)",
+      "guide": "数学环境语法错误：下/上标重复、花括号不配平、正文误用数学符号（_ ^ 需进入数学模式或转义）。"
+    },
+    {
+      "id": "environment_mismatch",
+      "name": "环境不配平",
+      "pattern": "! LaTeX Error: \\\\begin\\{([^}]+)\\} .* ended by \\\\end\\{([^}]+)\\}",
+      "guide": "\\begin 与 \\end 环境名不一致或漏写 \\end：按日志行号检查环境配对。"
+    },
+    {
+      "id": "undefined_reference",
+      "name": "未解析交叉引用",
+      "pattern": "LaTeX Warning: Reference `([^']+)' on page .* undefined",
+      "guide": "\\ref/\\eqref 指向的 \\label 不存在或编译轮次不足：核对 label 名拼写；若刚修复 label 需再跑两轮。"
+    },
+    {
+      "id": "undefined_citation",
+      "name": "未解析文献引用",
+      "pattern": "(LaTeX Warning: Citation `([^']+)' on page .* undefined|Package natbib Warning: Citation\\(s\\) may have changed)",
+      "guide": "\\cite 键在 .bib 中不存在（拼写/大小写）或 bibtex/biber 未运行：核对 cite 键与 .bib 条目键一致，确认构建流程包含 bibtex/biber 轮次。"
+    },
+    {
+      "id": "bibtex_error",
+      "name": "文献工具报错",
+      "pattern": "(I couldn't open|I found no|biblatex.*Error|Biber.*error)",
+      "guide": "bibtex/biber 运行失败：常见为 .bib 语法错误（缺逗号、花括号不配平）或 .bib 文件缺失；查看 .blg/.bcf 日志定位条目。"
+    },
+    {
+      "id": "unicode_char",
+      "name": "Unicode 字符未设置",
+      "pattern": "! LaTeX Error: Unicode character",
+      "guide": "文档含 CJK/特殊 Unicode 字符但用 pdflatex 编译：中文文档请改用 ctexart/ctex 宏包 + xelatex 引擎；个别特殊字符用 LaTeX 命令替代（如 ° 用 $^{\\circ}$）。"
+    },
+    {
+      "id": "font_error",
+      "name": "字体错误",
+      "pattern": "(! Font .*not found|! Package fontspec Error|Cannot find font|Missing character: There is no)",
+      "guide": "字体缺失或引擎不匹配：fontspec/ctex 需 xelatex/lualatex；缺字体时换用发行版自带字体或记录字体依赖。"
+    },
+    {
+      "id": "overfull_box",
+      "name": "行/盒溢出（警告）",
+      "pattern": "(Over|Under)full \\\\[hv]box",
+      "guide": "排版溢出警告：宽表/长公式/长 URL 超出行宽。优先用调整列宽、换行、\\small、longtable 等正规手段，禁止靠 \\resizebox 缩放掩盖。"
+    },
+    {
+      "id": "rerun_needed",
+      "name": "需再编译",
+      "pattern": "(Rerun to get|Label\\(s\\) may have changed|Package rerunfilecheck)",
+      "guide": "交叉引用/目录未收敛，需要再跑一轮编译。"
+    },
+    {
+      "id": "generic_error",
+      "name": "其他错误",
+      "pattern": "^! ",
+      "guide": "未归类错误：取该 '! ' 行及其后两行上下文人工判断。"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+% Example project with 3 typical errors (for interface illustration only, not a formal test case)
+\documentclass{article}
+\usepackage{amsmath}
+% Error 2: \toprule used below but booktabs is commented out
+% \usepackage{booktabs}
+
+\title{Example: Hydrothermal Synthesis of Co(CO3)0.5OH@CC}
+\author{Example Author}
+
+\begin{document}
+\maketitle
+
+\section{Methods}
+The sample was kept at 120 \celsius~for 8 h. % Error 1: \celsius undefined
+The parameters are listed in Table~\ref{tab:params} and Fig.~\ref{fig:sem}. % Error 3: fig:sem has no \label
+
+\begin{table}[htbp]
+\centering
+\caption{Preparation parameters}
+\label{tab:params}
+\begin{tabular}{ll}
+\toprule
+Parameter & Value \\
+\midrule
+Temperature & 120 $^{\circ}$C \\
+Duration & 8 h \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{document}

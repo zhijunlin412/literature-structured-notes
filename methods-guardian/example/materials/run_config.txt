@@ -1,0 +1,6 @@
+# 示例实验记录（合成数据，仅说明接口，非真实实验）
+hydrothermal_temp: 120 °C
+hydrothermal_time: 8 h
+electrolyte: 1.0 M KOH
+stability_duration: 27 h
+instrument: CHI 760E

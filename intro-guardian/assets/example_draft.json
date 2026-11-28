@@ -1,0 +1,20 @@
+{
+  "note": "draft.json 最小格式示例（非正式案例）。契约见 draft_schema.json。",
+  "background": [
+    {"text": "电催化水分解是规模化绿氢制备的关键路径", "citations": ["li2020"],
+     "note": "综述级文献支撑领域定位"}
+  ],
+  "related_work": {"groups": [
+    {"dimension": "过渡金属 OER 催化剂",
+     "works": [{"key": "zhangzou2021",
+                 "claim": "Zhang 与 Zou 系统总结了过渡金属基 OER 催化剂的现状与挑战",
+                 "evidence": {"quote": "（该文献 text 中的逐字句子）"}}],
+     "comparison": "两类工作都指出导电性是主要限制，但改性路线各有侧重"}
+  ]},
+  "gap": [{"statement": "缺乏室温简易的电子-形貌双调控方法",
+            "derived_from": ["zhangzou2021"], "basis": "综述指出的改性策略局限",
+            "status": "derived"}],
+  "contributions": [{"statement": "提出室温 Fe3+ 刻蚀-水解策略",
+                      "anchor": "method-fe3", "evidence_note": "底稿方法锚点"}],
+  "human_review": [], "uncertainty": [], "sources": []
+}

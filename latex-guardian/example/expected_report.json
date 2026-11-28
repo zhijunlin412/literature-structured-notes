@@ -1,22 +1,28 @@
 {
-  "_说明": "诊断报告结构示意（内容为预期形态的示例，非正式案例结果）。实际报告由 tex_build.py 对真实工程生成。",
+  "_说明": "对 example/project 运行 tex_build.py 所得诊断报告的形态示意（数值来自一次真实远程编译，但仅作接口示例，非正式案例结果）。",
   "project": "example/project",
   "main": "main.tex",
   "engine": "pdflatex",
+  "backend": "remote",
   "bib_mode": "none",
   "converged": false,
   "errors": [
-    {"class": "undefined_control_sequence", "file": "main.tex", "line": 14,
-     "message": "Undefined control sequence",
-     "line_text": "样品在 120 \\celsius 反应",
-     "guide": "命令未定义：常见于拼写错误或缺宏包……"},
-    {"class": "undefined_control_sequence", "file": "main.tex", "line": 22,
-     "message": "Undefined control sequence",
-     "line_text": "\\toprule",
-     "guide": "……加载 booktabs 宏包……"}
+    {"class": "undefined_control_sequence", "file": "./main.tex", "line": 14,
+     "message": "Undefined control sequence.",
+     "guide": "命令未定义：常见于拼写错误或缺宏包……（即 \\celsius）"},
+    {"class": "undefined_control_sequence", "file": "./main.tex", "line": 22,
+     "message": "Undefined control sequence.",
+     "guide": "……（即 \\toprule，根因是 booktabs 被注释）"},
+    {"class": "undefined_control_sequence", "file": "./main.tex", "line": 24,
+     "message": "Undefined control sequence.", "guide": "（\\midrule）"},
+    {"class": "undefined_control_sequence", "file": "./main.tex", "line": 27,
+     "message": "Undefined control sequence.", "guide": "（\\bottomrule）"}
   ],
   "undefined_refs": ["fig:sem"],
   "undefined_citations": [],
-  "warnings": [],
-  "pdf": null
+  "_修复示意": [
+    "补加载 booktabs（根因修复）",
+    "\\celsius 改为 $^{\\circ}$C",
+    "删除无对应 \\label 的 fig:sem 引用（工程无此图，不编造）"
+  ]
 }

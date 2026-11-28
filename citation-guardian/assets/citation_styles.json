@@ -1,0 +1,39 @@
+{
+  "note": "引用格式规范与字段要求。type 为 GB/T 7714—2015 文献类型标识。required 为校验时必须具备的字段（缺失报 error）。模板中 [J] 等标识由脚本自动插入。",
+  "styles": {
+    "gbt7714": {
+      "name": "GB/T 7714—2015 顺序编码制",
+      "types": {
+        "journal": {"marker": "[J]",
+          "required": ["authors", "title", "journal", "year"],
+          "template": "{authors}. {title}[J]. {journal}, {year}{, volume(issue)}{: pages}{. DOI: doi}",
+          "author_rule": "姓 名缩写（无点，大写）；3 名以上列前 3 名加 ', et al.'（中文文献加 ', 等'）"},
+        "conference": {"marker": "[C]",
+          "required": ["authors", "title", "proceedings", "year"],
+          "template": "{authors}. {title}[C]//{proceedings}. {place}: {publisher}, {year}{: pages}"},
+        "thesis": {"marker": "[D]",
+          "required": ["authors", "title", "institution", "year"],
+          "template": "{authors}. {title}[D]. {place}: {institution}, {year}"},
+        "preprint": {"marker": "[EB/OL]",
+          "required": ["authors", "title", "year", "url"],
+          "template": "{authors}. {title}[EB/OL]. ({year})[{accessed}]. {url}",
+          "note": "预印本与正式版并存时以正式版为主条目，预印本版本在合并记录中注明"},
+        "book": {"marker": "[M]",
+          "required": ["authors", "title", "publisher", "year"],
+          "template": "{authors}. {title}[M]. {place}: {publisher}, {year}"}
+      }
+    },
+    "apa7": {
+      "name": "APA 第 7 版（著者—出版年制）",
+      "types": {
+        "journal": {"required": ["authors", "year", "title", "journal"],
+          "template": "{authors} ({year}). {title}. {journal}, {volume}({issue}), {pages}. https://doi.org/{doi}"}
+      }
+    }
+  },
+  "text_marker_styles": {
+    "numeric-superscript": "上标 [1]（GB/T 顺序编码制正文标记）",
+    "numeric-bracket": "行文内 [1]",
+    "author-year": "(Suen et al., 2017)"
+  }
+}

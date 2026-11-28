@@ -1,0 +1,16 @@
+{
+  "note": "空话套话清单：单独出现（句中无引用支撑、无具体对象）即为'空转铺垫'。check_intro 逐句扫描 background 与 gap，命中且同句无引用 → error。这些短语本身不是禁用词——有具体引用或具体对象时可用，但评分点'立得住'要求避免。",
+  "phrases_zh": [
+    "近年来.*受到(了)?广泛关注", "随着.*的不断发展", "具有重要的(理论)?意义",
+    "具有广阔的应用前景", "成为研究热点", "引起了.*的.*兴趣",
+    "备受关注", "至关重要.*众所周知"
+  ],
+  "phrases_en": [
+    "has attracted (?:great|much|considerable|increasing) attention",
+    "has received (?:great|much|considerable) attention",
+    "in recent years, .* has become a hot",
+    "is of great significance",
+    "has been widely studied"
+  ],
+  "rule": "命中短语的句子必须同句带引用标记或具体研究对象（材料名/方法名/数据），否则按空转铺垫处理"
+}

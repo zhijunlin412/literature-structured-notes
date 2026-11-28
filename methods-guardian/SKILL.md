@@ -58,6 +58,19 @@ python scripts/check_chapter.py --materials <材料目录> --inventory work/inve
   --draft work/draft.json --stage final --prose work/prose.md --out work/check_report.json
 ```
 
+### 第 3.5 步（任务需要图时）：技术路线图
+
+任务要求流程图/技术路线图，或章节复杂到值得配图时，写一份小的 `flow.json`（契约见脚本 docstring：`nodes` 节点文字、`rows` 行结构（一行多框即分支，可带行标签）、`edges` 相邻行连接），脚本负责确定性排版：
+
+```bash
+python scripts/make_flowchart.py --flow work/flow.json --out /app/output/route.svg \
+  --png /app/output/route.png --draft work/draft.json
+```
+
+- 输出学术风格 SVG 矢量图（灰框黑箭头白底，与论文章节图风格一致）；环境有 matplotlib 和中文字体时附带 PNG 预览，缺字体则诚实说明而不是出乱码图。
+- `--draft` 开启数字一致性校验：路线图中每个数字必须已在 draft 的 claim 集合中——**图里同样不许出现材料外的数值**。
+- 节点文字写主标题+括号补充（如"一步水热原位生长（2*4 cm2 碳布垂直浸入，120 °C 反应 8 h）"），不要写步骤序号。
+
 ### 第 4 步：组装成稿与结构化结果
 
 ```bash
@@ -88,5 +101,6 @@ python scripts/assemble_chapter.py --draft work/draft.json --prose work/prose.md
 ## 已验证能力
 
 - 真实演示：以 PMC8429493（CC-BY）实验记录为材料生成中文方法章节，全部数字通过证据核验；材料中注入的一处记录冲突被台账检出并按规则裁定。
+- 技术路线图：同一份材料演示生成 SVG+PNG 路线图（主链+分支+汇合的学术风格）；图中数字经 draft 校验，注入材料外数值（999 g）被拦截；畸形 flow.json、缺失节点引用均干净退出。
 - 破坏测试：正文写错数字、claim 证据不存在、claim 数字与证据不符、缺 gap 标注、冲突未裁定、台账漏交代，六类注入错误均被拦截。
 - 损坏输入（畸形 JSON、缺字段、目录不存在）均以退出码 2 干净失败，不崩溃。

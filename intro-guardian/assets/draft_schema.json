@@ -1,0 +1,33 @@
+{
+  "note": "draft.json 结构契约：Agent 只写这一份文件；成稿、编号、报告由脚本生成。所有 evidence.quote 必须是所引文献文本中的逐字片段（check 逐孔子串核验，且必须出现在被引的那一篇里，不是任何一篇都行）。",
+  "fact_draft": {
+    "anchors": [{"id": "result-eta10", "type": "result|method|figure|table",
+                  "text": "事实底稿原文句", "numbers": [{"value": "290", "unit": "mV"}]}]
+  },
+  "library": {
+    "works": [{"key": "suen2017", "title": "...", "authors": ["..."], "year": "2017",
+                "venue": "...", "doi": "...", "text": "摘要或摘录原文（转述的证据来源）"}]
+  },
+  "draft": {
+    "background": [{"text": "背景句", "citations": ["key"], "note": "为什么引这篇"}],
+    "related_work": {"groups": [{
+      "dimension": "分组维度（问题/方法路线/技术路线）",
+      "works": [{"key": "...", "claim": "对该工作的转述句",
+                  "evidence": {"quote": "该文献 text 中的逐字句子"}}],
+      "comparison": "同维度比较句（取舍、适用条件、局限）"
+    }]},
+    "gap": [{"statement": "空白句", "derived_from": ["key1", "key2"],
+              "basis": "从哪些已引工作的什么缺口推出",
+              "status": "derived | author_judgment"}],
+    "contributions": [{"statement": "贡献句", "anchor": "fact_draft 的 anchor id",
+                        "citations": ["引用文献数字时必须给出来源 key"],
+                        "evidence_note": "对应关系说明"}],
+    "human_review": [], "uncertainty": []
+  },
+  "rules": [
+    "每条转述（claim）必须有 evidence.quote，逐字来自该文献 text",
+    "空白必须 derived_from ≥1 篇已引文献；作者判断必须标 author_judgment",
+    "贡献中的数字必须能在其 anchor 的 text/numbers 中找到；与他文比较的数字必须在该贡献的 citations 中给出文献 key",
+    "background 的空话套话句必须带引用或具体对象"
+  ]
+}

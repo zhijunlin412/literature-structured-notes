@@ -170,6 +170,13 @@
      "type": "grammar-voice", "severity": "error",
      "reason": "could maintained 语法错误（情态动词+过去分词）；被维持的是性能，补主语 this performance 并用被动；27 h of 表时长"}
   ],
+  "reviewed_units": [
+    "Abstract（6 句全读，改 7 处）",
+    "Introduction paragraph 1（4 句全读，改 5 处）",
+    "Experimental excerpt（5 句全读，改 4 处；S1 与 S5 无问题未改）",
+    "Results excerpt（3 句全读，改 5 处）",
+    "Conclusion（3 句全读，改 7 处）"
+  ],
   "human_review": [
     "Conclusion S1 的 'novel' 属作者的新颖性主张，无证据表明应删除，予以保留；若目标期刊要求克制宣传用语，可删去（待作者确认）",
     "Abstract S6 'paves a facile way to the design' 表达略口语但无语法错误，属作者风格，未改",

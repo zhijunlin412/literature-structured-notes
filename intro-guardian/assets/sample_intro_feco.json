@@ -8,5 +8,6 @@
   "gap_derivation_example": "空白'缺乏保持阵列形貌同时调控电子结构的简易方法'由 yan2021（317 mV 现状）与 zhangzou2021（动力学瓶颈）共同推出",
   "contribution_anchor_example": "贡献'过电位 290 mV'挂锚点 result-eta10（锚点文本含 290 mV）；比较数字 317 显式引用 yan2021",
   "lesson_found_in_demo": "校验器在演示中抓住作者自己写的比较数字 317 无出处，由此新增规则：贡献引用他文数字时必须显式给出 citations——位置绑定优于全库比对",
-  "sabotage_test": "五类破坏（凭印象改引文、张冠李戴、编造数字 250、空话铺垫、假空白）全部被 check_intro 抓住"
+  "sabotage_test": "五类破坏（凭印象改引文、张冠李戴、编造数字 250、空话铺垫、假空白）全部被 check_intro 抓住",
+  "zh_phrasing_revision": "按用户反馈新增中文语境用词规范（zh_phrasing.json）：'电催化水分解'→'电解水'、'碳酸钴氢氧化物'→'碱式碳酸钴'等直译腔写法由 check 扫描告警；演示稿已按中文表达习惯全文修订，回归测试确认旧写法会被告警"
 }

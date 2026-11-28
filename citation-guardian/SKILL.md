@@ -76,7 +76,8 @@ check 报 error（悬空、断号、缺字段、假核验）必须修：改 entr
 | 条目歧义（两候选都像同一篇） | decision 写 `unresolved`，不猜 |
 | 编号冲突（正文 [3] 与列表第 3 条对不上语义） | 按 claim_map 语义判断后纠正映射，记录到 change_log；判断不了列 human_review |
 | 稿件含图表注中的引用 | 同样纳入清点与重排；在报告中单列说明 |
-| BibTeX/RIS/CNKI 导出混杂 | parse_refs 尽量解析；解析失败的条目原样保留并请 Agent 手工结构化，不丢条目 |
+| BibTeX/RIS/CNKI 导出混杂 | parse_refs 尽量解析；**BibTeX 的 key 不是正文编号**——结构化 entries.json 时必须把 key 改成正文引用号（按语义对应）；解析失败的条目原样保留并手工结构化，不丢条目 |
+| plan 指向不存在的条目号 | sync_refs 会明确报 FATAL 并列出错误号；检查 entries.json 的 key 与正文引用号是否一致 |
 | 同一文献中英文题名重复 | 按 dedup_rules 特殊情形合并，主条目语言按目标规范 |
 
 ## 提交前自查清单

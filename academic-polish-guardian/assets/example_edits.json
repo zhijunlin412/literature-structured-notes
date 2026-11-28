@@ -8,6 +8,7 @@
      "type": "grammar-agreement", "severity": "error",
      "reason": "主语复数，谓语用 exhibit"}
   ],
+  "reviewed_units": ["Abstract（3 句全读，改 1 处；其余 2 句无问题）"],
   "human_review": ["原文 'best' 有无数值支撑待作者确认，暂保留并标注"],
   "uncertainty": ["目标期刊未知，按通用期刊风格处理"]
 }
